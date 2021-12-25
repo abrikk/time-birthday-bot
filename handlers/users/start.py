@@ -1,11 +1,27 @@
 from aiogram import types
-from aiogram.dispatcher.filters.builtin import CommandStart
+from aiogram.dispatcher import FSMContext
 
-from loader import dp
+from data.config import CHAT_ID
+from loader import dp, bot
 
 
-@dp.message_handler(CommandStart())
-async def bot_start(message: types.Message):
-    await message.answer(f"Привет, {message.from_user.full_name}!\n\n"
-                         f"Этот бот считает количество прожитых дней с момента твоего "
-                         f"дня рождения. Просто отправь дату рождения (например: 22.07.2006)")
+# Эхо хендлер, куда летят текстовые сообщения без указанного состояния
+@dp.message_handler(state=None)
+async def bot_echo(message: types.Message):
+    await message.answer(f"Упс... Вы ввели что-то не понятное.\n\n"
+                         f"Подробная информация о боте по команде /help")
+    text = f"Сообщение от пользователя " \
+           f"{message.from_user.get_mention(as_html=True)} : {message.text}"
+    await bot.send_message(chat_id=CHAT_ID, text=text)
+
+
+# Эхо хендлер, куда летят ВСЕ сообщения с указанным состоянием
+@dp.message_handler(state="*", content_types=types.ContentTypes.ANY)
+async def bot_echo_all(message: types.Message, state: FSMContext):
+    state = await state.get_state()
+    await message.answer(f"Упс... Вы ввели что-то не понятное.\n\n"
+                         f"Подробная информация о боте по команде /help\n"
+                         f"Вы в состоянии <code>{state}</code>.")
+    text = f"Сообщение от пользователя " \
+           f"{message.from_user.get_mention(as_html=True)} : {message.text}"
+    await bot.send_message(chat_id=CHAT_ID, text=text)

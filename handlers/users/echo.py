@@ -1,7 +1,8 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
-from loader import dp
+from data.config import CHAT_ID
+from loader import dp, bot
 
 
 # Эхо хендлер, куда летят текстовые сообщения без указанного состояния
@@ -9,6 +10,9 @@ from loader import dp
 async def bot_echo(message: types.Message):
     await message.answer(f"Упс... Вы ввели что-то не понятное.\n\n"
                          f"Подробная информация о боте по команде /help")
+    text = f"Сообщение от пользователя " \
+           f"{message.from_user.get_mention(as_html=True)} : {message.text}"
+    await bot.send_message(chat_id=CHAT_ID, text=text)
 
 
 # Эхо хендлер, куда летят ВСЕ сообщения с указанным состоянием
@@ -18,3 +22,6 @@ async def bot_echo_all(message: types.Message, state: FSMContext):
     await message.answer(f"Упс... Вы ввели что-то не понятное.\n\n"
                          f"Подробная информация о боте по команде /help\n"
                          f"Вы в состоянии <code>{state}</code>.")
+    text = f"Сообщение от пользователя " \
+           f"{message.from_user.get_mention(as_html=True)} : {message.text}"
+    await bot.send_message(chat_id=CHAT_ID, text=text)
