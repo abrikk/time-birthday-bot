@@ -1,5 +1,6 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
+from aiogram.utils.markdown import quote_html
 
 from data.config import CHAT_ID
 from loader import dp, bot
@@ -11,7 +12,7 @@ async def bot_echo(message: types.Message):
     await message.answer(f"Упс... Вы ввели что-то не понятное.\n\n"
                          f"Подробная информация о боте по команде /help")
     text = f"Сообщение от пользователя " \
-           f"{message.from_user.get_mention(as_html=True)} : {message.text}"
+           f"{message.from_user.get_mention(as_html=True)} : {quote_html(message.text)}"
     await bot.send_message(chat_id=CHAT_ID, text=text)
 
 
@@ -23,5 +24,5 @@ async def bot_echo_all(message: types.Message, state: FSMContext):
                          f"Подробная информация о боте по команде /help\n"
                          f"Вы в состоянии <code>{state}</code>.")
     text = f"Сообщение от пользователя " \
-           f"{message.from_user.get_mention(as_html=True)} : {message.text}"
+           f"{message.from_user.get_mention(as_html=True)} : {quote_html(message.text)}"
     await bot.send_message(chat_id=CHAT_ID, text=text)
