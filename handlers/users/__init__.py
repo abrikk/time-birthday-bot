@@ -5,4 +5,5 @@ from . import how_many_days
 from . import show_state
 from . import help
 from . import start
+from . import botinfo
 from . import echo
