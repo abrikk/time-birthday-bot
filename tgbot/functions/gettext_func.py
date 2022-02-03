@@ -98,52 +98,38 @@ def get_help_text() -> list:
 
 
 def get_month_name(number) -> str:
-    if number == 1:
-        return _("Января")
-    elif number == 2:
-        return _("Февраля")
-    elif number == 3:
-        return _("Марта")
-    elif number == 4:
-        return _("Апреля")
-    elif number == 5:
-        return _("Мая")
-    elif number == 6:
-        return _("Июня")
-    elif number == 7:
-        return _("Июля")
-    elif number == 8:
-        return _("Августа")
-    elif number == 9:
-        return _("Сентября")
-    elif number == 10:
-        return _("Октября")
-    elif number == 11:
-        return _("Ноября")
-    elif number == 12:
-        return _("Декабря")
+    month_name = {
+        1: _("Января"),
+        2: _("Февраля"),
+        3: _("Марта"),
+        4: _("Апреля"),
+        5: _("Мая"),
+        6: _("Июня"),
+        7: _("Июля"),
+        8: _("Августа"),
+        9: _("Сентября"),
+        10: _("Октября"),
+        11: _("Ноября"),
+        12: _("Декабря"),
+    }
+    return month_name[number]
 
 
 def get_weekday_name(number_or_date: Union[int, date]) -> str:
+    weekday = {
+        1: _("понедельник"),
+        2: _("вторник"),
+        3: _("среда"),
+        4: _("четверг"),
+        5: _("пятница"),
+        6: _("суббота"),
+        7: _("воскресенье")
+    }
     if isinstance(number_or_date, int):
-        number = number_or_date
+        return weekday[number_or_date]
     elif isinstance(number_or_date, date):
         number = number_or_date.isoweekday()
-
-    if number == 1:
-        return _("понедельник")
-    elif number == 2:
-        return _("вторник")
-    elif number == 3:
-        return _("среда")
-    elif number == 4:
-        return _("четверг")
-    elif number == 5:
-        return _("пятница")
-    elif number == 6:
-        return _("суббота")
-    elif number == 7:
-        return _("воскресенье")
+        return weekday[number]
 
 
 async def get_botinfo_text(message: types, db_commands) -> str:
@@ -177,15 +163,26 @@ async def get_botinfo_text(message: types, db_commands) -> str:
     return text
 
 
-def until_bd(message: types.Message, days_left: int, age: int) -> str:
+def until_bd(message: types.Message, days_left: int, age: int, where: str) -> str:
     day = day_conjugation(days_left)
     left = left_conjunction(days_left)
-    if days_left != 0:
-        text = _("До вашего дня рождения {left}: {days_left} {day} 💫").format(
-            days_left=days_left, day=day, left=left)
-    else:
-        turned_year = year_conjuction(age)
-        message.answer("🎊")
-        text = (_("Ура! У Вас сегодня день рождение.\n"
-                  "Вам исполнилось {age} {year} 🥳").format(age=age, year=turned_year))
-    return text
+    if where == "btn":
+        if days_left != 0:
+            text = _("До вашего дня рождения {left}: {days_left} {day} 💫").format(
+                days_left=days_left, day=day, left=left)
+        else:
+            turned_year = year_conjuction(age)
+            message.answer("🎊")
+            text = (_("Ура! У Вас сегодня день рождение.\n"
+                      "Вам исполнилось {age} {year} 🥳").format(age=age, year=turned_year))
+        return text
+    elif where == "cmnd":
+        if days_left != 0:
+            text = _("До дня рождения {left}: {days_left} {day} 💫").format(
+                days_left=days_left, day=day, left=left)
+        else:
+            turned_year = year_conjuction(age)
+            message.answer("🎊")
+            text = (_("Ура! У кого-то сегодня день рождение.\n"
+                      "Тебе исполнилось {age} {year} 🥳").format(age=age, year=turned_year))
+        return text

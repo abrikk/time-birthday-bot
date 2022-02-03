@@ -1,11 +1,9 @@
-from datetime import date
-
 from aiogram import types, Dispatcher
-from aiogram.dispatcher.filters import Command, Text
+from aiogram.dispatcher.filters import Command
 from aiogram.types import ReplyKeyboardRemove
 
 from tgbot.functions.gettext_func import get_echo_text
-from tgbot.middlewares.lang_middleware import _, __
+from tgbot.middlewares.lang_middleware import _
 
 
 async def delete_keyboard(message: types.Message, db_commands):

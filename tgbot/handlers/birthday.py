@@ -4,24 +4,20 @@ from aiogram.dispatcher.filters import Command, Text
 from dateutil.parser import parse, ParserError
 
 from tgbot.functions.birthday_func import birthday_btn, birthday_cmnd
-from tgbot.functions.case_conjugation_func import day_conjugation, left_conjunction, year_conjuction
-from tgbot.functions.gettext_func import until_bd, get_echo_text
+from tgbot.functions.gettext_func import until_bd
 from tgbot.keyboards.reply import cancel_keyb, share_message, back_keyb
 from tgbot.middlewares.lang_middleware import _, __
 
 
-async def my_bd_deeplink(message: types.Message):
-    birthdate = message.get_args()
-    try:
-        parsed_dt = parse(birthdate, dayfirst=True)
-        days_left, age = birthday_cmnd(parsed_dt)
-        day = day_conjugation(days_left)
-        left = left_conjunction(days_left)
-
-        await message.answer(_("До дня рождения {left}: {days_left} {day} 💫").format(
-            days_left=days_left, day=day, left=left), reply_markup=share_message("my birthday"))
-    except ValueError:
-        await message.answer(get_echo_text())
+# async def my_bd_deeplink(message: types.Message):
+#     birthdate = message.get_args()
+#     try:
+#         parsed_dt = parse(birthdate, dayfirst=True)
+#         days_left, age = birthday_cmnd(parsed_dt)
+#         await message.answer(until_bd(message, days_left, age, "cmnd"),
+#                              reply_markup=share_message("my birthday"))
+#     except ValueError:
+#         await message.answer(get_echo_text())
 
 
 async def my_bd_command(message: types.Message, state: FSMContext):
@@ -35,11 +31,8 @@ async def my_bd_command_state(message: types.Message, state: FSMContext):
     try:
         parsed_dt = parse(birthdate, dayfirst=True)
         days_left, age = birthday_cmnd(parsed_dt)
-        day = day_conjugation(days_left)
-        left = left_conjunction(days_left)
-
-        await message.answer(_("До дня рождения {left}: {days_left} {day} 💫").format(
-            days_left=days_left, day=day, left=left), reply_markup=share_message("my birthday"))
+        await message.answer(until_bd(message, days_left, age, "cmnd"),
+                             reply_markup=share_message("my birthday"))
 
         await state.reset_state()
     except ValueError:
@@ -55,10 +48,10 @@ async def my_bd_button(message: types.Message, state: FSMContext, db_commands):
         await state.set_state("bd_button")
     else:
         if days_left != 0:
-            await message.answer(until_bd(message, days_left, age),
+            await message.answer(until_bd(message, days_left, age, "btn"),
                                  reply_markup=share_message("my birthday"))
         else:
-            await message.answer(until_bd(message, days_left, age),
+            await message.answer(until_bd(message, days_left, age, "btn"),
                                  reply_markup=share_message("my birthday"))
 
 
@@ -70,10 +63,10 @@ async def my_bd_date(message: types.Message, state: FSMContext, db_commands, ses
         await session.commit()
         days_left, age = await birthday_btn(message.from_user.id, db_commands)
         if days_left != 0:
-            await message.answer(until_bd(message, days_left, age),
+            await message.answer(until_bd(message, days_left, age, "btn"),
                                  reply_markup=share_message("my birthday"))
         else:
-            await message.answer(until_bd(message, days_left, age),
+            await message.answer(until_bd(message, days_left, age, "btn"),
                                  reply_markup=share_message("my birthday"))
 
         await state.reset_state()
@@ -83,7 +76,6 @@ async def my_bd_date(message: types.Message, state: FSMContext, db_commands, ses
 
 def register_my_bd(dp: Dispatcher):
     dp.register_message_handler(my_bd_command, Command("mybd"))
-    # dp.register_message_handler(my_bd_deeplink, Command("mybd"))
     dp.register_message_handler(my_bd_command_state, state="bd_command")
     dp.register_message_handler(my_bd_button, Text(contains=__("🥳 Моё день рождение")))
     dp.register_message_handler(my_bd_date, state="bd_button")

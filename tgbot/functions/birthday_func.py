@@ -5,7 +5,7 @@ from dateutil import relativedelta
 today = date.today()
 
 
-async def birthday_btn(user_id: int, db_commands):
+async def birthday_btn(user_id: int, db_commands) -> tuple:
     user = await db_commands.get_user(user_id=user_id)
     if user.user_bd:
         user_bd = user.user_bd
@@ -21,7 +21,7 @@ async def birthday_btn(user_id: int, db_commands):
         return None, None
 
 
-def birthday_cmnd(parsed_dt):
+def birthday_cmnd(parsed_dt) -> tuple:
     bd = today.replace(month=parsed_dt.month, day=parsed_dt.day)
     age = relativedelta.relativedelta(today, bd)
     if today > bd:

@@ -1,3 +1,3 @@
 # Time & Birthday Bot
 
-no description yet.
+This bot can work with time and not only
