@@ -1,0 +1,77 @@
+from aiogram import types, Dispatcher
+from aiogram.dispatcher import FSMContext
+from aiogram.dispatcher.filters import Command, Text
+from dateutil.parser import parse, ParserError
+
+from tgbot.functions.gettext_func import get_profile_text
+from tgbot.keyboards.reply import cancel_keyb, update_profile, main_keyb, choosing_sex, sex_data
+from tgbot.middlewares.lang_middleware import _, __
+
+
+async def my_profile(message: types.Message, state: FSMContext, db_commands):
+    user = await db_commands.get_user(user_id=message.from_user.id)
+    if user.sex is None:
+        if user.user_bd is None:
+            await message.answer(_("Укажите ваш пол:"), reply_markup=choosing_sex(where="profile"))
+        else:
+            await message.answer(_("Укажите ваш пол:"), reply_markup=choosing_sex(where="sex"))
+    elif user.user_bd is None:
+        await message.answer(_("Хорошо. Теперь отправьте свою дату рождения.\n\n"
+                               "Важно! Отправьте Вашу настоящую дату, чтобы не вводить пользователей в заблуждение."),
+                             reply_markup=cancel_keyb())
+        await state.set_state("setting_profile")
+    else:
+        user = await db_commands.get_user(user_id=message.from_user.id)
+        profile_info = get_profile_text(user)
+
+        await message.answer(profile_info, reply_markup=update_profile())
+
+
+async def my_date(call: types.CallbackQuery, state: FSMContext, session, db_commands, callback_data: dict):
+    sex = callback_data.get("sex")
+    await db_commands.update_user_sex(call.from_user.id, sex)
+    await session.commit()
+    await call.answer(cache_time=60)
+    await call.message.delete()
+    await call.message.answer(_("Хорошо. Теперь отправьте свою дату рождения.\n\n"
+                                "Важно! Отправьте Вашу настоящую дату, чтобы не вводить пользователей в заблуждение."),
+                              reply_markup=cancel_keyb())
+    await state.set_state("setting_profile")
+
+
+async def setting_profile_date(message: types.Message, state: FSMContext, db_commands, session):
+    user_date = message.text
+    try:
+        user_date_parse = parse(user_date, dayfirst=True)
+        await db_commands.update_user_date(message.from_user.id, user_date_parse)
+        await session.commit()
+        user = await db_commands.get_user(user_id=message.from_user.id)
+        profile_info = get_profile_text(user)
+
+        await message.answer(_("Готово!"), reply_markup=main_keyb())
+        await message.answer(profile_info, reply_markup=update_profile())
+        await state.reset_state()
+
+    except ParserError:
+        await message.answer(_("Введите корректно вашу дату рождения."))
+
+
+async def setting_profile_sex(call: types.CallbackQuery, session, db_commands, callback_data: dict):
+    sex = callback_data.get("sex")
+    await db_commands.update_user_sex(call.from_user.id, sex)
+    await session.commit()
+    await call.answer(cache_time=60)
+    await call.message.delete()
+
+    user = await db_commands.get_user(user_id=call.from_user.id)
+    profile_info = get_profile_text(user)
+
+    await call.message.answer(_("Готово!"), reply_markup=main_keyb())
+    await call.message.answer(profile_info, reply_markup=update_profile())
+
+
+def register_profile(dp: Dispatcher):
+    dp.register_message_handler(my_profile, Command("profile") | Text(equals=__("👤 Мой профиль")))
+    dp.register_callback_query_handler(my_date, sex_data.filter(where="profile"))
+    dp.register_message_handler(setting_profile_date, state="setting_profile")
+    dp.register_callback_query_handler(setting_profile_sex, sex_data.filter(where="sex"))

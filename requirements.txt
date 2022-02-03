@@ -1,2 +1,6 @@
-aiogram<3.0
-environs~=8.0.0
+aiogram~=2.18
+aioredis
+environs~=9.4.0
+SQLAlchemy~=1.4.18
+tgbot~=0.31
+python-dateutil~=2.8.2

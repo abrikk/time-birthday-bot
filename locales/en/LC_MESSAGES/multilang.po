@@ -1,0 +1,930 @@
+# English translations for PROJECT.
+# Copyright (C) 2022 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2022-01-31 14:07+0500\n"
+"PO-Revision-Date: 2022-01-19 14:18+0500\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: tgbot/functions/case_conjugation_func.py:6
+msgid "день"
+msgstr "day"
+
+#: tgbot/functions/case_conjugation_func.py:8
+msgid "дня"
+msgstr "days"
+
+#: tgbot/functions/case_conjugation_func.py:10
+msgid "дней"
+msgstr "days"
+
+#: tgbot/functions/case_conjugation_func.py:15
+msgid "остался"
+msgstr "left"
+
+#: tgbot/functions/case_conjugation_func.py:15
+msgid "осталось"
+msgstr "left"
+
+#: tgbot/functions/case_conjugation_func.py:20
+msgid "Ему"
+msgstr "He"
+
+#: tgbot/functions/case_conjugation_func.py:20
+msgid "Ей"
+msgstr "She"
+
+#: tgbot/functions/gettext_func.py:15
+msgid "Мужской"
+msgstr "Male"
+
+#: tgbot/functions/gettext_func.py:15
+msgid "Женский"
+msgstr "Female"
+
+#: tgbot/functions/gettext_func.py:17
+msgid ""
+"Ваш профиль ⚜️\n"
+"\n"
+"ID: {user_id}\n"
+"Имя: {name}\n"
+"Дата рождения: {user_date}\n"
+"Ваш пол: {sex}\n"
+"Ваш возраст: {years} лет {months} месяцев {days} дней"
+msgstr ""
+"Your profile ⚜️\n"
+"\n"
+"ID: {user_id}\n"
+"Name: {name}\n"
+"Date of birth: {user_date}\n"
+"Your gender: {sex}\n"
+"Your age: {years} years {months} months {days} days"
+
+#: tgbot/functions/gettext_func.py:36
+msgid ""
+"Я могу помочь тебе управлять и работать со временем.\n"
+"\n"
+"/profile - посмотреть свой  профиль\n"
+"/botinfo - информация о боте\n"
+"\n"
+"{p}\n"
+"/bday_today - посмотреть у кого сегодня день рождение {b}\n"
+"/setname - изменить имя\n"
+"/setdate - изменить дату рождения\n"
+"/setsex - изменить пол\n"
+"\n"
+"{extra}\n"
+"/setlanguage - поменять язык бота\n"
+"/mybd - сколько дней осталось до дня рождения\n"
+"/newyear - сколько дней осталось нового года\n"
+"/howmanydays - разница текущей даты с отправленной вами"
+msgstr ""
+"I can help you manage and work with time.\n"
+"\n"
+"/profile - view your profile\n"
+"/botinfo - information about the bot\n"
+"\n"
+"{p}\n"
+"/bday_today - see who's birthday is today {b}\n"
+"/setname - change name\n"
+"/setdate - change date of birth\n"
+"/setsex - change gender\n"
+"\n"
+"{extra}\n"
+"/setlanguage - change bot language\n"
+"/mybd - how many days are left until the birthday\n"
+"/newyear - how many days left of the new year\n"
+"/howmanydays - the difference between the current date and the one you "
+"sent"
+
+#: tgbot/functions/gettext_func.py:51
+msgid "Изменить профиль"
+msgstr "Edit Profile"
+
+#: tgbot/functions/gettext_func.py:52
+msgid "[бета]"
+msgstr "[beta]"
+
+#: tgbot/functions/gettext_func.py:53
+msgid "Дополнительные команды"
+msgstr "Additional commands"
+
+#: tgbot/functions/gettext_func.py:61
+msgid ""
+"🤖 Возможности бота:\n"
+"\n"
+"• {my_profile} 📝\n"
+"\n"
+"- Зарегистрируйся в профиле нажав по кнопке \n"
+"\"<i>Мой профиль 👤</i>\" или отправив команду /profile, тем самым у тебя "
+"появится возможность узнать у кого сегодня день рождение, а так же "
+"поздравить этого человека."
+msgstr ""
+"🤖 Bot Features:\n"
+"\n"
+"• {my_profile} 📝\n"
+"\n"
+"- Register in the profile by clicking on the \"<i>My Profile 👤</i>\" "
+"button or by sending the /profile command, thereby you will have the "
+"opportunity to find out who has a birthday today, as well as congratulate"
+" this person"
+
+#: tgbot/functions/gettext_func.py:65
+msgid "Мой профиль"
+msgstr "My profile"
+
+#: tgbot/functions/gettext_func.py:67
+msgid ""
+"🤖 Возможности бота:\n"
+"\n"
+"• {second_ability} 🚀\n"
+"\n"
+"- Отправь боту свою дату рождения и он пришлет Тебе время твоего "
+"существования (например 22.07.2006)."
+msgstr ""
+"🤖 Bot Features:\n"
+"\n"
+"• {second_ability} 🚀\n"
+"\n"
+"- Send me your date of birth to the bot, and bot will send you the time "
+"of your existence (for example, 07/22/2006)."
+
+#: tgbot/functions/gettext_func.py:71
+msgid ""
+"Вычисление пройденного количества времени с момента вашего дня рождения "
+"за считанные секунды"
+msgstr "Calculate the amount of time since your birthday"
+
+#: tgbot/functions/gettext_func.py:74
+msgid ""
+"🤖 Возможности бота:\n"
+"\n"
+"• {third_ability} ❓\n"
+"\n"
+"- Всем интересно сколько дней осталось до дня рождения, но считать дни "
+"вручную слишком долго и не точно. С помощью команды /mybd, Ты сможешь "
+"узнать точное количество дней которое осталось до дня рождения."
+msgstr ""
+"🤖 Bot Features:\n"
+"\n"
+"• {third_ability} ❓\n"
+"\n"
+"- Everyone is wondering how many days are left until the birthday, but "
+"counting the days manually is too long and not accurate. You can use the "
+"/mybd command to find out the exact number of days left until your "
+"birthday."
+
+#: tgbot/functions/gettext_func.py:79
+msgid "Узнай сколько дней осталось до дня рождения"
+msgstr "How many days are left until the birthday"
+
+#: tgbot/functions/gettext_func.py:81
+msgid ""
+"🤖 Возможности бота:\n"
+"\n"
+"• {fourth_ability} ❄️\n"
+"\n"
+"- По команде /newyear бот отправит оставшееся количество времени до "
+"Нового Года с точностью до минуты!"
+msgstr ""
+"🤖 Bot Features:\n"
+"\n"
+"• {fourth_ability} ❄️\n"
+"\n"
+"- With the /newyear command, the bot will send the remaining amount of "
+"time until the New Year with an accuracy of up to a minute!"
+
+#: tgbot/functions/gettext_func.py:84
+msgid "Узнай сколько дней осталось до Нового Года"
+msgstr "Find out how many days are left until the New Year"
+
+#: tgbot/functions/gettext_func.py:87
+msgid ""
+"🤖 Возможности бота:\n"
+"\n"
+"• {fifth_ability} 📅\n"
+"\n"
+"- Если тебе интересно сколько дней прошло после какого-то события или "
+"сколько дней осталось до определенного дня, то отправь команду "
+"/howmanydays, затем тебе нужную дату."
+msgstr ""
+"🤖 Bot Features:\n"
+"\n"
+"• {fifth_ability} 📅\n"
+"\n"
+"- If you are interested in how many days have passed since some event or "
+"how many days are left until a certain day, then send the command "
+"/howmanydays, then send the desired date."
+
+#: tgbot/functions/gettext_func.py:91
+msgid "Нахождение разницы времени отправленной тобой даты с сегодняшним днем"
+msgstr "Finding the time difference between a submitted date and today"
+
+#: tgbot/functions/gettext_func.py:102
+msgid ""
+"ℹ Об этом {bot}:\n"
+"\n"
+"• Средняя оценка бота: <b>{rate} ★</b>\n"
+"• Количество отзывов: {num_reviews}\n"
+"• Языки: Русский и еще 5\n"
+"• Бета-версия {version}\n"
+"• Обновлено 27 Января 2022 года\n"
+"• Выпущено 9 Января 2022 года\n"
+"• Создано 25 Декабря 2021 года\n"
+"\n"
+"👨‍💻 Разработчик @JustAbrik"
+msgstr ""
+"ℹ About this {bot}:\n"
+"\n"
+"• Bot Average Rating: <b>{rate} ★</b>\n"
+"• Number of reviews: {num_reviews}\n"
+"• Languages: English and 5 more\n"
+"• Beta version {version}\n"
+"• Updated on Jan 27, 2022\n"
+"• Released on Jan 9, 2022\n"
+"• Created on Dec 25, 2021\n"
+"\n"
+"👨‍💻 Developer @JustAbrik"
+
+#: tgbot/functions/gettext_func.py:110
+msgid "боте"
+msgstr "bot"
+
+#: tgbot/handlers/additional_keyboard.py:9
+msgid "Что будем делать? 🙂"
+msgstr "What do we do? 🙂"
+
+#: tgbot/handlers/additional_keyboard.py:13 tgbot/keyboards/reply.py:13
+msgid "🌀 Прочее"
+msgstr "🌀 Others"
+
+#: tgbot/handlers/admin_commands.py:12
+msgid "Клавиатура была успешно удалена"
+msgstr "The keyboard has been successfully removed"
+
+#: tgbot/handlers/birthday.py:15
+msgid "Введите день и месяц рождения, например \"22.07\":"
+msgstr "Enter the day and month of birth, for example \"22.07\":"
+
+#: tgbot/handlers/birthday.py:28
+msgid "До дня рождения {left}: {days_left} {day} 💫"
+msgstr "{days_left} {day} left until the birthday 💫"
+
+#: tgbot/handlers/birthday.py:33 tgbot/handlers/day_number_in_the_year.py:37
+msgid "Вы некорректно ввели дату. Попробуйте еще раз"
+msgstr "You entered the date incorrectly. Try again"
+
+#: tgbot/handlers/birthday.py:39 tgbot/handlers/profile.py:19
+#: tgbot/handlers/profile.py:36
+msgid ""
+"Хорошо. Теперь отправьте свою дату рождения.\n"
+"\n"
+"Важно! Отправьте Вашу настоящую дату, чтобы не вводить пользователей в "
+"заблуждение."
+msgstr ""
+"OK. Now send me your date of birth.\n"
+"\n"
+"Important! Send your real date so as not to mislead users."
+
+#: tgbot/handlers/birthday.py:47 tgbot/handlers/birthday.py:61
+msgid "До вашего дня рождения {left}: {days_left} {day} 💫"
+msgstr "{days_left} {day} left until your birthday 💫"
+
+#: tgbot/handlers/birthday.py:66 tgbot/handlers/profile.py:56
+#: tgbot/handlers/update_profile.py:50
+msgid "Введите корректно вашу дату рождения."
+msgstr "Please enter your date of birth properly."
+
+#: tgbot/handlers/birthday.py:72 tgbot/keyboards/reply.py:28
+msgid "🥳 Моё день рождение"
+msgstr "🥳 My birthday"
+
+#: tgbot/handlers/cancel_handler.py:12
+msgid "Что бы там ни было - отменено. Что еще я могу сделать для вас?"
+msgstr "Whatever it was - canceled.. Anything else I can do for you?"
+
+#: tgbot/handlers/cancel_handler.py:14
+msgid "• Главное меню •"
+msgstr "• Main menu •"
+
+#: tgbot/handlers/cancel_handler.py:19
+msgid "• Прочее •"
+msgstr "• Others •"
+
+#: tgbot/handlers/cancel_handler.py:23 tgbot/keyboards/reply.py:34
+#: tgbot/keyboards/reply.py:57
+msgid "↪️ Назад в главное меню"
+msgstr "↪️ Back to main menu"
+
+#: tgbot/handlers/cancel_handler.py:25 tgbot/keyboards/reply.py:45
+#: tgbot/keyboards/reply.py:51
+msgid "↪️ Назад"
+msgstr "↪️ Back"
+
+#: tgbot/handlers/change_language.py:11 tgbot/handlers/start.py:34
+#: tgbot/handlers/start.py:65
+msgid "🌐 Выберите язык:"
+msgstr "🌐 Choose language:"
+
+#: tgbot/handlers/change_language.py:17
+msgid "🇷🇺 Вы поменяли язык на русский"
+msgstr "🇺🇸 You have chosen English"
+
+#: tgbot/handlers/change_language.py:20
+msgid "Ваш язык был изменен успешно!"
+msgstr "Your language has been changed successfully!"
+
+#: tgbot/handlers/change_language.py:27 tgbot/keyboards/reply.py:12
+msgid "🌐 Поменять язык"
+msgstr "🌐 Change language"
+
+#: tgbot/handlers/day_number_in_the_year.py:14
+msgid "Выберите в какой день хотите узнать порядковый номер дня в году:"
+msgstr ""
+"Choose on which day you want to find out the ordinal number of the day in"
+" the year:"
+
+#: tgbot/handlers/day_number_in_the_year.py:19
+#: tgbot/handlers/day_number_in_the_year.py:42 tgbot/keyboards/reply.py:41
+msgid "Текущая дата"
+msgstr "Current date"
+
+#: tgbot/handlers/day_number_in_the_year.py:21
+msgid "Сегодня {yearday} день года. 🙇‍♂"
+msgstr "Today is the {yearday} day of the year. 🙇‍♂"
+
+#: tgbot/handlers/day_number_in_the_year.py:23
+msgid "Введите дату."
+msgstr "Enter Date."
+
+#: tgbot/handlers/day_number_in_the_year.py:33
+msgid "{date_only} - это {yearday} день года. 🙇‍♂"
+msgstr "{date_only} - is {yearday} day of the year. 🙇‍♂"
+
+#: tgbot/handlers/day_number_in_the_year.py:41 tgbot/keyboards/reply.py:29
+msgid "🔢 Номер дня в году"
+msgstr "🔢 Day number in the year"
+
+#: tgbot/handlers/day_number_in_the_year.py:42 tgbot/keyboards/reply.py:41
+msgid "Конкретная дата"
+msgstr "Specific date"
+
+#: tgbot/handlers/help.py:14 tgbot/handlers/help.py:21
+msgid "🔰 <b>Руководство:</b> "
+msgstr "🔰 <b>Manual:</b> "
+
+#: tgbot/handlers/help.py:70
+msgid "Оцените бота по 5-бальной шкале 🌟"
+msgstr ""
+
+#: tgbot/handlers/help.py:80
+msgid "Спасибо за ваш отзыв"
+msgstr ""
+
+#: tgbot/handlers/help.py:84 tgbot/keyboards/reply.py:13
+msgid "❔ Помощь"
+msgstr "❔ Help"
+
+#: tgbot/handlers/how_many_days.py:13
+msgid ""
+"Отправьте дату, чтобы узнать разницу между текущей датой и датой "
+"отправленной вами (например 10.12.2077 или 28.06.1971):"
+msgstr ""
+"Send me a date to find out the difference between the current date and "
+"the date you sent (for example 01.01.2077 or 01.07.2003):"
+
+#: tgbot/handlers/how_many_days.py:29
+msgid "До {parsed_user_date} осталось {difference} дней"
+msgstr "Until {parsed_user_date} there are {difference} days left"
+
+#: tgbot/handlers/how_many_days.py:34
+msgid "С {parsed_user_date} прошло {difference} дней"
+msgstr "{difference} days have passed since {parsed_user_date}"
+
+#: tgbot/handlers/how_many_days.py:40
+msgid "Введите корректно дату."
+msgstr "Please enter the date properly."
+
+#: tgbot/handlers/how_many_days.py:44 tgbot/keyboards/reply.py:29
+msgid "⏳ Сколько дней"
+msgstr "⏳ How many days"
+
+#: tgbot/handlers/life_counter.py:18
+msgid ""
+"Сегодня {days} день с момента Вашего рождения.\n"
+"День недели в который вы родились: {day_of_the_week}"
+msgstr ""
+"Today is the {days}th day since you were born.\n"
+"Day of the week you were born: {day_of_the_week}"
+
+#: tgbot/handlers/newyear.py:15 tgbot/keyboards/inline.py:29
+#: tgbot/keyboards/inline.py:63
+msgid "До Нового Года осталось {d} дней, {h} часов, {m} минут и {s} секунд! ☃"
+msgstr "There are {d} days, {h} hours and {m} minutes left before the New Year! ☃"
+
+#: tgbot/handlers/newyear.py:25 tgbot/keyboards/reply.py:28
+msgid "⛄️ Новый Год"
+msgstr "⛄️ New Year"
+
+#: tgbot/handlers/profile.py:15 tgbot/handlers/profile.py:17
+#: tgbot/handlers/update_profile.py:54
+msgid "Укажите ваш пол:"
+msgstr "Please enter your gender:"
+
+#: tgbot/handlers/profile.py:51 tgbot/handlers/profile.py:69
+msgid "Готово!"
+msgstr "Done!"
+
+#: tgbot/handlers/profile.py:74 tgbot/keyboards/reply.py:9
+msgid "👤 Мой профиль"
+msgstr "👤 My profile"
+
+#: tgbot/handlers/start.py:38 tgbot/handlers/start.py:51
+msgid ""
+"Привет, {full_name}!\n"
+"\n"
+"Этот бот считает количество прожитых дней с момента твоего дня рождения. "
+"Просто отправь дату рождения (например: 22.07.2006)\n"
+"\n"
+"За подробной информацией отправьте команду /help"
+msgstr ""
+"Hello {full_name}!\n"
+"\n"
+"This bot counts the number of days that have passed since your birthday. "
+"Just send me your date of birth (for example: 07/22/2006)\n"
+"\n"
+"Send /help command for details"
+
+#: tgbot/handlers/start.py:49
+msgid "🇷🇺 Вы выбрали русский язык"
+msgstr "🇺🇸 You have chosen English"
+
+#: tgbot/handlers/statistics.py:12
+msgid "Всего пользователей: {count_users}"
+msgstr "Total users: {count_users}"
+
+#: tgbot/handlers/update_profile.py:13
+msgid "Отправьте новое имя"
+msgstr "Send me a new name"
+
+#: tgbot/handlers/update_profile.py:26
+msgid "Успешно! Имя обновлено."
+msgstr "Success! Name updated."
+
+#: tgbot/handlers/update_profile.py:31
+msgid "Отправьте новую дату"
+msgstr "Send me a new date"
+
+#: tgbot/handlers/update_profile.py:46
+msgid "Успешно! Дата обновлена."
+msgstr "Success! Date updated."
+
+#: tgbot/handlers/update_profile.py:66
+msgid "Успешно! Пол обновлен."
+msgstr "Success! Gender updated."
+
+#: tgbot/handlers/whose_birthday_is_today.py:18
+msgid ""
+"Сегодня день рождение у {user_name}.\n"
+"\n"
+"{whom} исполнилось {age} лет.\n"
+"\n"
+msgstr ""
+"Today is {user_name}'s birthday.\n"
+"\n"
+"{whom} turned {age}"
+
+#: tgbot/handlers/whose_birthday_is_today.py:26
+msgid "Сегодня день рождение у {n} {p}!"
+msgstr "Today is the birthday of {n} {p}!"
+
+#: tgbot/handlers/whose_birthday_is_today.py:27
+msgid "человек"
+msgstr "people"
+
+#: tgbot/handlers/whose_birthday_is_today.py:37
+msgid "Увы, сегодня ни у кого нету дня рождения 😕"
+msgstr "Alas, no one has a birthday today 😕"
+
+#: tgbot/handlers/whose_birthday_is_today.py:65
+msgid "Вас поздравил пользователь {user_name} с днем рождения!"
+msgstr "The user {user_name} congratulated you on your birthday!"
+
+#: tgbot/handlers/whose_birthday_is_today.py:69
+msgid "Поздравление пользователю {user_name} отправлено успешно!"
+msgstr "Congratulations to user {user_name} sent successfully!"
+
+#: tgbot/handlers/whose_birthday_is_today.py:78 tgbot/keyboards/reply.py:12
+msgid "🎊 У кого сегодня день рождение"
+msgstr "🎊 Who has a birthday today"
+
+#: tgbot/keyboards/inline.py:26 tgbot/keyboards/inline.py:60
+msgid "Количество дней оставшееся до Нового Года."
+msgstr "The number of days left until the New Year."
+
+#: tgbot/keyboards/inline.py:27 tgbot/keyboards/inline.py:61
+msgid ""
+"Нажмите чтобы отправить сколько дней осталось до Нового Года в текущий "
+"чат."
+msgstr "Tap to send how many days left until the New Year to the current chat."
+
+#: tgbot/keyboards/inline.py:39 tgbot/keyboards/inline.py:84
+msgid "До вашего дня рождения {left}: {days_left} {day}"
+msgstr "{days_left} {day} left until your birthday ⏳"
+
+#: tgbot/keyboards/inline.py:41 tgbot/keyboards/inline.py:86
+msgid ""
+"Нажмите чтобы отправить сколько дней осталось до вашего дня рождения в "
+"текущий чат."
+msgstr "Tap to send how many days left until your birthday to the current chat."
+
+#: tgbot/keyboards/inline.py:43 tgbot/keyboards/inline.py:88
+msgid "До моего дня рождения {left} {days_left} {day} 😏"
+msgstr "{days_left} {day} left until my birthday 😏"
+
+#: tgbot/keyboards/inline.py:99
+msgid "my birthday"
+msgstr ""
+
+#: tgbot/keyboards/inline.py:100
+msgid "new year"
+msgstr ""
+
+#: tgbot/keyboards/reply.py:89
+msgid "Изменить Имя"
+msgstr "Edit Name"
+
+#: tgbot/keyboards/reply.py:93
+msgid "Изменить дату"
+msgstr "Edit Date"
+
+#: tgbot/keyboards/reply.py:99
+msgid "Изменить Пол"
+msgstr "Edit Gender"
+
+#: tgbot/keyboards/reply.py:111
+msgid "Поделиться сообщением"
+msgstr "Share message"
+
+#: tgbot/keyboards/reply.py:122
+msgid "Перейти к боту"
+msgstr "Go to bot"
+
+#: tgbot/keyboards/reply.py:137
+msgid "Поздравить"
+msgstr "Congratulate"
+
+#: tgbot/keyboards/reply.py:138 tgbot/keyboards/reply.py:226
+msgid "{page} из {max_pages}"
+msgstr "{page} of {max_pages}"
+
+#: tgbot/keyboards/reply.py:182
+msgid "Мужской 👨"
+msgstr "Male 👨"
+
+#: tgbot/keyboards/reply.py:186
+msgid "Женский 👩"
+msgstr "Female 👩"
+
+#: tgbot/keyboards/reply.py:200
+msgid "Возможности бота"
+msgstr "Bot features"
+
+#: tgbot/keyboards/reply.py:201 tgbot/misc/set_bot_commands.py:15
+#: tgbot/misc/set_bot_commands.py:27
+msgid "Информация о боте"
+msgstr "Bot Information"
+
+#: tgbot/keyboards/reply.py:202
+msgid "Доступные форматы"
+msgstr "Available formats"
+
+#: tgbot/keyboards/reply.py:203
+msgid "Список команд"
+msgstr "Command List"
+
+#: tgbot/keyboards/reply.py:204
+msgid "Оценить бота"
+msgstr "Rate this bot"
+
+#: tgbot/keyboards/reply.py:253 tgbot/keyboards/reply.py:266
+#: tgbot/keyboards/reply.py:297
+msgid "Назад"
+msgstr "Back"
+
+#: tgbot/misc/set_bot_commands.py:9 tgbot/misc/set_bot_commands.py:20
+msgid "Запустить бота"
+msgstr "Run a bot"
+
+#: tgbot/misc/set_bot_commands.py:10 tgbot/misc/set_bot_commands.py:21
+msgid "Помощь"
+msgstr "Help"
+
+#: tgbot/misc/set_bot_commands.py:11 tgbot/misc/set_bot_commands.py:22
+msgid "Профиль"
+msgstr "Profile"
+
+#: tgbot/misc/set_bot_commands.py:12 tgbot/misc/set_bot_commands.py:23
+msgid "Поменять язык"
+msgstr "Change language"
+
+#: tgbot/misc/set_bot_commands.py:13 tgbot/misc/set_bot_commands.py:24
+msgid "Дополнительное меню"
+msgstr "Extra menu"
+
+#: tgbot/misc/set_bot_commands.py:14 tgbot/misc/set_bot_commands.py:26
+msgid "Отменить текущую операцию"
+msgstr "Cancel the current operation"
+
+#: tgbot/misc/set_bot_commands.py:25
+msgid "Статистика"
+msgstr "Statistics"
+
+#~ msgid "Прочее 💁‍♂"
+#~ msgstr "Others 💁‍♂"
+
+#~ msgid ""
+#~ "🤖 Возможности бота:\n"
+#~ "\n"
+#~ "• {my_profile} 📝\n"
+#~ "\n"
+#~ "- Зарегистрируйся в профиле нажав по "
+#~ "кнопке \"Мой профиль 👤\" или отправив"
+#~ " команду /profile, тем самым у тебя"
+#~ " появится возможность узнать у кого "
+#~ "сегодня день рождение, а так же "
+#~ "поздравить этого человека.\n"
+#~ "\n"
+#~ "• {second_ability} 🚀\n"
+#~ "\n"
+#~ "- Отправь боту свою дату рождения "
+#~ "и он пришлет Тебе время твоего "
+#~ "существования (например 22.07.2006).\n"
+#~ "\n"
+#~ "• {third_ability} ❓\n"
+#~ "\n"
+#~ "- Всем интересно сколько дней осталось"
+#~ " до дня рождения, но считать дни "
+#~ "вручную слишком долго и не точно. "
+#~ "С помощью команды /mybd, Ты сможешь "
+#~ "узнать точное количество дней которое "
+#~ "осталось до дня рождения.\n"
+#~ "\n"
+#~ "• {fourth_ability} ❄️\n"
+#~ "\n"
+#~ "- По команде /newyear бот отправит "
+#~ "оставшееся количество времени до Нового "
+#~ "Года с точностью до минуты!\n"
+#~ "\n"
+#~ "• {fifth_ability} 📅\n"
+#~ "\n"
+#~ "- Если тебе интересно сколько дней "
+#~ "прошло после какого-то события или "
+#~ "сколько дней осталось до определенного "
+#~ "дня, то отправь команду /howmanydays, "
+#~ "затем тебе нужную дату."
+#~ msgstr ""
+#~ "🤖 Bot Features:\n"
+#~ "\n"
+#~ "• {my_profile} 📝\n"
+#~ "\n"
+#~ "- Register in the profile by "
+#~ "clicking on the \"My Profile 👤\" "
+#~ "button or by sending the /profile "
+#~ "command, thereby you will have the "
+#~ "opportunity to find out who has a"
+#~ " birthday today, as well as "
+#~ "congratulate this person.\n"
+#~ "\n"
+#~ "• {second_ability} 🚀\n"
+#~ "\n"
+#~ "- Send me your date of birth "
+#~ "to the bot, and bot will send "
+#~ "you the time of your existence "
+#~ "(for example, 07/22/2006).\n"
+#~ "\n"
+#~ "• {third_ability} ❓\n"
+#~ "\n"
+#~ "- Everyone is wondering how many "
+#~ "days are left until the birthday, "
+#~ "but counting the days manually is "
+#~ "too long and not accurate. You can"
+#~ " use the /mybd command to find "
+#~ "out the exact number of days left"
+#~ " until your birthday.\n"
+#~ "\n"
+#~ "• {fourth_ability} ❄️\n"
+#~ "\n"
+#~ "- With the /newyear command, the "
+#~ "bot will send the remaining amount "
+#~ "of time until the New Year with"
+#~ " an accuracy of up to a minute!"
+#~ "\n"
+#~ "\n"
+#~ "• {fifth_ability} 📅\n"
+#~ "\n"
+#~ "- If you are interested in how "
+#~ "many days have passed since some "
+#~ "event or how many days are left"
+#~ " until a certain day, then send "
+#~ "the command /howmanydays, then send the"
+#~ " desired date."
+
+#~ msgid ""
+#~ "🤖 Возможности бота:\n"
+#~ "\n"
+#~ "• {my_profile} 📝\n"
+#~ "\n"
+#~ "- Зарегистрируйся в профиле нажав по кнопке \n"
+#~ "\"Мой профиль 👤\" или отправив команду"
+#~ " /profile, тем самым у тебя появится"
+#~ " возможность узнать у кого сегодня "
+#~ "день рождение, а так же поздравить "
+#~ "этого человека.\n"
+#~ "\n"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "🤖 Возможности бота:\n"
+#~ "\n"
+#~ "• {second_ability} 🚀\n"
+#~ "\n"
+#~ "- Отправь боту свою дату рождения "
+#~ "и он пришлет Тебе время твоего "
+#~ "существования (например 22.07.2006).\n"
+#~ "\n"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "🤖 Возможности бота:\n"
+#~ "\n"
+#~ "• {third_ability} ❓\n"
+#~ "\n"
+#~ "- Всем интересно сколько дней осталось"
+#~ " до дня рождения, но считать дни "
+#~ "вручную слишком долго и не точно. "
+#~ "С помощью команды /mybd, Ты сможешь "
+#~ "узнать точное количество дней которое "
+#~ "осталось до дня рождения.\n"
+#~ "\n"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "🤖 Возможности бота:\n"
+#~ "\n"
+#~ "• {fourth_ability} ❄️\n"
+#~ "\n"
+#~ "- По команде /newyear бот отправит "
+#~ "оставшееся количество времени до Нового "
+#~ "Года с точностью до минуты!\n"
+#~ "\n"
+#~ msgstr ""
+
+#~ msgid "Мой профиль"
+#~ msgstr "My profile"
+
+#~ msgid ""
+#~ "Вычисление пройденного количества времени с"
+#~ " момента вашего дня рождения за "
+#~ "считанные секунды"
+#~ msgstr "Calculate the amount of time since your birthday"
+
+#~ msgid "Узнай сколько дней осталось до дня рождения"
+#~ msgstr "How many days are left until the birthday"
+
+#~ msgid "Узнай сколько дней осталось до Нового Года"
+#~ msgstr "Find out how many days are left until the New Year"
+
+#~ msgid "Нахождение разницы времени отправленной тобой даты с сегодняшним днем"
+#~ msgstr "Finding the time difference between a submitted date and today"
+
+#~ msgid "❔ Помощь"
+#~ msgstr "❔ Help"
+
+#~ msgid "❓"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "🤖 Возможности бота:\n"
+#~ "\n"
+#~ "• <b>Мой профиль</b> 📝\n"
+#~ "\n"
+#~ "- Зарегистрируйся в профиле нажав по кнопке \n"
+#~ "\"<i>Мой профиль 👤</i>\" или отправив "
+#~ "команду /profile, тем самым у тебя "
+#~ "появится возможность узнать у кого "
+#~ "сегодня день рождение, а так же "
+#~ "поздравить этого человека."
+#~ msgstr ""
+#~ "🤖 Bot Features:\n"
+#~ "\n"
+#~ "• <b>My profile</b> 📝\n"
+#~ "\n"
+#~ "- Register in the profile by "
+#~ "clicking on the \"<i>My Profile 👤</i>\""
+#~ " button or by sending the /profile"
+#~ " command, thereby you will have the"
+#~ " opportunity to find out who has "
+#~ "a birthday today, as well as "
+#~ "congratulate this person"
+
+#~ msgid ""
+#~ "🤖 Возможности бота:\n"
+#~ "\n"
+#~ "• <b>Вычисление пройденного количества времени"
+#~ " с момента вашего дня рождения за "
+#~ "считанные секунды</b> 🚀\n"
+#~ "\n"
+#~ "- Отправь боту свою дату рождения "
+#~ "и он пришлет Тебе время твоего "
+#~ "существования (например 22.07.2006)."
+#~ msgstr ""
+#~ "🤖 Bot Features:\n"
+#~ "\n"
+#~ "• <b>Calculate the amount of time since your birthday</b> 🚀\n"
+#~ "\n"
+#~ "- Send me your date of birth "
+#~ "to the bot, and bot will send "
+#~ "you the time of your existence "
+#~ "(for example, 07/22/2006)."
+
+#~ msgid ""
+#~ "🤖 Возможности бота:\n"
+#~ "\n"
+#~ "• <b>Узнай сколько дней осталось до дня рождения</b> ❓\n"
+#~ "\n"
+#~ "- Всем интересно сколько дней осталось"
+#~ " до дня рождения, но считать дни "
+#~ "вручную слишком долго и не точно. "
+#~ "С помощью команды /mybd, Ты сможешь "
+#~ "узнать точное количество дней которое "
+#~ "осталось до дня рождения."
+#~ msgstr ""
+#~ "🤖 Bot Features:\n"
+#~ "\n"
+#~ "• <b>How many days are left until the birthday</b>  ❓\n"
+#~ "\n"
+#~ "- Everyone is wondering how many "
+#~ "days are left until the birthday, "
+#~ "but counting the days manually is "
+#~ "too long and not accurate. You can"
+#~ " use the /mybd command to find "
+#~ "out the exact number of days left"
+#~ " until your birthday."
+
+#~ msgid ""
+#~ "🤖 Возможности бота:\n"
+#~ "\n"
+#~ "• <b>Узнай сколько дней осталось до Нового Года</b> ❄️\n"
+#~ "\n"
+#~ "- По команде /newyear бот отправит "
+#~ "оставшееся количество времени до Нового "
+#~ "Года с точностью до минуты!"
+#~ msgstr ""
+#~ "🤖 Bot Features:\n"
+#~ "\n"
+#~ "• <b>Find out how many days are left until the New Year</b> ❄️\n"
+#~ "\n"
+#~ "- With the /newyear command, the "
+#~ "bot will send the remaining amount "
+#~ "of time until the New Year with"
+#~ " an accuracy of up to a minute!"
+
+#~ msgid ""
+#~ "🤖 Возможности бота:\n"
+#~ "\n"
+#~ "• <b>Нахождение разницы времени отправленной"
+#~ " тобой даты с сегодняшним днем</b> 📅"
+#~ "\n"
+#~ "\n"
+#~ "- Если тебе интересно сколько дней "
+#~ "прошло после какого-то события или "
+#~ "сколько дней осталось до определенного "
+#~ "дня, то отправь команду /howmanydays, "
+#~ "затем тебе нужную дату."
+#~ msgstr ""
+#~ "🤖 Bot Features:\n"
+#~ "\n"
+#~ "• <b>Finding the time difference between"
+#~ " a submitted date and today</b> 📅"
+#~ "\n"
+#~ "\n"
+#~ "- If you are interested in how "
+#~ "many days have passed since some "
+#~ "event or how many days are left"
+#~ " until a certain day, then send "
+#~ "the command /howmanydays, then send the"
+#~ " desired date."
+
