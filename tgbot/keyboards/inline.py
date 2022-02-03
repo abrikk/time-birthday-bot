@@ -1,5 +1,3 @@
-from datetime import date
-
 from aiogram import types, Dispatcher
 from aiogram.dispatcher.filters import Text
 from aiogram.utils.markdown import hbold
@@ -16,7 +14,7 @@ async def all_queries(query: types.InlineQuery, db_commands):
     newyear_d, newyear_h, newyear_m, newyear_s = newyear_time()
     user = await db_commands.get_user(user_id=query.from_user.id)
     # Birthday
-    days_left = await birthday_btn(query.from_user.id, db_commands)
+    days_left, age = await birthday_btn(query.from_user.id, db_commands)
     day = day_conjugation(days_left)
     left = left_conjunction(days_left)
     await query.answer(
@@ -74,7 +72,7 @@ async def newyear_query(query: types.InlineQuery):
 
 
 async def bd_query(query: types.InlineQuery, db_commands):
-    days_left = await birthday_btn(query.from_user.id, db_commands)
+    days_left, age = await birthday_btn(query.from_user.id, db_commands)
     day = day_conjugation(days_left)
     left = left_conjunction(days_left)
     await query.answer(
