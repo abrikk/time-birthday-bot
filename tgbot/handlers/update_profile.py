@@ -12,6 +12,7 @@ from tgbot.middlewares.lang_middleware import _
 async def edit_name(call: Union[types.CallbackQuery, types.Message], state: FSMContext):
     text = _("Отправьте новое имя")
     if isinstance(call, types.CallbackQuery):
+        await call.answer(cache_time=10)
         await call.message.answer(text, reply_markup=cancel_keyb())
     elif isinstance(call, types.Message):
         await call.answer(text, reply_markup=cancel_keyb())
@@ -30,6 +31,7 @@ async def editing_name(message: types.Message, state: FSMContext, session, db_co
 async def edit_date(call: Union[types.CallbackQuery, types.Message], state: FSMContext):
     text = _("Отправьте новую дату")
     if isinstance(call, types.CallbackQuery):
+        await call.answer(cache_time=10)
         await call.message.answer(text, reply_markup=cancel_keyb())
     elif isinstance(call, types.Message):
         await call.answer(text, reply_markup=cancel_keyb())
@@ -53,6 +55,7 @@ async def editing_date(message: types.Message, state: FSMContext, session, db_co
 async def edit_sex(call: Union[types.CallbackQuery, types.Message]):
     text = _("Укажите ваш пол:")
     if isinstance(call, types.CallbackQuery):
+        await call.answer(cache_time=10)
         await call.message.answer(text, reply_markup=choosing_sex(where="main"))
     elif isinstance(call, types.Message):
         await call.answer(text, reply_markup=choosing_sex(where="main"))

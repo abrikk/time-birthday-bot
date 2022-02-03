@@ -147,6 +147,21 @@ def switch_to_bot():
     return markup
 
 
+def switch_or_gratz():
+    markup = InlineKeyboardMarkup()
+
+    markup.add(
+        InlineKeyboardButton(
+            text=_("Поздравить"),
+            callback_data=bd_data.new(page="None", action="gratz")
+        ),
+        InlineKeyboardButton(
+            text=_("Перейти к боту"),
+            url="t.me/totalyclearbot"
+        )
+    )
+
+
 bd_data = CallbackData("bd_people", "page", "action")
 
 

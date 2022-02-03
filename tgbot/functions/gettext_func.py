@@ -7,6 +7,8 @@ from aiogram.utils.markdown import hcode, quote_html, hbold, hlink
 from dateutil import relativedelta
 
 from tgbot.functions.case_conjugation_func import day_conjugation, year_conjuction, left_conjunction
+from tgbot.functions.newyear_func import newyear_time
+from tgbot.keyboards.reply import share_message
 from tgbot.middlewares.lang_middleware import _
 
 
@@ -163,26 +165,58 @@ async def get_botinfo_text(message: types, db_commands) -> str:
     return text
 
 
-def until_bd(message: types.Message, days_left: int, age: int, where: str) -> str:
+async def until_bd(days_left: int, age: int, where: str, message: types.Message = None) -> str:
     day = day_conjugation(days_left)
     left = left_conjunction(days_left)
+    turned_year = year_conjuction(age)
     if where == "btn":
         if days_left != 0:
             text = _("До вашего дня рождения {left}: {days_left} {day} 💫").format(
                 days_left=days_left, day=day, left=left)
         else:
             turned_year = year_conjuction(age)
-            message.answer("🎊")
+            await message.answer("🎊")
             text = (_("Ура! У Вас сегодня день рождение.\n"
                       "Вам исполнилось {age} {year} 🥳").format(age=age, year=turned_year))
         return text
     elif where == "cmnd":
+        print("WORKED ON CMND")
         if days_left != 0:
             text = _("До дня рождения {left}: {days_left} {day} 💫").format(
                 days_left=days_left, day=day, left=left)
         else:
-            turned_year = year_conjuction(age)
-            message.answer("🎊")
+            await message.answer("🎊")
             text = (_("Ура! У кого-то сегодня день рождение.\n"
                       "Тебе исполнилось {age} {year} 🥳").format(age=age, year=turned_year))
         return text
+    elif where == "title":
+        print("WORKED ON TITLE")
+        if days_left != 0:
+            text = _("До вашего дня рождения {left}: {days_left} {day}").format(
+                days_left=days_left, day=day, left=left)
+        else:
+            text = _("У Вас сегодня день рождение. Вам исполнилось {age} {year}.").format(
+                age=age, year=turned_year)
+        return text
+    elif where == "inline_text":
+        print("WORKED ON inline_text")
+        if days_left != 0:
+            text = _("До моего дня рождения {left} {days_left} {day} 😏").format(
+                days_left=days_left, day=day, left=left)
+        else:
+            text = _("Мне сегодня исполнилось {age} {year}!!! 🥳🥳").format(age=age,
+                                                                            year=turned_year)
+        return text
+
+
+def get_newyear_time() -> str:
+    days_left, hours_left, minutes_left, seconds_left = newyear_time()
+
+    text = _("До Нового Года осталось {d} дней, {h} "
+             "часов, {m} минут и {s} секунд! ☃").format(
+        d=hbold(days_left),
+        h=hbold(hours_left),
+        m=hbold(minutes_left),
+        s=hbold(seconds_left))
+
+    return text

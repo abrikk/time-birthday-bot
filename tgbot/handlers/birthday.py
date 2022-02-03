@@ -31,7 +31,7 @@ async def my_bd_command_state(message: types.Message, state: FSMContext):
     try:
         parsed_dt = parse(birthdate, dayfirst=True)
         days_left, age = birthday_cmnd(parsed_dt)
-        await message.answer(until_bd(message, days_left, age, "cmnd"),
+        await message.answer(await until_bd(days_left, age, "cmnd", message),
                              reply_markup=share_message("my birthday"))
 
         await state.reset_state()
@@ -47,12 +47,8 @@ async def my_bd_button(message: types.Message, state: FSMContext, db_commands):
                              reply_markup=back_keyb())
         await state.set_state("bd_button")
     else:
-        if days_left != 0:
-            await message.answer(until_bd(message, days_left, age, "btn"),
-                                 reply_markup=share_message("my birthday"))
-        else:
-            await message.answer(until_bd(message, days_left, age, "btn"),
-                                 reply_markup=share_message("my birthday"))
+        await message.answer(await until_bd(days_left, age, "btn", message),
+                             reply_markup=share_message("my birthday"))
 
 
 async def my_bd_date(message: types.Message, state: FSMContext, db_commands, session):
@@ -62,12 +58,8 @@ async def my_bd_date(message: types.Message, state: FSMContext, db_commands, ses
         await db_commands.update_user_date(message.from_user.id, user_date_parse)
         await session.commit()
         days_left, age = await birthday_btn(message.from_user.id, db_commands)
-        if days_left != 0:
-            await message.answer(until_bd(message, days_left, age, "btn"),
-                                 reply_markup=share_message("my birthday"))
-        else:
-            await message.answer(until_bd(message, days_left, age, "btn"),
-                                 reply_markup=share_message("my birthday"))
+        await message.answer(await until_bd(days_left, age, "btn", message),
+                             reply_markup=share_message("my birthday"))
 
         await state.reset_state()
     except ParserError:
