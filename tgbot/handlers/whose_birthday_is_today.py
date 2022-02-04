@@ -2,6 +2,7 @@ from datetime import date
 
 from aiogram import types, Dispatcher
 from aiogram.dispatcher.filters import Text, Command
+from aiogram.utils.exceptions import ChatNotFound
 from aiogram.utils.markdown import hbold
 from dateutil import relativedelta
 
@@ -54,19 +55,29 @@ async def show_chosen_page(call: types.CallbackQuery, callback_data: dict, db_co
                                  reply_markup=markup)
 
 
-async def congratz_user(call: types.CallbackQuery, callback_data: dict, db_commands):
+async def congratz_user(call: types.CallbackQuery, callback_data: dict, db_commands, session):
     await call.answer(cache_time=60)
     all_users_bd = await db_commands.select_all_users_bd_today()
     current_page = int(callback_data.get("page"))
     user_id = get_page(all_users_bd, page=current_page)
     user = await db_commands.get_user(user_id=user_id)
     congratulator = call.from_user
-    await call.bot.send_message(chat_id=user_id, text=_("Вас поздравил пользователь "
-                                                        "{user_name} "
-                                                        "с днем рождения!", locale=user.lang_code).format(
-        user_name=congratulator.get_mention(as_html=True)))
-    await call.message.answer(_("Поздравление пользователю {user_name} отправлено успешно!").format(
-        user_name=user.first_name))
+    already_gratzed = await db_commands.get_user_gratz(bd_user_id=user.user_id, congo_id=congratulator.id)
+    if already_gratzed is None:
+        await db_commands.add_db_stat_user(bd_user_id=user.user_id, congo_id=congratulator.id)
+        await session.commit()
+        try:
+            await call.bot.send_message(chat_id=user_id, text=_("Вас поздравил пользователь "
+                                                                "{user_name} "
+                                                                "с днем рождения!", locale=user.lang_code).format(
+                user_name=congratulator.get_mention(as_html=True)))
+            await call.message.answer(_("Поздравление пользователю {user_name} отправлено успешно!").format(
+                user_name=user.first_name))
+        except ChatNotFound as err:
+            await call.message.answer(_("Хм... Что-то пошло не так 🤔\n\n"
+                                        "Ошибка: {err}").format(err=err))
+    else:
+        await call.message.answer(_("Вы уже поздравили этого пользователя."))
 
 
 async def bd_current_page_btn(call: types.CallbackQuery):

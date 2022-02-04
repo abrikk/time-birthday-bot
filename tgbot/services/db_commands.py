@@ -3,6 +3,7 @@ import datetime
 from sqlalchemy import select, update, func, delete, and_, extract
 
 from tgbot.models.about_bot import AboutBot
+from tgbot.models.bd_statistics import BDStat
 from tgbot.models.users import User
 
 
@@ -46,6 +47,17 @@ class DBCommands:
         sql = update(User).where(User.user_id == user_id).values(rating=rating)
         result = await self.session.execute(sql)
         return result
+
+    async def update_czd_user(self, user_id, rczd_user_id):
+        sql = update(User).where(User.user_id == user_id).values(czd_2022=rczd_user_id)
+        result = await self.session.execute(sql)
+        return result
+
+    async def select_czd_user_ids(self, user_id):
+        sql = select(User.czd_2022).where(User.user_id == user_id)
+        result = await self.session.execute(sql)
+        scalars = result.scalar()
+        return scalars
 
     async def count_users(self):
         sql = select(func.count("*")).select_from(User)
@@ -110,7 +122,6 @@ class DBCommands:
     #     result = await self.session.execute(sql)
     #     return result.scalar()
 
-    # IS NOT USING
     # AboutBot commands
 
     async def add_bot(self,
@@ -153,3 +164,25 @@ class DBCommands:
         sql = update(AboutBot).where(AboutBot.username == username).values(languages=lang)
         result = await self.session.execute(sql)
         return result
+
+    # BDStat commands
+
+    async def get_user_gratz(self, bd_user_id: int, congo_id: int):
+        sql = select(BDStat).where(
+            and_(
+                BDStat.bd_user_id == bd_user_id,
+                BDStat.congo_id == congo_id,
+                BDStat.bd_year == extract('year', func.current_date())
+            )
+        )
+        request = await self.session.execute(sql)
+        user = request.scalar()
+        return user
+
+    async def add_db_stat_user(self, bd_user_id: int, congo_id: int):
+        bd_user = BDStat(
+            bd_user_id=bd_user_id,
+            congo_id=congo_id
+        )
+        self.session.add(bd_user)
+        return bd_user
