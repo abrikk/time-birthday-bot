@@ -95,11 +95,12 @@ class DBCommands:
         result = await self.session.execute(sql)
         return result
 
-    async def select_all_users_bd_today(self):
+    async def select_all_users_bd_today(self, user_id: int):
         sql = select(User.user_id).where(
             and_(
                 extract('month', User.user_bd) == extract('month', func.current_date()),
-                extract('day', User.user_bd) == extract('day', func.current_date())
+                extract('day', User.user_bd) == extract('day', func.current_date()),
+                User.user_id != user_id
             )
         )
         result = await self.session.execute(sql)

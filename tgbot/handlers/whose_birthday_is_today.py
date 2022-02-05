@@ -21,7 +21,7 @@ bd_text_today = __("Сегодня день рождение у {user_name}.\n\n
 
 
 async def whose_bd_is_today(message: types.Message, db_commands):
-    all_users_bd = await db_commands.select_all_users_bd_today()
+    all_users_bd = await db_commands.select_all_users_bd_today(message.from_user.id)
     if len(all_users_bd) != 0:
         await message.answer(_("Сегодня день рождение у {n} {p}!").format(n=hbold(len(all_users_bd)),
                                                                           p=hbold(_("человек"))))
@@ -39,7 +39,7 @@ async def whose_bd_is_today(message: types.Message, db_commands):
 
 async def show_chosen_page(call: types.CallbackQuery, callback_data: dict, db_commands):
     await call.answer(cache_time=5)
-    all_users_bd = await db_commands.select_all_users_bd_today()
+    all_users_bd = await db_commands.select_all_users_bd_today(call.from_user.id)
     current_page = int(callback_data.get("page"))
     if current_page > len(all_users_bd):
         current_page = 1
@@ -57,11 +57,11 @@ async def show_chosen_page(call: types.CallbackQuery, callback_data: dict, db_co
 
 async def congratz_user(call: types.CallbackQuery, callback_data: dict, db_commands, session):
     await call.answer(cache_time=60)
-    all_users_bd = await db_commands.select_all_users_bd_today()
+    congratulator = call.from_user
+    all_users_bd = await db_commands.select_all_users_bd_today(congratulator.id)
     current_page = int(callback_data.get("page"))
     user_id = get_page(all_users_bd, page=current_page)
     user = await db_commands.get_user(user_id=user_id)
-    congratulator = call.from_user
     already_gratzed = await db_commands.get_user_gratz(bd_user_id=user.user_id, congo_id=congratulator.id)
     if already_gratzed is None:
         await db_commands.add_db_stat_user(bd_user_id=user.user_id, congo_id=congratulator.id)
