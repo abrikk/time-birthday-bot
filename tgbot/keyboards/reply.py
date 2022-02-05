@@ -307,6 +307,20 @@ def help_back_manual():
     return markup
 
 
+def profile_back_manual():
+    markup = InlineKeyboardMarkup()
+
+    markup.add(
+        InlineKeyboardButton(
+            text=_("Назад"),
+            callback_data="back_profile"
+        )
+    )
+
+    return markup
+
+
+
 rate_data = CallbackData("rating", "rate")
 
 

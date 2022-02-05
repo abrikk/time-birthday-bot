@@ -3,7 +3,7 @@ from statistics import mean
 from typing import Union
 
 from aiogram import types
-from aiogram.utils.markdown import hcode, quote_html, hbold, hlink
+from aiogram.utils.markdown import hcode, quote_html, hbold, hlink, hitalic
 from dateutil import relativedelta
 
 from tgbot.functions.case_conjugation_func import day_conjugation, year_conjuction, left_conjunction
@@ -180,7 +180,6 @@ async def until_bd(days_left: int, age: int, where: str, message: types.Message 
                       "Вам исполнилось {age} {year} 🥳").format(age=age, year=turned_year))
         return text
     elif where == "cmnd":
-        print("WORKED ON CMND")
         if days_left != 0:
             text = _("До дня рождения {left}: {days_left} {day} 💫").format(
                 days_left=days_left, day=day, left=left)
@@ -190,7 +189,6 @@ async def until_bd(days_left: int, age: int, where: str, message: types.Message 
                       "Тебе исполнилось {age} {year} 🥳").format(age=age, year=turned_year))
         return text
     elif where == "title":
-        print("WORKED ON TITLE")
         if days_left != 0:
             text = _("До вашего дня рождения {left}: {days_left} {day}").format(
                 days_left=days_left, day=day, left=left)
@@ -199,7 +197,6 @@ async def until_bd(days_left: int, age: int, where: str, message: types.Message 
                 age=age, year=turned_year)
         return text
     elif where == "inline_text":
-        print("WORKED ON inline_text")
         if days_left != 0:
             text = _("До моего дня рождения {left} {days_left} {day} 😏").format(
                 days_left=days_left, day=day, left=left)
@@ -220,3 +217,32 @@ def get_newyear_time() -> str:
         s=hbold(seconds_left))
 
     return text
+
+
+async def get_profile_stat_text(user_id, db_commands) -> str:
+    user = await db_commands.get_user(user_id)
+    created_at = user.created_at.strftime("%Y-%m-%d %H:%M:%S")
+    user_received_gratzed = await db_commands.get_user_rcvd_gratzed(user_id)
+    user_gratzed = await db_commands.get_user_gratzed(user_id)
+
+    gratzed_text = "".join("- В {year[1]} году: {year[0]}\n".format(year=year)
+                           for year in user_gratzed)
+
+    rcvd_gratz_text = "".join("- В {year[1]} году: {year[0]}\n".format(year=year)
+                              for year in user_received_gratzed)
+
+    # The number of congratulations sent by the user in a given year
+    gratzed = gratzed_text if len(user_gratzed) != 0 else "<i>- Пусто</i>"
+    # The number of congratulations that the user received in a certain year
+    rcvd_gratz = rcvd_gratz_text if len(user_received_gratzed) != 0 else "<i>- Пусто</i>"
+
+    stat_text = ("📊 Статистика:\n\n"
+                 "📤 <b>Отправлено поздравлений</b>:\n"
+                 "{gratzed}\n\n"
+                 "📥 <b>Получено поздравлений:</b>\n"
+                 "{rcvd_gratz}\n\n"
+                 "📝 Дата регистрации: {created_at}UTC+0").format(gratzed=gratzed,
+                                                                   rcvd_gratz=rcvd_gratz,
+                                                                   created_at=created_at)
+
+    return stat_text

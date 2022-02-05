@@ -18,6 +18,9 @@ async def delete_me_from_db(message: types.Message, db_commands, session):
     user = await db_commands.get_user(user_id=message.from_user.id)
     if user.role == 'admin':
         await db_commands.delete_me_from_db(message.from_user.id)
+        await db_commands.delete_me_from_bd_stat_r(message.from_user.id)
+        await db_commands.delete_me_from_bd_stat_g(message.from_user.id)
+
         await session.commit()
     else:
         await message.answer(get_echo_text())
