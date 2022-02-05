@@ -3,8 +3,9 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command, Text
 from dateutil.parser import parse, ParserError
 
-from tgbot.functions.gettext_func import get_profile_text
-from tgbot.keyboards.reply import cancel_keyb, update_profile, main_keyb, choosing_sex, sex_data
+from tgbot.functions.gettext_func import get_profile_text, get_profile_stat_text
+from tgbot.keyboards.reply import cancel_keyb, update_profile, main_keyb, choosing_sex, sex_data, upd_profile, \
+    profile_back_manual
 from tgbot.middlewares.lang_middleware import _, __
 
 
@@ -25,6 +26,13 @@ async def my_profile(message: types.Message, state: FSMContext, db_commands):
         profile_info = get_profile_text(user)
 
         await message.answer(profile_info, reply_markup=update_profile())
+
+
+async def back_my_profile(call: types.CallbackQuery, db_commands):
+    user = await db_commands.get_user(user_id=call.from_user.id)
+    profile_info = get_profile_text(user)
+
+    await call.message.edit_text(profile_info, reply_markup=update_profile())
 
 
 async def my_date(call: types.CallbackQuery, state: FSMContext, session, db_commands, callback_data: dict):
@@ -70,8 +78,16 @@ async def setting_profile_sex(call: types.CallbackQuery, session, db_commands, c
     await call.message.answer(profile_info, reply_markup=update_profile())
 
 
+async def show_profile_statistics(call: types.CallbackQuery, db_commands):
+    await call.answer(cache_time=3)
+    text = await get_profile_stat_text(call.from_user.id, db_commands)
+    await call.message.edit_text(text, reply_markup=profile_back_manual())
+
+
 def register_profile(dp: Dispatcher):
     dp.register_message_handler(my_profile, Command("profile") | Text(equals=__("👤 Мой профиль")))
+    dp.register_callback_query_handler(back_my_profile, Text(contains="back_profile"))
     dp.register_callback_query_handler(my_date, sex_data.filter(where="profile"))
     dp.register_message_handler(setting_profile_date, state="setting_profile")
     dp.register_callback_query_handler(setting_profile_sex, sex_data.filter(where="sex"))
+    dp.register_callback_query_handler(show_profile_statistics, upd_profile.filter(profile="statistics"))

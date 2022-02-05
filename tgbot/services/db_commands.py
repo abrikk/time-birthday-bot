@@ -48,17 +48,6 @@ class DBCommands:
         result = await self.session.execute(sql)
         return result
 
-    async def update_czd_user(self, user_id, rczd_user_id):
-        sql = update(User).where(User.user_id == user_id).values(czd_2022=rczd_user_id)
-        result = await self.session.execute(sql)
-        return result
-
-    async def select_czd_user_ids(self, user_id):
-        sql = select(User.czd_2022).where(User.user_id == user_id)
-        result = await self.session.execute(sql)
-        scalars = result.scalar()
-        return scalars
-
     async def count_users(self):
         sql = select(func.count("*")).select_from(User)
         result = await self.session.execute(sql)
@@ -180,10 +169,45 @@ class DBCommands:
         user = request.scalar()
         return user
 
-    async def add_db_stat_user(self, bd_user_id: int, congo_id: int):
+    async def add_db_stat_user(self,
+                               bd_user_id: int,
+                               bd_user_name: str,
+                               congo_id: int,
+                               congo_name: str
+                               ):
         bd_user = BDStat(
             bd_user_id=bd_user_id,
-            congo_id=congo_id
+            bd_user_name=bd_user_name,
+            congo_id=congo_id,
+            congo_name=congo_name
         )
         self.session.add(bd_user)
         return bd_user
+
+    async def get_user_gratzed(self, user_id):
+        sql = select(func.count("*"), BDStat.bd_year).select_from(BDStat).where(
+            BDStat.congo_id == user_id
+        ).group_by(BDStat.bd_year)
+        result = await self.session.execute(sql)
+        scalars = result.all()
+        return scalars
+
+    async def get_user_rcvd_gratzed(self, user_id):
+        sql = select(func.count("*"), BDStat.bd_year).select_from(BDStat).where(
+            BDStat.bd_user_id == user_id
+        ).group_by(BDStat.bd_year)
+        result = await self.session.execute(sql)
+        scalars = result.all()
+        return scalars
+
+    async def delete_me_from_bd_stat_r(self, user_id):
+        sql = delete(BDStat).where(BDStat.bd_user_id == user_id)
+        result = await self.session.execute(sql)
+        return result
+
+    async def delete_me_from_bd_stat_g(self, user_id):
+        sql = delete(BDStat).where(BDStat.congo_id == user_id)
+        result = await self.session.execute(sql)
+        return result
+
+
