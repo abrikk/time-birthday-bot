@@ -16,6 +16,7 @@ from tgbot.handlers.change_language import register_change_language
 from tgbot.handlers.day_number_in_the_year import register_day_num_year
 from tgbot.handlers.help import register_help
 from tgbot.handlers.how_many_days import register_hmd
+from tgbot.handlers.is_active_user import register_is_active_user
 from tgbot.handlers.life_counter import register_count_life
 from tgbot.handlers.newyear import register_newyear
 from tgbot.handlers.profile import register_profile
@@ -64,8 +65,8 @@ def register_all_handlers(dp):
     register_botinfo_create(dp)
     register_help(dp)
     register_start(dp)
-
     register_count_life(dp)
+    register_is_active_user(dp)
 
 
 async def main():
