@@ -2,7 +2,7 @@ from datetime import date
 
 from aiogram import types, Dispatcher
 from aiogram.dispatcher.filters import Text, Command
-from aiogram.utils.exceptions import ChatNotFound
+from aiogram.utils.exceptions import ChatNotFound, BotBlocked
 from aiogram.utils.markdown import hbold
 from dateutil import relativedelta
 
@@ -34,7 +34,7 @@ async def whose_bd_is_today(message: types.Message, db_commands):
 
         await message.answer(bd_text_today.format(user_name=user.first_name, whom=whom, age=age.years),
                              reply_markup=bd_today_list(max_pages=len(all_users_bd)))
-    elif date.today().replace(month=current_user.user_bd.month,
+    elif current_user.user_bd is not None and date.today().replace(month=current_user.user_bd.month,
                               day=current_user.user_bd.day) == date.today():
         await message.answer(_("Сегодня, кроме Вас нету ни у кого нету дня рождения 😕"))
     else:
@@ -81,6 +81,9 @@ async def congratz_user(call: types.CallbackQuery, callback_data: dict, db_comma
                                                congo_name=congratulator.first_name)
             await session.commit()
         except ChatNotFound as err:
+            await call.message.answer(_("Хм... Что-то пошло не так 🤔\n\n"
+                                        "Ошибка: {err}").format(err=err))
+        except BotBlocked as err:
             await call.message.answer(_("Хм... Что-то пошло не так 🤔\n\n"
                                         "Ошибка: {err}").format(err=err))
     else:

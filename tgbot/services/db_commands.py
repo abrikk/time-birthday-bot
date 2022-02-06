@@ -22,6 +22,7 @@ class DBCommands:
     async def add_user(self,
                        user_id: int,
                        first_name: str,
+                       active: bool = True,
                        last_name: str = None,
                        username: str = None,
                        user_bd=None,
@@ -32,11 +33,17 @@ class DBCommands:
                     first_name=first_name,
                     last_name=last_name,
                     username=username,
+                    active=active,
                     user_bd=user_bd,
                     lang_code=lang_code,
                     role=role)
         self.session.add(user)
         return user
+
+    async def update_user_blocked(self, user_id: int, active: bool) -> 'User':
+        sql = update(User).where(User.user_id == user_id).values(active=active)
+        result = await self.session.execute(sql)
+        return result
 
     async def update_user_name(self, user_id, new_name) -> 'User':
         sql = update(User).where(User.user_id == user_id).values(first_name=new_name)
@@ -89,7 +96,8 @@ class DBCommands:
             and_(
                 extract('month', User.user_bd) == extract('month', func.current_date()),
                 extract('day', User.user_bd) == extract('day', func.current_date()),
-                User.user_id != user_id
+                User.user_id != user_id,
+                User.active == True
             )
         )
         result = await self.session.execute(sql)
@@ -115,14 +123,14 @@ class DBCommands:
     # AboutBot commands
 
     async def add_bot(self,
-                         username: str,
-                         version: str = None,
-                         languages: int = None,
-                         updated_at: datetime.datetime = None,
-                         updated_on: datetime.date = None,
-                         released_on: datetime.date = None,
-                         created_on: datetime.date = None
-                         ) -> 'AboutBot':
+                      username: str,
+                      version: str = None,
+                      languages: int = None,
+                      updated_at: datetime.datetime = None,
+                      updated_on: datetime.date = None,
+                      released_on: datetime.date = None,
+                      created_on: datetime.date = None
+                      ) -> 'AboutBot':
         about_bot = AboutBot(username=username,
                              version=version,
                              languages=languages,
@@ -209,5 +217,3 @@ class DBCommands:
         sql = delete(BDStat).where(BDStat.congo_id == user_id)
         result = await self.session.execute(sql)
         return result
-
-

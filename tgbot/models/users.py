@@ -1,4 +1,4 @@
-from sqlalchemy import Column, BigInteger, String, Date, TIMESTAMP, func, SmallInteger
+from sqlalchemy import Column, BigInteger, String, Date, TIMESTAMP, func, SmallInteger, Boolean
 
 from tgbot.services.db_base import Base
 
@@ -9,9 +9,10 @@ class User(Base):
     first_name = Column(String(length=100), nullable=False)
     last_name = Column(String(length=100), nullable=True)
     username = Column(String(length=100), nullable=True, unique=True)
+    active = Column(Boolean, nullable=False)
     user_bd = Column(Date, index=True, nullable=True)
     sex = Column(String(length=1), nullable=True)
-    lang_code = Column(String(length=5), default='ru_RU')
+    lang_code = Column(String(length=2), default='ru')
     rating = Column(SmallInteger, nullable=True)
     role = Column(String(length=100), default='user')
     created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
