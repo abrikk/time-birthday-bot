@@ -1,7 +1,7 @@
 from aiogram import types, Dispatcher
 from aiogram.dispatcher.filters import CommandHelp, Text
 
-from tgbot.functions.gettext_func import get_help_text, get_botinfo_text, get_echo_text
+from tgbot.functions.gettext_func import get_help_text, get_botinfo_text, get_echo_text, get_awailable_formats_text
 from tgbot.handlers.whose_birthday_is_today import get_page
 from tgbot.keyboards.reply import help_manual, manual_data, help_ability, ability_data, \
     help_back_manual, help_rate, rate_data, update_bot_info
@@ -82,6 +82,13 @@ async def help_bot_user_rating(call: types.CallbackQuery, callback_data: dict, d
     await call.message.answer(_("Спасибо за ваш отзыв"))
 
 
+# BOT AVAILABLE DATE FORMATS
+
+async def help_bot_formats(call: types.CallbackQuery):
+    await call.answer()
+    await call.message.edit_text(get_awailable_formats_text(), reply_markup=help_back_manual())
+
+
 def register_help(dp: Dispatcher):
     dp.register_message_handler(bot_help, CommandHelp() | Text(contains=__("❔ Помощь"),
                                                                ignore_case=True))
@@ -89,9 +96,8 @@ def register_help(dp: Dispatcher):
     dp.register_callback_query_handler(help_bot_information, manual_data.filter(button="botinfo"))
     dp.register_callback_query_handler(help_bot_rate, manual_data.filter(button="rate"))
     dp.register_callback_query_handler(help_bot_commands, manual_data.filter(button="commands"))
+    dp.register_callback_query_handler(help_bot_formats, manual_data.filter(button="formats"))
     dp.register_callback_query_handler(help_bot_back, Text(contains="back_manual"))
     dp.register_callback_query_handler(help_current_page_ability_btn, ability_data.filter(action="current_page"))
     dp.register_callback_query_handler(help_bot_ability_show_chosen_page, ability_data.filter())
     dp.register_callback_query_handler(help_bot_user_rating, rate_data.filter())
-
-

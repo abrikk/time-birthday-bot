@@ -65,6 +65,7 @@ async def editing_sex(call: types.CallbackQuery, session, db_commands, callback_
     sex = callback_data.get("sex")
     await db_commands.update_user_sex(call.from_user.id, sex)
     await session.commit()
+    await call.message.delete()
     await call.answer(cache_time=60)
     await call.message.answer(_("Успешно! Пол обновлен."))
 
