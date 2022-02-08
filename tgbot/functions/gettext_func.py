@@ -3,12 +3,11 @@ from statistics import mean
 from typing import Union
 
 from aiogram import types
-from aiogram.utils.markdown import hcode, quote_html, hbold, hlink, hitalic
+from aiogram.utils.markdown import hcode, quote_html, hbold, hlink
 from dateutil import relativedelta
 
 from tgbot.functions.case_conjugation_func import day_conjugation, year_conjuction, left_conjunction
 from tgbot.functions.newyear_func import newyear_time
-from tgbot.keyboards.reply import share_message
 from tgbot.middlewares.lang_middleware import _
 
 
@@ -246,3 +245,24 @@ async def get_profile_stat_text(user_id, db_commands) -> str:
                                                                    created_at=created_at)
 
     return stat_text
+
+
+def get_awailable_formats_text() -> str:
+    text = _("Бот поддерживает множество форматов дат, а так же все Международные "
+             "форматы даты ISO 8601.\n\n"
+             "Доступные форматы:\n"
+             "- гггг.мм.дд → 2018.06.28\n"
+             "- гггг-мм-дд → 2018-06-28\n"
+             "- гггг/мм/дд → 2018/06/28\n"
+             "- гггг-м-д → 2018-6-28\n"
+             "- гггг/м/д → 2018/6/28\n"
+             "- гггг.дд.мм → 2018.28.06\n"
+             "- д.м.гггг → 22.6.2018\n"
+             "- д-м-гггг → 22-6-2018\n"
+             "- д/м/гггг →  22/6/2018\n"
+             "- дд.мм.гггг → 28.06.2018\n"
+             "- дд-мм-гггг → 28-06-2018\n"
+             "- дд/мм/гггг → 28/06/2018\n"
+             "- м/д/гггг → 28/6/2018\n")
+    return text
+

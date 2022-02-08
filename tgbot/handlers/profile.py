@@ -86,8 +86,8 @@ async def show_profile_statistics(call: types.CallbackQuery, db_commands):
 
 def register_profile(dp: Dispatcher):
     dp.register_message_handler(my_profile, Command("profile") | Text(equals=__("👤 Мой профиль")))
-    dp.register_callback_query_handler(back_my_profile, Text(contains="back_profile"))
+    dp.register_callback_query_handler(back_my_profile, Text(contains="back_profile"), state="*")
     dp.register_callback_query_handler(my_date, sex_data.filter(where="profile"))
     dp.register_message_handler(setting_profile_date, state="setting_profile")
     dp.register_callback_query_handler(setting_profile_sex, sex_data.filter(where="sex"))
-    dp.register_callback_query_handler(show_profile_statistics, upd_profile.filter(profile="statistics"))
+    dp.register_callback_query_handler(show_profile_statistics, upd_profile.filter(profile="statistics"), state="*")
