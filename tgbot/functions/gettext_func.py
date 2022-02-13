@@ -283,3 +283,19 @@ def get_awailable_formats_text() -> str:
              "- дд/мм/гггг → 28/06/2018\n"
              "- м/д/гггг → 28/6/2018\n")
     return text
+
+
+async def get_user_turned_day_text(user_id: int, db_commands) -> str:
+    user = await db_commands.get_user(user_id)
+
+    today = date.today()
+    days = (today - user.user_bd).days
+
+    text = _("Сегодня Вам исполнилось: \n\n"
+             "{days} дней\n"
+             "или\n"
+             "{hours} часов").format(days=days, hours=days*24)
+    return text
+
+
+

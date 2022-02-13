@@ -1,9 +1,11 @@
+from datetime import datetime
+
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command, Text
 from dateutil.parser import parse, ParserError
 
-from tgbot.functions.gettext_func import get_profile_text, get_profile_stat_text
+from tgbot.functions.gettext_func import get_profile_text, get_profile_stat_text, get_user_turned_day_text
 from tgbot.keyboards.reply import cancel_keyb, update_profile, main_keyb, choosing_sex, sex_data, upd_profile, \
     profile_back_manual
 from tgbot.middlewares.lang_middleware import _, __
@@ -47,7 +49,8 @@ async def my_date(call: types.CallbackQuery, state: FSMContext, session, db_comm
     await state.set_state("setting_profile")
 
 
-async def setting_profile_date(message: types.Message, state: FSMContext, db_commands, session):
+async def setting_profile_date(message: types.Message, state: FSMContext, db_commands, session,
+                               scheduler):
     user_date = message.text
     try:
         user_date_parse = parse(user_date, dayfirst=True)
@@ -59,9 +62,15 @@ async def setting_profile_date(message: types.Message, state: FSMContext, db_com
         await message.answer(_("Готово!"), reply_markup=main_keyb())
         await message.answer(profile_info, reply_markup=update_profile())
         await state.reset_state()
+        scheduler.add_job(user_turned_day, 'interval', seconds=5, next_run_time=datetime.now(),
+                          args=(message, db_commands))
 
     except ParserError:
         await message.answer(_("Введите корректно вашу дату рождения."))
+
+
+async def user_turned_day(message: types.Message, db_commands):
+    await message.answer(await get_user_turned_day_text(message.from_user.id, db_commands))
 
 
 async def setting_profile_sex(call: types.CallbackQuery, session, db_commands, callback_data: dict):
