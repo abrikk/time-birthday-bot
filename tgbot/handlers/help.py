@@ -50,10 +50,11 @@ async def help_current_page_ability_btn(call: types.CallbackQuery):
 
 # BOT INFORMATION
 
-async def help_bot_information(call: types.CallbackQuery, db_commands):
+async def help_bot_information(call: types.CallbackQuery, db_commands, session):
     user = await db_commands.get_user(user_id=call.from_user.id)
     await call.answer()
-    await call.message.edit_text(await get_botinfo_text(call, db_commands), disable_web_page_preview=True,
+    await call.message.edit_text(await get_botinfo_text(call, db_commands, session),
+                                 disable_web_page_preview=True,
                                  reply_markup=help_back_manual() if user.role != 'admin' else update_bot_info())
 
 
