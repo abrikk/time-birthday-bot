@@ -1,10 +1,13 @@
 from datetime import date
+from pathlib import Path
 from statistics import mean
 from typing import Union
 
+import toml
 from aiogram import types
 from aiogram.utils.markdown import hcode, quote_html, hbold, hlink
 from dateutil import relativedelta
+from dateutil.parser import parse
 
 from tgbot.functions.case_conjugation_func import day_conjugation, year_conjuction, left_conjunction
 from tgbot.functions.newyear_func import newyear_time
@@ -133,18 +136,32 @@ def get_weekday_name(number_or_date: Union[int, date]) -> str:
         return weekday[number]
 
 
-async def get_botinfo_text(message: types, db_commands) -> str:
+async def get_botinfo_text(call: Union[types.Message, types.CallbackQuery], db_commands, session) -> str:
+    bot_user = await call.bot.me
+    bot_info = await db_commands.get_bot_info(bot_user.username)
+    data = toml.load(Path("pyproject.toml").absolute())
+    if bot_info is None:
+        bot_version: str = data["tool"]["poetry"]["VERSION"]
+        num_dirs_lang = Path('C:\\Users\\abror\\PycharmProjects\\tbday-project\\locales')
+        num_languages = [x for x in num_dirs_lang.iterdir() if x.is_dir()]
+        await db_commands.add_bot(
+            username=bot_user.username,
+            version=bot_version,
+            languages=len(num_languages)
+        )
+        await session.commit()
+        bot_info = await db_commands.get_bot_info(bot_user.username)
+
     ratings = await db_commands.get_all_ratings()
     average_rate = round(mean(ratings), 1) if ratings else 0
 
-    bot_user = await message.bot.me
-    bot_info = await db_commands.get_bot_info(bot_user.username)
-
-    updated_date = bot_info.updated_on
+    updated_date = bot_info.updated_at
     updated_month = get_month_name(updated_date.month)
     updated_day = updated_date.day
     updated_year = updated_date.year
     updated = f"{updated_day} {updated_month} {updated_year}"
+
+    bot_version: str = data["tool"]["poetry"]["VERSION"]
 
     text = _("ℹ Об этом {bot}:\n\n"
              "• Рейтинг бота: <b>{rate} \u2605</b>\n"
@@ -154,12 +171,13 @@ async def get_botinfo_text(message: types, db_commands) -> str:
              "• Обновлено {updated} года\n"
              "• Выпущено 9 Января 2022 года\n"
              "• Создано 25 Декабря 2021 года\n\n"
-             "👨‍💻 Разработчик @JustAbrik").format(bot=hlink(_('боте'), url=f't.me/{bot_user.username}'),
-                                                    version=hcode(bot_info.version),
-                                                    rate=average_rate,
-                                                    num_reviews=len(ratings),
-                                                    lang=bot_info.languages,
-                                                    updated=updated)
+             "👨‍💻 Разработчик @JustAbrik").format(bot=hlink(_('боте'),
+                                                  url=f't.me/{bot_user.username}'),
+                                                  version=hcode(bot_version),
+                                                  rate=average_rate,
+                                                  num_reviews=len(ratings),
+                                                  lang=bot_info.languages - 1,
+                                                  updated=updated)
 
     return text
 
@@ -241,8 +259,8 @@ async def get_profile_stat_text(user_id, db_commands) -> str:
                  "📥 <b>Получено поздравлений:</b>\n"
                  "{rcvd_gratz}\n\n"
                  "📝 Дата регистрации: {created_at}UTC+0").format(gratzed=gratzed,
-                                                                   rcvd_gratz=rcvd_gratz,
-                                                                   created_at=created_at)
+                                                                  rcvd_gratz=rcvd_gratz,
+                                                                  created_at=created_at)
 
     return stat_text
 
@@ -265,4 +283,3 @@ def get_awailable_formats_text() -> str:
              "- дд/мм/гггг → 28/06/2018\n"
              "- м/д/гггг → 28/6/2018\n")
     return text
-

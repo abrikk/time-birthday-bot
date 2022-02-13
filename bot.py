@@ -29,7 +29,6 @@ from tgbot.handlers.whose_birthday_is_today import register_bd_today
 from tgbot.keyboards.inline import register_inline_mode
 from tgbot.middlewares.db import DbSessionMiddleware
 from tgbot.middlewares.lang_middleware import i18n
-from tgbot.misc.add_bot_info import register_botinfo_create
 from tgbot.misc.notify_admins import on_startup_notify
 from tgbot.services.database import create_db_session
 
@@ -62,7 +61,6 @@ def register_all_handlers(dp):
     register_newyear(dp)
     register_change_language(dp)
     register_admin_commands(dp)
-    register_botinfo_create(dp)
     register_help(dp)
     register_start(dp)
     register_count_life(dp)

@@ -124,10 +124,9 @@ class DBCommands:
 
     async def add_bot(self,
                       username: str,
-                      version: str = None,
-                      languages: int = None,
+                      version: str,
+                      languages: int,
                       updated_at: datetime.datetime = None,
-                      updated_on: datetime.date = None,
                       released_on: datetime.date = None,
                       created_on: datetime.date = None
                       ) -> 'AboutBot':
@@ -135,7 +134,6 @@ class DBCommands:
                              version=version,
                              languages=languages,
                              updated_at=updated_at,
-                             updated_on=updated_on,
                              released_on=released_on,
                              created_on=created_on
                              )
@@ -148,8 +146,8 @@ class DBCommands:
         user = request.scalar()
         return user
 
-    async def update_botinfo_date(self, username, date):
-        sql = update(AboutBot).where(AboutBot.username == username).values(updated_on=date)
+    async def update_botinfo_date(self, username, date: datetime.datetime):
+        sql = update(AboutBot).where(AboutBot.username == username).values(updated_at=date)
         result = await self.session.execute(sql)
         return result
 
