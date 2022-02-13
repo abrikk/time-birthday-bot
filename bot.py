@@ -1,9 +1,11 @@
 import asyncio
 import logging
 
+import tzlocal
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from tgbot.config import load_config
 from tgbot.filters.admin import AdminFilter
@@ -29,13 +31,15 @@ from tgbot.handlers.whose_birthday_is_today import register_bd_today
 from tgbot.keyboards.inline import register_inline_mode
 from tgbot.middlewares.db import DbSessionMiddleware
 from tgbot.middlewares.lang_middleware import i18n
+from tgbot.middlewares.scheduler import SchedulerMiddleware
 from tgbot.misc.notify_admins import on_startup_notify
 from tgbot.services.database import create_db_session
 
 logger = logging.getLogger(__name__)
 
 
-def register_all_middlewares(dp, sessionmaker):
+def register_all_middlewares(dp, scheduler, sessionmaker):
+    dp.setup_middleware(SchedulerMiddleware(scheduler))
     dp.setup_middleware(DbSessionMiddleware(sessionmaker))
     dp.setup_middleware(i18n)
 
@@ -84,16 +88,19 @@ async def main():
     bot = Bot(token=config.tg_bot.token, parse_mode='HTML')
     dp = Dispatcher(bot, storage=storage)
 
+    scheduler = AsyncIOScheduler(timezone=str(tzlocal.get_localzone()))
+
     bot['config'] = config
 
     await on_startup_notify(bot)
 
-    register_all_middlewares(dp, await create_db_session(config))
+    register_all_middlewares(dp, scheduler, await create_db_session(config))
     register_all_filters(dp)
     register_all_handlers(dp)
 
     # start
     try:
+        scheduler.start()
         await dp.start_polling()
     finally:
         await dp.storage.close()

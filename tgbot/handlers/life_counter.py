@@ -11,7 +11,6 @@ async def count_life(message: types.Message):
     user_date = message.text
     try:
         parsed_date = parse(user_date, dayfirst=True).date()
-        print(parsed_date)
         today = date.today()
         if today > parsed_date:
             days = today - parsed_date
