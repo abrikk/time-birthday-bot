@@ -3,6 +3,7 @@ from datetime import datetime
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command, Text
+from apscheduler.triggers.cron import CronTrigger
 from dateutil.parser import parse, ParserError
 
 from tgbot.functions.gettext_func import get_profile_text, get_profile_stat_text, get_user_turned_day_text
@@ -62,7 +63,8 @@ async def setting_profile_date(message: types.Message, state: FSMContext, db_com
         await message.answer(_("Готово!"), reply_markup=main_keyb())
         await message.answer(profile_info, reply_markup=update_profile())
         await state.reset_state()
-        scheduler.add_job(user_turned_day, 'interval', seconds=5, next_run_time=datetime.now(),
+        trigger = CronTrigger(hour=12, minute=30, jitter=10800)
+        scheduler.add_job(user_turned_day, trigger,
                           args=(message, db_commands))
 
     except ParserError:
