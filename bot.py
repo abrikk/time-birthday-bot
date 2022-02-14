@@ -22,6 +22,7 @@ from tgbot.handlers.is_active_user import register_is_active_user
 from tgbot.handlers.life_counter import register_count_life
 from tgbot.handlers.newyear import register_newyear
 from tgbot.handlers.profile import register_profile
+from tgbot.handlers.show_all_jobs import register_show_all_tasks
 from tgbot.handlers.start import register_start
 from tgbot.handlers.statistics import register_stat
 from tgbot.handlers.test import register_test_1
@@ -53,6 +54,7 @@ def register_all_handlers(dp):
     register_cancel_action(dp)
     register_update(dp)
     register_test_1(dp)
+    register_show_all_tasks(dp)
     register_my_bd(dp)
     register_profile(dp)
     register_add_keyb(dp)

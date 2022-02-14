@@ -27,6 +27,7 @@ async def set_default_commands(bot: Bot):
         BotCommand(command="cancel", description=_("Отменить текущую операцию")),
         BotCommand(command="delete_me", description="delete_me"),
         BotCommand(command="delete_keyboard", description="delete_keyboard"),
+        BotCommand(command="show_tasks", description="show jobs"),
     ]
     for admin in config.tg_bot.admin_ids:
         await bot.set_my_commands(admin_commands, scope=BotCommandScopeChat(chat_id=admin))
