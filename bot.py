@@ -5,6 +5,7 @@ import tzlocal
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage
+from apscheduler.jobstores.redis import RedisJobStore
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from tgbot.config import load_config
@@ -90,7 +91,14 @@ async def main():
     bot = Bot(token=config.tg_bot.token, parse_mode='HTML')
     dp = Dispatcher(bot, storage=storage)
 
-    scheduler = AsyncIOScheduler(timezone=str(tzlocal.get_localzone()))
+    job_stores = {
+        "default": RedisJobStore(
+            jobs_key="dispatched_trips_jobs", run_times_key="dispatched_trips_running",
+            host="localhost", port=6379
+        )
+    }
+
+    scheduler = AsyncIOScheduler(jobstore=job_stores, timezone=str(tzlocal.get_localzone()))
 
     bot['config'] = config
 
