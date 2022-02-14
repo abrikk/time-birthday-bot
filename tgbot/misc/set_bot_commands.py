@@ -19,6 +19,7 @@ async def set_default_commands(bot: Bot):
     admin_commands = [
         BotCommand(command="start", description=_("Запустить бота")),
         BotCommand(command="help", description=_("Помощь")),
+        BotCommand(command="testing", description=_("start schedule")),
         BotCommand(command="profile", description=_("Профиль")),
         BotCommand(command="setlanguage", description=_("Поменять язык")),
         BotCommand(command="others", description=_("Дополнительное меню")),
