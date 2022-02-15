@@ -1,12 +1,13 @@
 import asyncio
 import logging
+import warnings
 
 import tzlocal
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage
-from apscheduler.jobstores.redis import RedisJobStore
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from pytz_deprecation_shim import PytzUsageWarning
 
 from tgbot.config import load_config
 from tgbot.filters.admin import AdminFilter
@@ -35,7 +36,9 @@ from tgbot.middlewares.db import DbSessionMiddleware
 from tgbot.middlewares.lang_middleware import i18n
 from tgbot.middlewares.scheduler import SchedulerMiddleware
 from tgbot.misc.notify_admins import on_startup_notify
+from tgbot.misc.start_scheduling import add_all_jobs
 from tgbot.services.database import create_db_session
+from tgbot.services.db_commands import DBCommands
 
 logger = logging.getLogger(__name__)
 
@@ -90,21 +93,21 @@ async def main():
 
     bot = Bot(token=config.tg_bot.token, parse_mode='HTML')
     dp = Dispatcher(bot, storage=storage)
+    sessionmaker = await create_db_session(config)
 
-    job_stores = {
-        "default": RedisJobStore(
-            jobs_key="dispatched_trips_jobs", run_times_key="dispatched_trips_running",
-            host="localhost", port=6379
-        )
-    }
-
-    scheduler = AsyncIOScheduler(jobstore=job_stores, timezone=str(tzlocal.get_localzone()))
+    warnings.filterwarnings(action="ignore", category=PytzUsageWarning)
+    scheduler = AsyncIOScheduler(timezone=str(tzlocal.get_localzone()))
 
     bot['config'] = config
 
+    async with sessionmaker() as session:
+        db_commands = DBCommands(session)
+        user_ids = await db_commands.get_all_users_with_date()
+        add_all_jobs(user_ids, bot, db_commands, scheduler)
+
     await on_startup_notify(bot)
 
-    register_all_middlewares(dp, scheduler, await create_db_session(config))
+    register_all_middlewares(dp, scheduler, sessionmaker)
     register_all_filters(dp)
     register_all_handlers(dp)
 

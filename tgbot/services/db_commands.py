@@ -104,6 +104,17 @@ class DBCommands:
         scalars = result.scalars().unique().all()
         return scalars
 
+    async def get_all_users_with_date(self):
+        sql = select(User.user_id).where(
+            and_(
+                User.user_bd.is_not(None),
+                User.active == True
+            )
+        ).select_from(User)
+        result = await self.session.execute(sql)
+        scalars = result.scalars().unique().all()
+        return scalars
+
     async def get_all_ratings(self):
         sql = select(User.rating).where(User.rating.is_not(None))
         result = await self.session.execute(sql)

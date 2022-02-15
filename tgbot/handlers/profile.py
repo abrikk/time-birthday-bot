@@ -67,7 +67,7 @@ async def setting_profile_date(message: types.Message, state: FSMContext, db_com
         trigger = CronTrigger(hour=12, minute=30, jitter=10800)
         # trigger_3 = CronTrigger(hour=14, minute=23, second=55)
         # trigger_2 = IntervalTrigger(seconds=10)
-        scheduler.add_job(user_turned_day, trigger, next_run_time=datetime.now(),
+        scheduler.add_job(user_turned_day, trigger,
                           id=str(message.from_user.id), replace_existing=True,
                           args=(message, db_commands))
 
@@ -76,9 +76,8 @@ async def setting_profile_date(message: types.Message, state: FSMContext, db_com
 
 
 async def unnnec_func(message: types.Message, scheduler, db_commands):
-    await message.answer("Started scheduling")
-    trigger_2 = CronTrigger(hour=16, minute=28)
-    smth = scheduler.add_job(user_turned_day, trigger_2, next_run_time=datetime.now(),
+    trigger = CronTrigger(hour=12, minute=30, jitter=10800)
+    scheduler.add_job(user_turned_day, trigger, next_run_time=datetime.now(),
                              id=str(message.from_user.id), args=(message, db_commands),
                              replace_existing=True)
 
