@@ -5,8 +5,7 @@ from dateutil import relativedelta
 today = date.today()
 
 
-async def birthday_btn(user_id: int, db_commands) -> tuple:
-    user = await db_commands.get_user(user_id=user_id)
+async def birthday_btn(user) -> tuple:
     if user.user_bd:
         user_bd = user.user_bd
         user_bd_today = today.replace(month=user_bd.month, day=user_bd.day)

@@ -1,3 +1,5 @@
+from datetime import date
+
 from aiogram import types, Dispatcher
 from aiogram.dispatcher.filters import Text
 
@@ -8,7 +10,12 @@ from tgbot.middlewares.lang_middleware import _, __
 
 
 async def all_queries(query: types.InlineQuery, db_commands):
-    days_left, age = await birthday_btn(query.from_user.id, db_commands)
+    user = await db_commands.get_user(user_id=query.from_user.id)
+    days_left, age = await birthday_btn(user)
+    if user.user_bd == date.today():
+        inline_message_text = _("Я сегодня родился!!! 🥳🥳")
+    else:
+        inline_message_text = await until_bd(days_left, age, "inline_text")
     await query.answer(
         results=[
             types.InlineQueryResultArticle(
@@ -25,9 +32,9 @@ async def all_queries(query: types.InlineQuery, db_commands):
                 title=await until_bd(days_left, age, where="title"),
                 description=_("Нажмите чтобы отправить сколько дней осталось до вашего дня рождения в текущий чат."),
                 input_message_content=types.InputTextMessageContent(
-                    message_text=await until_bd(days_left, age, where="inline_text")
+                    message_text=inline_message_text
                 ),
-                reply_markup=switch_to_bot() if days_left != 0 else switch_or_gratz()
+                reply_markup=switch_to_bot() if days_left != 0 else switch_or_gratz(query.from_user.id)
             )
         ],
         cache_time=5,
@@ -53,7 +60,12 @@ async def newyear_query(query: types.InlineQuery):
 
 
 async def bd_query(query: types.InlineQuery, db_commands):
-    days_left, age = await birthday_btn(query.from_user.id, db_commands)
+    user = await db_commands.get_user(user_id=query.from_user.id)
+    days_left, age = await birthday_btn(user)
+    if user.user_bd == date.today():
+        inline_message_text = _("Я сегодня родился!!! 🥳🥳")
+    else:
+        inline_message_text = await until_bd(days_left, age, "inline_text")
     await query.answer(
         results=[
             types.InlineQueryResultArticle(
@@ -61,9 +73,9 @@ async def bd_query(query: types.InlineQuery, db_commands):
                 title=await until_bd(days_left, age, where="title"),
                 description=_("Нажмите чтобы отправить сколько дней осталось до вашего дня рождения в текущий чат."),
                 input_message_content=types.InputTextMessageContent(
-                    message_text=await until_bd(days_left, age, where="inline_text")
+                    message_text=inline_message_text
                 ),
-                reply_markup=switch_to_bot() if days_left != 0 else switch_or_gratz()
+                reply_markup=switch_to_bot() if days_left != 0 else switch_or_gratz(query.from_user.id)
             )
         ],
         cache_time=5,

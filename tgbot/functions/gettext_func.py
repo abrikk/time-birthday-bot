@@ -9,7 +9,7 @@ from aiogram.utils.markdown import hcode, quote_html, hbold, hlink
 from dateutil import relativedelta
 from dateutil.parser import parse
 
-from tgbot.functions.case_conjugation_func import day_conjugation, year_conjuction, left_conjunction
+from tgbot.functions.case_conjugation_func import day_conjugation, year_conjuction, left_conjunction, month_conjuction
 from tgbot.functions.newyear_func import newyear_time
 from tgbot.middlewares.lang_middleware import _
 
@@ -20,20 +20,33 @@ def get_profile_text(user) -> str:
     age = relativedelta.relativedelta(today, user_date)
     sex = _("Мужской") if user.sex == "1" else _("Женский")
 
+    text = []
+    if age.years != 0:
+        text.append(f"{age.years} {year_conjuction(age.years, 'word_year')}")
+    if age.months != 0:
+        text.append(f"{age.months} {month_conjuction(age.months, 'word_month')}")
+    if age.days != 0:
+        text.append(f"{age.days} {day_conjugation(age.days, 'word_day')}")
+
+    print(text)
+    print(len(text))
+    if len(text) != 0:
+        age_text = ", ".join(text)
+    else:
+        age_text = _("Я родился! 👼")
+
     profile_text = _("Ваш профиль ⚜️\n\n"
                      "ID: {user_id}\n"
                      "Имя: {name}\n"
                      "Дата рождения: {user_date}\n"
                      "Ваш пол: {sex}\n"
-                     "Ваш возраст: {years} лет {months} месяцев {days} дней")
+                     "Ваш возраст: {age_text}")
 
     text = profile_text.format(user_id=hcode(user.user_id),
                                name=hbold(quote_html(user.first_name)),
                                user_date=user.user_bd,
                                sex=sex,
-                               years=hbold(age.years),
-                               months=hbold(age.months),
-                               days=hbold(age.days))
+                               age_text=age_text)
 
     return text
 
@@ -172,12 +185,12 @@ async def get_botinfo_text(call: Union[types.Message, types.CallbackQuery], db_c
              "• Выпущено 9 Января 2022 года\n"
              "• Создано 25 Декабря 2021 года\n\n"
              "👨‍💻 Разработчик @JustAbrik").format(bot=hlink(_('боте'),
-                                                  url=f't.me/{bot_user.username}'),
-                                                  version=hcode(bot_version),
-                                                  rate=average_rate,
-                                                  num_reviews=len(ratings),
-                                                  lang=bot_info.languages - 1,
-                                                  updated=updated)
+                                                              url=f't.me/{bot_user.username}'),
+                                                    version=hcode(bot_version),
+                                                    rate=average_rate,
+                                                    num_reviews=len(ratings),
+                                                    lang=bot_info.languages - 1,
+                                                    updated=updated)
 
     return text
 
@@ -195,6 +208,10 @@ async def until_bd(days_left: int, age: int, where: str, message: types.Message 
             await message.answer("🎊")
             text = (_("Ура! У Вас сегодня день рождение.\n"
                       "Вам исполнилось {age} {year} 🥳").format(age=age, year=turned_year))
+        return text
+    elif where == "btn_born_today":
+        await message.answer("🎊")
+        text = (_("Ух ты! Сегодня Вы впервые появились на свет! 👶🥳"))
         return text
     elif where == "cmnd":
         if days_left != 0:
@@ -294,8 +311,5 @@ async def get_user_turned_day_text(user_id: int, db_commands) -> str:
     text = _("Сегодня Вам исполнилось: \n\n"
              "{days} дней\n"
              "или\n"
-             "{hours} часов").format(days=days, hours=days*24)
+             "{hours} часов").format(days=days, hours=days * 24)
     return text
-
-
-
