@@ -331,7 +331,6 @@ def profile_back_manual():
     return markup
 
 
-
 rate_data = CallbackData("rating", "rate")
 
 

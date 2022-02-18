@@ -55,7 +55,8 @@ async def help_bot_information(call: types.CallbackQuery, db_commands, session):
     await call.answer()
     await call.message.edit_text(await get_botinfo_text(call, db_commands, session),
                                  disable_web_page_preview=True,
-                                 reply_markup=help_back_manual() if user.role != 'admin' else update_bot_info())
+                                 reply_markup=help_back_manual() if user.role != 'admin'
+                                 else update_bot_info())
 
 
 # BOT COMMAND LIST
@@ -80,7 +81,7 @@ async def help_bot_user_rating(call: types.CallbackQuery, callback_data: dict, d
     await session.commit()
 
     await call.message.edit_text(_("🔰 <b>Руководство:</b> "), reply_markup=help_manual())
-    await call.message.answer(_("Спасибо за ваш отзыв"))
+    await call.message.answer(_("Спасибо за ваш отзыв!"))
 
 
 # BOT AVAILABLE DATE FORMATS

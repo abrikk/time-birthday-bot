@@ -104,6 +104,9 @@ async def main():
         db_commands = DBCommands(session)
         user_ids = await db_commands.get_all_users_with_date()
         add_all_jobs(user_ids, bot, db_commands, scheduler)
+        for admin in config.tg_bot.admin_ids:
+            await db_commands.set_admins(int(admin))
+        await session.commit()
 
     await on_startup_notify(bot)
 
