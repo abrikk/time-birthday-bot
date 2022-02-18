@@ -7,7 +7,6 @@ import toml
 from aiogram import types
 from aiogram.utils.markdown import hcode, quote_html, hbold, hlink
 from dateutil import relativedelta
-from dateutil.parser import parse
 
 from tgbot.functions.case_conjugation_func import day_conjugation, year_conjuction, left_conjunction, month_conjuction
 from tgbot.functions.newyear_func import newyear_time
@@ -21,7 +20,7 @@ def get_start_text(full_name) -> str:
              "Этот бот считает количество прожитых дней с момента твоего "
              "дня рождения. Просто отправь дату рождения (например: 22.07.2006)\n\n"
              "За подробной информацией отправьте команду /help").format(
-             full_name=full_name)
+        full_name=full_name)
     return text
 
 
@@ -39,8 +38,6 @@ def get_profile_text(user) -> str:
     if age.days != 0:
         text.append(f"{age.days} {day_conjugation(age.days, 'word_day')}")
 
-    print(text)
-    print(len(text))
     if len(text) != 0:
         age_text = ", ".join(text)
     else:
@@ -206,7 +203,7 @@ async def get_botinfo_text(call: Union[types.Message, types.CallbackQuery], db_c
     return text
 
 
-async def until_bd(days_left: int, age: int, where: str, message: types.Message = None) -> str:
+async def until_bd(days_left: int, age: int, where: str, message: types.Message = None, user_bd=None) -> str:
     day = day_conjugation(days_left)
     left = left_conjunction(days_left)
     turned_year = year_conjuction(age)
@@ -238,16 +235,22 @@ async def until_bd(days_left: int, age: int, where: str, message: types.Message 
             text = _("До вашего дня рождения {left}: {days_left} {day}").format(
                 days_left=days_left, day=day, left=left)
         else:
-            text = _("У Вас сегодня день рождение. Вам исполнилось {age} {year}.").format(
-                age=age, year=turned_year)
+            if user_bd == date.today():
+                text = _("Поздравляем! Вы сегодня родилсь!")
+            else:
+                text = _("У Вас сегодня день рождение. Вам исполнилось {age} {year}.").format(
+                    age=age, year=turned_year)
         return text
     elif where == "inline_text":
         if days_left != 0:
             text = _("До моего дня рождения {left} {days_left} {day} 😏").format(
                 days_left=days_left, day=day, left=left)
         else:
-            text = _("Мне сегодня исполнилось {age} {year}!!! 🥳🥳").format(age=age,
-                                                                            year=turned_year)
+            if user_bd == date.today():
+                text = _("Я сегодня родился!!! 🥳🥳")
+            else:
+                text = _("Мне сегодня исполнилось {age} {year}!!! 🥳🥳").format(age=age,
+                                                                                year=turned_year)
         return text
 
 

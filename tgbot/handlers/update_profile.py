@@ -1,3 +1,4 @@
+from datetime import date
 from typing import Union
 
 from aiogram import types, Dispatcher
@@ -7,6 +8,7 @@ from dateutil.parser import parse, ParserError
 
 from tgbot.keyboards.reply import main_keyb, upd_profile, cancel_keyb, choosing_sex, sex_data
 from tgbot.middlewares.lang_middleware import _
+from tgbot.misc.all_errors import InvalidBirthDateError
 
 
 async def edit_name(call: Union[types.CallbackQuery, types.Message], state: FSMContext):
@@ -41,15 +43,18 @@ async def edit_date(call: Union[types.CallbackQuery, types.Message], state: FSMC
 async def editing_date(message: types.Message, state: FSMContext, session, db_commands):
     new_date = message.text
     try:
-        new_date_parsed = parse(new_date, dayfirst=True)
-
-        await db_commands.update_user_date(user_id=message.from_user.id, date=new_date_parsed)
-        await session.commit()
-        await message.answer(_("Успешно! Дата обновлена."), reply_markup=main_keyb())
-        await state.reset_state()
-
+        new_date_parsed = parse(new_date, dayfirst=True).date()
+        if new_date_parsed <= date.today():
+            await db_commands.update_user_date(user_id=message.from_user.id, date=new_date_parsed)
+            await session.commit()
+            await message.answer(_("Успешно! Дата обновлена."), reply_markup=main_keyb())
+            await state.reset_state()
+        else:
+            raise InvalidBirthDateError
     except ParserError:
         await message.answer(_("Введите корректно вашу дату рождения."))
+    except InvalidBirthDateError:
+        await message.answer(_("Дата рождения должна быть меньше или равна текущей дате."))
 
 
 async def edit_sex(call: Union[types.CallbackQuery, types.Message]):

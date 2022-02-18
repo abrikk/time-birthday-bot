@@ -31,7 +31,7 @@ async def my_bd_command(message: types.Message, state: FSMContext):
 async def my_bd_command_state(message: types.Message, state: FSMContext):
     birthdate = message.text
     try:
-        parsed_dt = parse(birthdate, dayfirst=True)
+        parsed_dt = parse(birthdate, dayfirst=True).date()
         days_left, age = birthday_cmnd(parsed_dt)
         await message.answer(await until_bd(days_left, age, "cmnd", message),
                              reply_markup=share_message("my birthday"))
@@ -43,25 +43,26 @@ async def my_bd_command_state(message: types.Message, state: FSMContext):
 
 async def my_bd_button(message: types.Message, state: FSMContext, db_commands):
     user = await db_commands.get_user(user_id=message.from_user.id)
-    days_left, age = await birthday_btn(user)
-    if days_left is None:
+    if user.user_bd is None:
         await message.answer(_("Хорошо. Теперь отправьте свою дату рождения.\n\n"
                                "Важно! Отправьте Вашу настоящую дату, чтобы не вводить пользователей в заблуждение."),
                              reply_markup=back_keyb())
         await state.set_state("bd_button")
-    elif user.user_bd == date.today():
-        await message.answer(await until_bd(days_left, age, "btn_born_today", message),
-                             reply_markup=share_message("my birthday"))
     else:
-        await message.answer(await until_bd(days_left, age, "btn", message),
-                             reply_markup=share_message("my birthday"))
+        days_left, age = await birthday_btn(user)
+        if user.user_bd == date.today():
+            await message.answer(await until_bd(days_left, age, "btn_born_today", message),
+                                 reply_markup=share_message("my birthday"))
+        else:
+            await message.answer(await until_bd(days_left, age, "btn", message),
+                                 reply_markup=share_message("my birthday"))
 
 
 async def my_bd_date(message: types.Message, state: FSMContext, db_commands, session):
     user_date = message.text
     try:
         user = await db_commands.get_user(user_id=message.from_user.id)
-        user_date_parse = parse(user_date, dayfirst=True)
+        user_date_parse = parse(user_date, dayfirst=True).date()
         await db_commands.update_user_date(message.from_user.id, user_date_parse)
         await session.commit()
         days_left, age = await birthday_btn(user)
