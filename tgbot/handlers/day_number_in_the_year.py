@@ -27,11 +27,10 @@ async def dy_chossing(message: types.Message, state: FSMContext):
 async def entering_date_dy(message: types.Message, state: FSMContext):
     date_text = message.text
     try:
-        parsed_date = parse(date_text, dayfirst=True)
-        date_only = date(parsed_date.year, parsed_date.month, parsed_date.day)
+        parsed_date = parse(date_text, dayfirst=True).date()
         yearday = parsed_date.timetuple().tm_yday
         await message.answer(_("{date_only} - это {yearday} день года. 🙇‍♂").format(
-            date_only=hitalic(date_only), yearday=yearday))
+            date_only=hitalic(parsed_date), yearday=yearday))
         await state.reset_state()
     except ParserError:
         await message.answer(_("Вы некорректно ввели дату. Попробуйте еще раз"))
