@@ -14,6 +14,17 @@ from tgbot.functions.newyear_func import newyear_time
 from tgbot.middlewares.lang_middleware import _
 
 
+# START TEXT
+
+def get_start_text(full_name) -> str:
+    text = _("Привет, {full_name}!\n\n"
+             "Этот бот считает количество прожитых дней с момента твоего "
+             "дня рождения. Просто отправь дату рождения (например: 22.07.2006)\n\n"
+             "За подробной информацией отправьте команду /help").format(
+             full_name=full_name)
+    return text
+
+
 def get_profile_text(user) -> str:
     user_date = user.user_bd
     today = date.today()

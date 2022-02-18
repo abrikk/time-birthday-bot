@@ -162,16 +162,6 @@ class DBCommands:
         result = await self.session.execute(sql)
         return result
 
-    async def update_botinfo_version(self, username, version):
-        sql = update(AboutBot).where(AboutBot.username == username).values(version=version)
-        result = await self.session.execute(sql)
-        return result
-
-    async def update_botinfo_lang(self, username, lang):
-        sql = update(AboutBot).where(AboutBot.username == username).values(languages=lang)
-        result = await self.session.execute(sql)
-        return result
-
     # BDStat commands
 
     async def get_user_gratz(self, bd_user_id: int, congo_id: int):

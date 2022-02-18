@@ -3,6 +3,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import CommandStart
 from aiogram.utils.markdown import hcode
 
+from tgbot.functions.gettext_func import get_start_text
 from tgbot.keyboards.reply import lang_cb, main_keyb, lang_keyb
 from tgbot.middlewares.lang_middleware import _, i18n
 from tgbot.misc.set_bot_commands import set_default_commands
@@ -26,8 +27,6 @@ async def bot_start(message: types.Message, state: FSMContext, session, db_comma
                                    lang_code=message.from_user.language_code,
                                    role='user'
                                    )
-        for admin in config.tg_bot.admin_ids:
-            await db_commands.set_admins(int(admin))
 
         await session.commit()
 
@@ -35,11 +34,7 @@ async def bot_start(message: types.Message, state: FSMContext, session, db_comma
         await state.set_state("choosing_lang_start")
 
     else:
-        await message.answer(_("Привет, {full_name}!\n\n"
-                               "Этот бот считает количество прожитых дней с момента твоего "
-                               "дня рождения. Просто отправь дату рождения (например: 22.07.2006)\n\n"
-                               "За подробной информацией отправьте команду /help").format(
-            full_name=message.from_user.full_name))
+        await message.answer(get_start_text(message.from_user.full_name))
 
 
 async def choosing_language_start(call: types.CallbackQuery, state: FSMContext, callback_data: dict, db_commands,
@@ -48,11 +43,7 @@ async def choosing_language_start(call: types.CallbackQuery, state: FSMContext, 
     i18n.ctx_locale.set(lang)
     await call.answer(text=_("🇷🇺 Вы выбрали русский язык").format(lang=lang))
     await call.message.delete()
-    await call.message.answer(_("Привет, {full_name}!\n\n"
-                                "Этот бот считает количество прожитых дней с момента твоего "
-                                "дня рождения. Просто отправь дату рождения (например: 22.07.2006)\n\n"
-                                "За подробной информацией отправьте команду /help").format
-                              (full_name=call.from_user.full_name), reply_markup=main_keyb())
+    await call.message.answer(get_start_text(call.from_user.full_name), reply_markup=main_keyb())
     await set_default_commands(call.bot)
 
     await db_commands.update_language(user_id=call.from_user.id, lang=lang)
