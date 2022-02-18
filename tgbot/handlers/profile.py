@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
@@ -11,6 +11,7 @@ from tgbot.functions.gettext_func import get_profile_text, get_profile_stat_text
 from tgbot.keyboards.reply import cancel_keyb, update_profile, main_keyb, choosing_sex, sex_data, \
     upd_profile, profile_back_manual
 from tgbot.middlewares.lang_middleware import _, __
+from tgbot.misc.all_errors import InvalidBirthDateError
 
 
 async def my_profile(message: types.Message, state: FSMContext, db_commands):
@@ -51,22 +52,27 @@ async def setting_profile_date(message: types.Message, state: FSMContext, db_com
     user_date = message.text
     try:
         user_date_parse = parse(user_date, dayfirst=True).date()
-        await db_commands.update_user_date(message.from_user.id, user_date_parse)
-        await session.commit()
-        user = await db_commands.get_user(user_id=message.from_user.id)
+        if user_date_parse <= date.today():
+            await db_commands.update_user_date(message.from_user.id, user_date_parse)
+            await session.commit()
+            user = await db_commands.get_user(user_id=message.from_user.id)
 
-        await message.answer(_("Готово!"), reply_markup=main_keyb())
-        await message.answer(get_profile_text(user), reply_markup=update_profile())
-        await state.reset_state()
-        trigger = CronTrigger(hour=12, minute=30, jitter=10800)
-        # trigger_3 = CronTrigger(hour=14, minute=23, second=55)
-        # trigger_2 = IntervalTrigger(seconds=10)
-        scheduler.add_job(user_turned_day, trigger,
-                          id=str(message.from_user.id), replace_existing=True,
-                          args=(message, db_commands))
+            await message.answer(_("Готово!"), reply_markup=main_keyb())
+            await message.answer(get_profile_text(user), reply_markup=update_profile())
+            await state.reset_state()
+            trigger = CronTrigger(hour=12, minute=30, jitter=10800)
+            # trigger_3 = CronTrigger(hour=14, minute=23, second=55)
+            # trigger_2 = IntervalTrigger(seconds=10)
+            scheduler.add_job(user_turned_day, trigger,
+                              id=str(message.from_user.id), replace_existing=True,
+                              args=(message, db_commands))
+        else:
+            raise InvalidBirthDateError
 
     except ParserError:
         await message.answer(_("Введите корректно вашу дату рождения."))
+    except InvalidBirthDateError:
+        await message.answer(_("Дата рождения должна быть меньше или равна текущей дате."))
 
 
 async def user_turned_day(message: types.Message, db_commands):

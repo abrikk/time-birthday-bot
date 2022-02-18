@@ -12,10 +12,6 @@ from tgbot.middlewares.lang_middleware import _, __
 async def all_queries(query: types.InlineQuery, db_commands):
     user = await db_commands.get_user(user_id=query.from_user.id)
     days_left, age = await birthday_btn(user)
-    if user.user_bd == date.today():
-        inline_message_text = _("Я сегодня родился!!! 🥳🥳")
-    else:
-        inline_message_text = await until_bd(days_left, age, "inline_text")
     await query.answer(
         results=[
             types.InlineQueryResultArticle(
@@ -29,10 +25,10 @@ async def all_queries(query: types.InlineQuery, db_commands):
             ),
             types.InlineQueryResultArticle(
                 id="share",
-                title=await until_bd(days_left, age, where="title"),
+                title=await until_bd(days_left, age, where="title", user_bd=user.user_bd),
                 description=_("Нажмите чтобы отправить сколько дней осталось до вашего дня рождения в текущий чат."),
                 input_message_content=types.InputTextMessageContent(
-                    message_text=inline_message_text
+                    message_text=await until_bd(days_left, age, "inline_text", user_bd=user.user_bd)
                 ),
                 reply_markup=switch_to_bot() if days_left != 0 else switch_or_gratz(query.from_user.id)
             )
@@ -62,18 +58,15 @@ async def newyear_query(query: types.InlineQuery):
 async def bd_query(query: types.InlineQuery, db_commands):
     user = await db_commands.get_user(user_id=query.from_user.id)
     days_left, age = await birthday_btn(user)
-    if user.user_bd == date.today():
-        inline_message_text = _("Я сегодня родился!!! 🥳🥳")
-    else:
-        inline_message_text = await until_bd(days_left, age, "inline_text")
+
     await query.answer(
         results=[
             types.InlineQueryResultArticle(
                 id="share",
-                title=await until_bd(days_left, age, where="title"),
+                title=await until_bd(days_left, age, where="title", user_bd=user.user_bd),
                 description=_("Нажмите чтобы отправить сколько дней осталось до вашего дня рождения в текущий чат."),
                 input_message_content=types.InputTextMessageContent(
-                    message_text=inline_message_text
+                    message_text=await until_bd(days_left, age, "inline_text", user_bd=user.user_bd)
                 ),
                 reply_markup=switch_to_bot() if days_left != 0 else switch_or_gratz(query.from_user.id)
             )

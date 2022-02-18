@@ -92,7 +92,6 @@ async def congratz_user(call: types.CallbackQuery, callback_data: dict, db_comma
 
 async def gratzing_user(call: types.CallbackQuery, callback_data: dict, db_commands, session):
     congratulator = call.from_user
-    print(callback_data)
     bd_user_id = int(callback_data.get("birthday_man_id"))
     if bd_user_id == congratulator.id:
         await call.answer(cache_time=86400)
