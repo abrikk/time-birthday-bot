@@ -82,28 +82,42 @@ upd_profile = CallbackData("update", "profile")
 
 
 def update_profile():
-    markup = InlineKeyboardMarkup()
+    markup = InlineKeyboardMarkup(row_width=2)
+    buttons = {
+        _("Изменить Имя"): "name",
+        _("Изменить дату"): "bd",
+        _("Изменить Пол"): "sex",
+        _("Статистика"): "statistics",
+        # _("Настройки"): "sett"
+    }
 
-    markup.add(
-        InlineKeyboardButton(
-            text=_("Изменить Имя"),
-            callback_data=upd_profile.new(profile="name")
-        ),
-        InlineKeyboardButton(
-            text=_("Изменить дату"),
-            callback_data=upd_profile.new(profile="bd")
+    for text, data in buttons.items():
+        markup.insert(
+            InlineKeyboardButton(
+                text=text,
+                callback_data=upd_profile.new(profile=data)
+            )
         )
-    )
-    markup.add(
-        InlineKeyboardButton(
-            text=_("Изменить Пол"),
-            callback_data=upd_profile.new(profile="sex")
-        ),
-        InlineKeyboardButton(
-            text=_("Статистика"),
-            callback_data=upd_profile.new(profile="statistics")
-        )
-    )
+    # markup.add(
+    #     InlineKeyboardButton(
+    #         text=,
+    #         callback_data=upd_profile.new(profile="name")
+    #     ),
+    #     InlineKeyboardButton(
+    #         text=_("Изменить дату"),
+    #         callback_data=upd_profile.new(profile="bd")
+    #     )
+    # )
+    # markup.add(
+    #     InlineKeyboardButton(
+    #         text=,
+    #         callback_data=upd_profile.new(profile="sex")
+    #     ),
+    #     InlineKeyboardButton(
+    #         text=,
+    #         callback_data=upd_profile.new(profile="statistics")
+    #     )
+    # )
 
     return markup
 
@@ -155,6 +169,7 @@ def switch_to_bot():
 
 
 switch_or_gratz_cb = CallbackData("gratz", "birthday_man_id")
+
 
 def switch_or_gratz(user_bday: int):
     markup = InlineKeyboardMarkup()
@@ -305,9 +320,16 @@ def help_ability(max_pages: int, page: int = 1):
     return markup
 
 
-def help_back_manual():
+def help_back_manual(where: str = None, is_day_first: bool = None):
     markup = InlineKeyboardMarkup()
+    if where == "avl_formats":
 
+        markup.add(
+            InlineKeyboardButton(
+                text=_("День первый: {yes_or_no}").format(yes_or_no=_("Да") if is_day_first else "Нет"),
+                callback_data="change_day_first"
+            )
+        )
     markup.add(
         InlineKeyboardButton(
             text=_("Назад"),

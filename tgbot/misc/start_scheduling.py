@@ -9,7 +9,7 @@ async def add_all_users_job(chat_id, bot: Bot, db_commands):
 
 
 def add_all_jobs(user_ids: list, bot, db_commands, scheduler):
-    trigger = CronTrigger(hour=12, minute=30, jitter=10800)
+    trigger = CronTrigger(hour=13, minute=30, jitter=10800)
     # trigger = IntervalTrigger(seconds=5)
     for user_id in user_ids:
         scheduler.add_job(add_all_users_job, trigger,

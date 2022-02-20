@@ -115,6 +115,17 @@ class DBCommands:
         scalars = result.scalars().unique().all()
         return scalars
 
+    async def get_user_is_day_first(self, user_id):
+        sql = select(User.day_first).where(User.user_id == user_id)
+        request = await self.session.execute(sql)
+        user = request.scalar()
+        return user
+
+    async def change_user_is_day_first(self, user_id, true_or_false: bool):
+        sql = update(User).where(User.user_id == user_id).values(day_first = true_or_false)
+        result = await self.session.execute(sql)
+        return result
+
     async def get_all_ratings(self):
         sql = select(User.rating).where(User.rating.is_not(None))
         result = await self.session.execute(sql)
