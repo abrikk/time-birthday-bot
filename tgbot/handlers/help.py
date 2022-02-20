@@ -1,7 +1,7 @@
 from aiogram import types, Dispatcher
 from aiogram.dispatcher.filters import CommandHelp, Text
 
-from tgbot.functions.gettext_func import get_help_text, get_botinfo_text, get_echo_text, get_awailable_formats_text
+from tgbot.functions.gettext_func import get_help_text, get_botinfo_text, get_echo_text, get_available_formats_text
 from tgbot.handlers.whose_birthday_is_today import get_page
 from tgbot.keyboards.reply import help_manual, manual_data, help_ability, ability_data, \
     help_back_manual, help_rate, rate_data, update_bot_info
@@ -86,9 +86,24 @@ async def help_bot_user_rating(call: types.CallbackQuery, callback_data: dict, d
 
 # BOT AVAILABLE DATE FORMATS
 
-async def help_bot_formats(call: types.CallbackQuery):
+async def help_bot_formats(call: types.CallbackQuery, db_commands):
     await call.answer()
-    await call.message.edit_text(get_awailable_formats_text(), reply_markup=help_back_manual())
+    is_day_first: bool = await db_commands.get_user_is_day_first(call.from_user.id)
+    await call.message.edit_text(get_available_formats_text(is_day_first),
+                                 reply_markup=help_back_manual(where="avl_formats",
+                                                               is_day_first=is_day_first))
+
+
+async def change_day_first(call: types.CallbackQuery, db_commands, session):
+    await call.answer()
+    is_day_first: bool = await db_commands.get_user_is_day_first(call.from_user.id)
+    true_or_false = False if is_day_first else True
+    await db_commands.change_user_is_day_first(call.from_user.id, true_or_false)
+    await session.commit()
+    print(true_or_false)
+    await call.message.edit_text(get_available_formats_text(is_day_first),
+                                 reply_markup=help_back_manual(where="avl_formats",
+                                                               is_day_first=true_or_false))
 
 
 def register_help(dp: Dispatcher):
@@ -103,3 +118,4 @@ def register_help(dp: Dispatcher):
     dp.register_callback_query_handler(help_current_page_ability_btn, ability_data.filter(action="current_page"))
     dp.register_callback_query_handler(help_bot_ability_show_chosen_page, ability_data.filter())
     dp.register_callback_query_handler(help_bot_user_rating, rate_data.filter())
+    dp.register_callback_query_handler(change_day_first, Text(contains="change_day_first"))

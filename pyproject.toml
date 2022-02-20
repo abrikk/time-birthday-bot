@@ -1,4 +1,4 @@
 [tool.poetry]
-VERSION = '0.3.6'
+VERSION = '0.4.0'
 CREATED_ON = 2021-12-25
 RELEASED_ON = 2022-01-09

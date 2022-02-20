@@ -7,10 +7,12 @@ from tgbot.functions.gettext_func import get_echo_text, get_weekday_name
 from tgbot.middlewares.lang_middleware import _
 
 
-async def count_life(message: types.Message):
+async def count_life(message: types.Message, db_commands):
     user_date = message.text
     try:
-        parsed_date = parse(user_date, dayfirst=True).date()
+        is_day_first: bool = await db_commands.get_user_is_day_first(message.from_user.id)
+        parsed_date = parse(user_date, dayfirst=is_day_first).date()
+        await message.answer(str(parsed_date))
         today = date.today()
         if today > parsed_date:
             days = today - parsed_date
