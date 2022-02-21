@@ -91,13 +91,13 @@ avl_date_orders = ["DMY", "MDY", "YMD"]
 
 async def help_bot_formats(call: types.CallbackQuery, db_commands):
     await call.answer()
-    date_order: str = await db_commands.get_prefered_date_order(call.from_user.id)
+    date_order: str = await db_commands.get_preferred_date_order(call.from_user.id)
     date_order_index = avl_date_orders.index(date_order)
     print(date_order_index)
     date_order_name = get_date_order_text(date_order)
     await call.message.edit_text(get_available_formats_text(),
                                  reply_markup=help_back_manual(where="avl_formats",
-                                 prefered_date_order=date_order_name, page=date_order_index+1))
+                                 preferred_date_order=date_order_name, page=date_order_index+1))
 
 
 async def change_date_order(call: types.CallbackQuery, db_commands, session, callback_data):
@@ -108,10 +108,10 @@ async def change_date_order(call: types.CallbackQuery, db_commands, session, cal
     else:
         page = current_order+1
     page_index = get_page(avl_date_orders, page=page)
-    await db_commands.update_user_date_order(call.from_user.id, page_index)
+    await db_commands.update_preferred_date_order(call.from_user.id, page_index)
     await session.commit()
     date_order_name = get_date_order_text(page_index)
-    markup = help_back_manual(where="avl_formats", prefered_date_order=date_order_name,
+    markup = help_back_manual(where="avl_formats", preferred_date_order=date_order_name,
                               page=page)
     await call.message.edit_text(get_available_formats_text(),
                                  reply_markup=markup)

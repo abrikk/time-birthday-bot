@@ -70,13 +70,13 @@ class DBCommands:
         result = await self.session.execute(sql)
         return result
 
-    async def update_prefered_date_order(self, user_id, date_order):
-        sql = update(User).where(User.user_id == user_id).values(prefered_date_order=date_order)
+    async def update_preferred_date_order(self, user_id, date_order):
+        sql = update(User).where(User.user_id == user_id).values(preferred_date_order=date_order)
         result = await self.session.execute(sql)
         return result
 
-    async def get_prefered_date_order(self, user_id):
-        sql = select(User.prefered_date_order).where(User.user_id == user_id)
+    async def get_preferred_date_order(self, user_id):
+        sql = select(User.preferred_date_order).where(User.user_id == user_id)
         request = await self.session.execute(sql)
         user = request.scalar()
         return user
@@ -138,10 +138,7 @@ class DBCommands:
     #     user = request.scalar()
     #     return user
 
-    async def update_user_date_order(self, user_id, date_order: bool):
-        sql = update(User).where(User.user_id == user_id).values(prefered_date_order=date_order)
-        result = await self.session.execute(sql)
-        return result
+
 
     async def get_all_ratings(self):
         sql = select(User.rating).where(User.rating.is_not(None))
