@@ -4,6 +4,7 @@ from aiogram.dispatcher.filters import CommandStart
 from aiogram.utils.markdown import hcode
 
 from tgbot.functions.gettext_func import get_start_text
+from tgbot.functions.minor_functions import get_date_order
 from tgbot.keyboards.reply import lang_cb, main_keyb, lang_keyb
 from tgbot.middlewares.lang_middleware import _, i18n
 from tgbot.misc.set_bot_commands import set_default_commands
@@ -48,6 +49,7 @@ async def choosing_language_start(call: types.CallbackQuery, state: FSMContext, 
     await call.message.answer(get_start_text(call.from_user.full_name), reply_markup=main_keyb())
     await set_default_commands(call.bot)
 
+    await db_commands.update_prefered_date_order(call.from_user.id, get_date_order(lang))
     await db_commands.update_language(user_id=call.from_user.id, lang=lang)
     await session.commit()
 

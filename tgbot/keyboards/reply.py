@@ -320,14 +320,17 @@ def help_ability(max_pages: int, page: int = 1):
     return markup
 
 
-def help_back_manual(where: str = None, is_day_first: bool = None):
+date_order_cb = CallbackData("prefered_date_order", "order")
+
+
+def help_back_manual(where: str = None, prefered_date_order: str = None,
+                     page: int = 1):
     markup = InlineKeyboardMarkup()
     if where == "avl_formats":
-
         markup.add(
             InlineKeyboardButton(
-                text=_("День первый: {yes_or_no}").format(yes_or_no=_("Да") if is_day_first else "Нет"),
-                callback_data="change_day_first"
+                text=_("Предпочитаемый формат: {date_order}").format(date_order=prefered_date_order),
+                callback_data=date_order_cb.new(order=page)
             )
         )
     markup.add(

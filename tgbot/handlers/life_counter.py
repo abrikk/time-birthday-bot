@@ -1,8 +1,7 @@
 from datetime import date
 
 from aiogram import types, Dispatcher
-from dateutil.parser import parse, ParserError
-
+from dateparser import parse
 from tgbot.functions.gettext_func import get_echo_text, get_weekday_name
 from tgbot.middlewares.lang_middleware import _
 
@@ -10,8 +9,9 @@ from tgbot.middlewares.lang_middleware import _
 async def count_life(message: types.Message, db_commands):
     user_date = message.text
     try:
-        is_day_first: bool = await db_commands.get_user_is_day_first(message.from_user.id)
-        parsed_date = parse(user_date, dayfirst=is_day_first).date()
+        user = await db_commands.get_user(user_id=message.from_user.id)
+        parsed_date = parse(user_date, languages=[user.lang_code],
+                            settings={'DATE_ORDER': user.prefered_date_order}).date()
         await message.answer(str(parsed_date))
         today = date.today()
         if today > parsed_date:
@@ -24,8 +24,7 @@ async def count_life(message: types.Message, db_commands):
             await message.answer(date_text_info)
         else:
             await message.answer(get_echo_text())
-    except ParserError:
-
+    except AttributeError:
         await message.answer(get_echo_text())
 
 
