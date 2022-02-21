@@ -27,6 +27,8 @@ async def bot_start(message: types.Message, state: FSMContext, session, db_comma
                                    lang_code=message.from_user.language_code,
                                    role='user'
                                    )
+        if str(message.from_user.id) in config.tg_bot.admin_ids:
+            await db_commands.set_admins(message.from_user.id)
 
         await session.commit()
 

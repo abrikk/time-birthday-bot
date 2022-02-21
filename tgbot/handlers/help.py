@@ -100,8 +100,7 @@ async def change_day_first(call: types.CallbackQuery, db_commands, session):
     true_or_false = False if is_day_first else True
     await db_commands.change_user_is_day_first(call.from_user.id, true_or_false)
     await session.commit()
-    print(true_or_false)
-    await call.message.edit_text(get_available_formats_text(is_day_first),
+    await call.message.edit_text(get_available_formats_text(true_or_false),
                                  reply_markup=help_back_manual(where="avl_formats",
                                                                is_day_first=true_or_false))
 

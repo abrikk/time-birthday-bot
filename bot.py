@@ -95,7 +95,7 @@ async def main():
     dp = Dispatcher(bot, storage=storage)
     sessionmaker = await create_db_session(config)
 
-    warnings.filterwarnings(action="ignore", category=PytzUsageWarning)
+    # warnings.filterwarnings(action="ignore", category=PytzUsageWarning)
     scheduler = AsyncIOScheduler(timezone=str(tzlocal.get_localzone()))
 
     bot['config'] = config
@@ -104,8 +104,6 @@ async def main():
         db_commands = DBCommands(session)
         user_ids = await db_commands.get_all_users_with_date()
         add_all_jobs(user_ids, bot, db_commands, scheduler)
-        for admin in config.tg_bot.admin_ids:
-            await db_commands.set_admins(int(admin))
         await session.commit()
 
     await on_startup_notify(bot)
