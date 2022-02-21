@@ -70,6 +70,17 @@ class DBCommands:
         result = await self.session.execute(sql)
         return result
 
+    async def update_prefered_date_order(self, user_id, date_order):
+        sql = update(User).where(User.user_id == user_id).values(prefered_date_order=date_order)
+        result = await self.session.execute(sql)
+        return result
+
+    async def get_prefered_date_order(self, user_id):
+        sql = select(User.prefered_date_order).where(User.user_id == user_id)
+        request = await self.session.execute(sql)
+        user = request.scalar()
+        return user
+
     async def get_user_language(self, user_id):
         sql = select(User.lang_code).where(User.user_id == user_id)
         request = await self.session.execute(sql)
@@ -121,8 +132,14 @@ class DBCommands:
         user = request.scalar()
         return user
 
-    async def change_user_is_day_first(self, user_id, true_or_false: bool):
-        sql = update(User).where(User.user_id == user_id).values(day_first = true_or_false)
+    # async def get_user_lang_code(self, user_id):
+    #     sql = select(User.lang_code).where(User.user_id == user_id)
+    #     request = await self.session.execute(sql)
+    #     user = request.scalar()
+    #     return user
+
+    async def update_user_date_order(self, user_id, date_order: bool):
+        sql = update(User).where(User.user_id == user_id).values(prefered_date_order=date_order)
         result = await self.session.execute(sql)
         return result
 

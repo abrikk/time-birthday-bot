@@ -1,10 +1,11 @@
 from aiogram import types, Dispatcher
 from aiogram.dispatcher.filters import CommandHelp, Text
 
-from tgbot.functions.gettext_func import get_help_text, get_botinfo_text, get_echo_text, get_available_formats_text
+from tgbot.functions.gettext_func import get_help_text, get_botinfo_text, get_echo_text, get_available_formats_text, \
+    get_date_order_text
 from tgbot.handlers.whose_birthday_is_today import get_page
 from tgbot.keyboards.reply import help_manual, manual_data, help_ability, ability_data, \
-    help_back_manual, help_rate, rate_data, update_bot_info
+    help_back_manual, help_rate, rate_data, update_bot_info, date_order_cb
 from tgbot.middlewares.lang_middleware import __, _
 
 
@@ -88,21 +89,29 @@ async def help_bot_user_rating(call: types.CallbackQuery, callback_data: dict, d
 
 async def help_bot_formats(call: types.CallbackQuery, db_commands):
     await call.answer()
-    is_day_first: bool = await db_commands.get_user_is_day_first(call.from_user.id)
-    await call.message.edit_text(get_available_formats_text(is_day_first),
+    date_order: str = await db_commands.get_prefered_date_order(call.from_user.id)
+    date_order_name = get_date_order_text(date_order)
+    await call.message.edit_text(get_available_formats_text(),
                                  reply_markup=help_back_manual(where="avl_formats",
-                                                               is_day_first=is_day_first))
+                                                               prefered_date_order=date_order_name))
 
 
-async def change_day_first(call: types.CallbackQuery, db_commands, session):
+async def change_date_order(call: types.CallbackQuery, db_commands, session, callback_data):
     await call.answer()
-    is_day_first: bool = await db_commands.get_user_is_day_first(call.from_user.id)
-    true_or_false = False if is_day_first else True
-    await db_commands.change_user_is_day_first(call.from_user.id, true_or_false)
+    avl_date_orders = ["DMY", "MDY", "YMD"]
+    current_order = int(callback_data.get("order"))
+    if current_order >= len(avl_date_orders):
+        page = 1
+    else:
+        page = current_order+1
+    page_index = get_page(avl_date_orders, page=page)
+    date_order_name = get_date_order_text(page_index)
+    await db_commands.update_user_date_order(call.from_user.id, page_index)
     await session.commit()
-    await call.message.edit_text(get_available_formats_text(true_or_false),
-                                 reply_markup=help_back_manual(where="avl_formats",
-                                                               is_day_first=true_or_false))
+    markup = help_back_manual(where="avl_formats", prefered_date_order=date_order_name,
+                              page=page)
+    await call.message.edit_text(get_available_formats_text(),
+                                 reply_markup=markup)
 
 
 def register_help(dp: Dispatcher):
@@ -117,4 +126,4 @@ def register_help(dp: Dispatcher):
     dp.register_callback_query_handler(help_current_page_ability_btn, ability_data.filter(action="current_page"))
     dp.register_callback_query_handler(help_bot_ability_show_chosen_page, ability_data.filter())
     dp.register_callback_query_handler(help_bot_user_rating, rate_data.filter())
-    dp.register_callback_query_handler(change_day_first, Text(contains="change_day_first"))
+    dp.register_callback_query_handler(change_date_order, date_order_cb.filter())

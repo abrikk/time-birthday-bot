@@ -1,7 +1,7 @@
 from aiogram import types, Dispatcher
-from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command, Text
 
+from tgbot.functions.minor_functions import get_date_order
 from tgbot.keyboards.reply import lang_keyb, lang_cb, main_keyb
 from tgbot.middlewares.lang_middleware import _, __, i18n
 from tgbot.misc.set_bot_commands import set_default_commands
@@ -19,6 +19,7 @@ async def setting_language(call: types.CallbackQuery, callback_data: dict, db_co
 
     await call.message.answer(_("Ваш язык был изменен успешно!"), reply_markup=main_keyb())
     await set_default_commands(call.bot)
+    await db_commands.update_prefered_date_order(call.from_user.id, get_date_order(lang))
     await db_commands.update_language(user_id=call.from_user.id, lang=lang)
     await session.commit()
 
