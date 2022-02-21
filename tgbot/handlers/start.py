@@ -49,7 +49,7 @@ async def choosing_language_start(call: types.CallbackQuery, state: FSMContext, 
     await call.message.answer(get_start_text(call.from_user.full_name), reply_markup=main_keyb())
     await set_default_commands(call.bot)
 
-    await db_commands.update_prefered_date_order(call.from_user.id, get_date_order(lang))
+    await db_commands.update_preferred_date_order(call.from_user.id, get_date_order(lang))
     await db_commands.update_language(user_id=call.from_user.id, lang=lang)
     await session.commit()
 

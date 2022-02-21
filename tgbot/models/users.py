@@ -14,7 +14,7 @@ class User(Base):
     sex = Column(String(length=1), nullable=True)
     lang_code = Column(String(length=2), default='ru')
     rating = Column(SmallInteger, nullable=True)
-    prefered_date_order = Column(String, default="DMY")
+    preferred_date_order = Column(String, default="DMY")
     role = Column(String(length=100), default='user')
     created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
     updated_at = Column(TIMESTAMP(timezone=True),
