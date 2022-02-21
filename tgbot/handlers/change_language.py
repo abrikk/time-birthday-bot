@@ -19,7 +19,6 @@ async def setting_language(call: types.CallbackQuery, callback_data: dict, db_co
 
     await call.message.answer(_("Ваш язык был изменен успешно!"), reply_markup=main_keyb())
     await set_default_commands(call.bot)
-    await db_commands.update_prefered_date_order(call.from_user.id, get_date_order(lang))
     await db_commands.update_language(user_id=call.from_user.id, lang=lang)
     await session.commit()
 
