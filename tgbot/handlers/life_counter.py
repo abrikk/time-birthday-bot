@@ -2,6 +2,7 @@ from datetime import date
 
 from aiogram import types, Dispatcher
 from dateparser import parse as dp_parse
+
 from tgbot.functions.gettext_func import get_echo_text, get_weekday_name
 from tgbot.middlewares.lang_middleware import _
 

@@ -102,7 +102,8 @@ async def gratzing_user(call: types.CallbackQuery, callback_data: dict, db_comma
             try:
                 await call.bot.send_message(chat_id=bd_user_id, text=_("Вас поздравил пользователь "
                                                                        "{user_name} "
-                                                                       "с днем рождения!", locale=user.lang_code).format(
+                                                                       "с днем рождения!",
+                                                                       locale=user.lang_code).format(
                     user_name=congratulator.get_mention(as_html=True)))
                 await call.answer(_("Поздравление пользователю {user_name} отправлено успешно!").format(
                     user_name=user.first_name))

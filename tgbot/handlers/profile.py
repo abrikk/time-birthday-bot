@@ -1,10 +1,9 @@
-from datetime import datetime, date
+from datetime import date
 
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command, Text
 from apscheduler.triggers.cron import CronTrigger
-from apscheduler.triggers.interval import IntervalTrigger
 from dateparser import parse
 
 from tgbot.functions.gettext_func import get_profile_text, get_profile_stat_text, get_user_turned_day_text
