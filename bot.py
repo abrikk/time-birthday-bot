@@ -95,7 +95,7 @@ async def main():
     dp = Dispatcher(bot, storage=storage)
     sessionmaker = await create_db_session(config)
 
-    # warnings.filterwarnings(action="ignore", category=PytzUsageWarning)
+    warnings.filterwarnings(action="ignore", category=PytzUsageWarning)
     scheduler = AsyncIOScheduler(timezone=str(tzlocal.get_localzone()))
 
     bot['config'] = config

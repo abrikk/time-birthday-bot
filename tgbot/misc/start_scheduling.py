@@ -13,7 +13,7 @@ def add_all_jobs(user_ids: list, bot, db_commands, scheduler):
     # trigger = IntervalTrigger(seconds=5)
     for user_id in user_ids:
         scheduler.add_job(add_all_users_job, trigger,
-                          id=str(user_id), replace_existing=True,
+                          id=str(user_id), replace_existing=False,
                           args=(user_id, bot, db_commands))
 
 

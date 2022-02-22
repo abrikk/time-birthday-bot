@@ -1,7 +1,6 @@
 def get_date_order(user_lang: str) -> str:
-    date_order = "MDY"
-    if user_lang in ["ru", "uz", "uk"]:
+    if user_lang in ["ru", "uz", "uk", "es", "fr"]:
         date_order = "DMY"
-    elif user_lang in ["en"]:
+    else:
         date_order = "YMD"
     return date_order
