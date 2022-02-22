@@ -29,4 +29,3 @@ def birthday_cmnd(parsed_dt) -> tuple:
     else:
         days_left = bd - today
     return days_left.days, age.years
-

@@ -1,7 +1,6 @@
 from aiogram import types, Dispatcher
 from aiogram.dispatcher.filters import Command, Text
 
-from tgbot.functions.minor_functions import get_date_order
 from tgbot.keyboards.reply import lang_keyb, lang_cb, main_keyb
 from tgbot.middlewares.lang_middleware import _, __, i18n
 from tgbot.misc.set_bot_commands import set_default_commands
