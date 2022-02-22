@@ -1,7 +1,7 @@
 from datetime import date
 
 from aiogram import types, Dispatcher
-from dateparser import parse
+from dateparser import parse as dp_parse
 from tgbot.functions.gettext_func import get_echo_text, get_weekday_name
 from tgbot.middlewares.lang_middleware import _
 
@@ -10,8 +10,8 @@ async def count_life(message: types.Message, db_commands):
     user_date = message.text
     try:
         user = await db_commands.get_user(user_id=message.from_user.id)
-        parsed_date = parse(user_date, languages=[user.lang_code],
-                            settings={'DATE_ORDER': user.preferred_date_order}).date()
+        parsed_date = dp_parse(user_date, languages=[user.lang_code],
+                               settings={'DATE_ORDER': user.preferred_date_order}).date()
         today = date.today()
         if today > parsed_date:
             days = today - parsed_date

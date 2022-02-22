@@ -4,7 +4,7 @@ from typing import Union
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command
-from dateutil.parser import parse, ParserError
+from dateparser import parse as dp_parse
 
 from tgbot.keyboards.reply import main_keyb, upd_profile, cancel_keyb, choosing_sex, sex_data
 from tgbot.middlewares.lang_middleware import _
@@ -43,7 +43,9 @@ async def edit_date(call: Union[types.CallbackQuery, types.Message], state: FSMC
 async def editing_date(message: types.Message, state: FSMContext, session, db_commands):
     new_date = message.text
     try:
-        new_date_parsed = parse(new_date, dayfirst=True).date()
+        user = await db_commands.get_user(user_id=message.from_user.id)
+        new_date_parsed = dp_parse(new_date, languages=[user.lang_code],
+                                   settings={'DATE_ORDER': user.preferred_date_order}).date()
         if new_date_parsed <= date.today():
             await db_commands.update_user_date(user_id=message.from_user.id, date=new_date_parsed)
             await session.commit()
@@ -51,7 +53,7 @@ async def editing_date(message: types.Message, state: FSMContext, session, db_co
             await state.reset_state()
         else:
             raise InvalidBirthDateError
-    except ParserError:
+    except AttributeError:
         await message.answer(_("Введите корректно вашу дату рождения."))
     except InvalidBirthDateError:
         await message.answer(_("Дата рождения должна быть меньше или равна текущей дате."))
