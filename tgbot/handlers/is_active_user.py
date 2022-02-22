@@ -13,9 +13,9 @@ async def user_check_active(member: types.ChatMemberUpdated, db_commands, sessio
         if is_active is False and get_user_job is not None:
             scheduler.remove_job(str(user_id))
         elif is_active is True and user.user_bd is not None:
-            trigger = CronTrigger(hour=12, minute=30, jitter=10800)
+            trigger = CronTrigger(hour=13, minute=30, jitter=10800)
             scheduler.add_job(add_all_users_job, trigger,
-                              id=str(user_id), replace_existing=True,
+                              id=str(user_id), replace_existing=False,
                               args=(user_id, member.bot, db_commands))
 
         await db_commands.update_user_blocked(user_id, is_active)

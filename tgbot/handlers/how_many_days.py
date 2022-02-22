@@ -3,8 +3,9 @@ from datetime import date
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command, Text
-from dateutil.parser import parse, ParserError
+from dateparser import parse as dp_parse
 
+from tgbot.functions.gettext_func import get_region_date_format
 from tgbot.keyboards.reply import back_keyb, additional_keyb
 from tgbot.middlewares.lang_middleware import _, __
 
@@ -16,29 +17,32 @@ async def days_left(message: types.Message, state: FSMContext):
     await state.set_state("hmd")
 
 
-async def days_left_before_the_date(message: types.Message, state: FSMContext):
+async def days_left_before_the_date(message: types.Message, state: FSMContext, db_commands):
     user_date = message.text
     try:
-        parsed_user_date = parse(user_date).date()
-        # parsed_user_date = date(parsed_user_datetime.year, parsed_user_datetime.month,
-        #                         parsed_user_datetime.day)
+        user = await db_commands.get_user(user_id=message.from_user.id)
+        parsed_date = dp_parse(user_date, languages=[user.lang_code],
+                               settings={'DATE_ORDER': user.preferred_date_order}).date()
+        # parsed_user_date = parse(user_date).date()
         today = date.today()
 
-        if parsed_user_date > today:
-            difference = parsed_user_date - today
+        if parsed_date > today:
+            difference = parsed_date - today
             await message.answer(_("До {parsed_user_date} осталось {difference} дней").format(
-                parsed_user_date=parsed_user_date, difference=difference.days),
+                parsed_user_date=parsed_date.strftime(get_region_date_format(user.lang_code)),
+                difference=difference.days),
                 reply_markup=additional_keyb())
-        elif today > parsed_user_date:
-            difference = today - parsed_user_date
+        elif today > parsed_date:
+            difference = today - parsed_date
             await message.answer(_("С {parsed_user_date} прошло {difference} дней").format(
-                parsed_user_date=parsed_user_date, difference=difference.days),
+                parsed_user_date=parsed_date.strftime(get_region_date_format(user.lang_code)),
+                difference=difference.days),
                 reply_markup=additional_keyb())
         else:
-            raise ParserError
+            raise AttributeError
 
         await state.reset_state()
-    except ParserError:
+    except AttributeError:
         await message.answer(_("Введите корректно дату."))
 
 
