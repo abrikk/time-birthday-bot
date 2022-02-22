@@ -269,7 +269,8 @@ def get_newyear_time() -> str:
 
 async def get_profile_stat_text(user_id, db_commands) -> str:
     user = await db_commands.get_user(user_id)
-    created_at = user.created_at.strftime("%Y-%m-%d %H:%M:%S")
+    created_at = user.created_at.strftime(get_region_date_format(user.lang_code,
+                                                                 where="profile_statistics"))
     user_received_gratzed = await db_commands.get_user_rcvd_gratzed(user_id)
     user_gratzed = await db_commands.get_user_gratzed(user_id)
 
@@ -294,6 +295,21 @@ async def get_profile_stat_text(user_id, db_commands) -> str:
                                                                   created_at=created_at)
 
     return stat_text
+
+
+def get_region_date_format(region: str, where: str = None) -> str:
+    if region in ["ru", "uz", "uk"]:
+        date_format = "%d.%m.%Y"
+    elif region in ["es", "fr"]:
+        date_format = "%d/%m/%Y"
+    elif region in ["us", "en"]:
+        date_format = "%m-%d-%Y"
+    else:
+        date_format = "%Y-%m-%d"
+
+    date_format = date_format + " %H:%M:%S" if where == "profile_statistics" else date_format
+
+    return date_format
 
 
 def get_available_formats_text() -> str:

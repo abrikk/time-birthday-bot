@@ -5,7 +5,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command, Text
 from apscheduler.triggers.cron import CronTrigger
 from apscheduler.triggers.interval import IntervalTrigger
-from dateutil.parser import parse, ParserError
+from dateparser import parse
 
 from tgbot.functions.gettext_func import get_profile_text, get_profile_stat_text, get_user_turned_day_text
 from tgbot.keyboards.reply import cancel_keyb, update_profile, main_keyb, choosing_sex, sex_data, \
@@ -51,7 +51,9 @@ async def setting_profile_date(message: types.Message, state: FSMContext, db_com
                                scheduler):
     user_date = message.text
     try:
-        user_date_parse = parse(user_date, dayfirst=True).date()
+        user = await db_commands.get_user(user_id=message.from_user.id)
+        user_date_parse = parse(user_date, languages=[user.lang_code],
+                                settings={'DATE_ORDER': user.preferred_date_order}).date()
         if user_date_parse <= date.today():
             await db_commands.update_user_date(message.from_user.id, user_date_parse)
             await session.commit()
@@ -60,16 +62,13 @@ async def setting_profile_date(message: types.Message, state: FSMContext, db_com
             await message.answer(_("Готово!"), reply_markup=main_keyb())
             await message.answer(get_profile_text(user), reply_markup=update_profile())
             await state.reset_state()
-            trigger = CronTrigger(hour=12, minute=30, jitter=10800)
-            # trigger_3 = CronTrigger(hour=14, minute=23, second=55)
-            # trigger_2 = IntervalTrigger(seconds=10)
+            trigger = CronTrigger(hour=13, minute=30, jitter=10800)
             scheduler.add_job(user_turned_day, trigger,
-                              id=str(message.from_user.id), replace_existing=True,
+                              id=str(message.from_user.id), replace_existing=False,
                               args=(message, db_commands))
         else:
             raise InvalidBirthDateError
-
-    except ParserError:
+    except AttributeError:
         await message.answer(_("Введите корректно вашу дату рождения."))
     except InvalidBirthDateError:
         await message.answer(_("Дата рождения должна быть меньше или равна текущей дате."))
