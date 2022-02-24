@@ -26,7 +26,16 @@ async def delete_me_from_db(message: types.Message, db_commands, session):
         await message.answer(get_echo_text())
 
 
+async def delete_all_jobs(message: types.Message, db_commands, scheduler):
+    # user_ids = await db_commands.get_all_users_with_date()
+    # for user_id in user_ids:
+    scheduler.remove_all_jobs()
+    await message.answer("All jobs have been deleted.\n\n"
+                         f"The jobstore is: {scheduler.get_jobs()}")
+
+
 def register_admin_commands(dp: Dispatcher):
     dp.register_message_handler(delete_keyboard, Command("delete_keyboard"))
     dp.register_message_handler(delete_me_from_db, Command("delete_me"))
+    dp.register_message_handler(delete_all_jobs, Command("delete_all_jobs"))
 
