@@ -10,9 +10,14 @@ from tgbot.keyboards.reply import back_keyb, additional_keyb
 from tgbot.middlewares.lang_middleware import _, __
 
 
-async def days_left(message: types.Message, state: FSMContext):
+async def days_left(message: types.Message, state: FSMContext, db_commands):
+    user = await db_commands.get_user(user_id=message.from_user.id)
+    date_1 = date(2077, 12, 10).strftime(get_region_date_format(user.lang_code))
+    date_2 = date(1971, 6, 28).strftime(get_region_date_format(user.lang_code))
     await message.answer(_("Отправьте дату, чтобы узнать разницу между текущей датой "
-                           "и датой отправленной вами (например 10.12.2077 или 28.06.1971):"), reply_markup=back_keyb())
+                           "и датой отправленной вами (например {date_1} или {date_2}):")
+                         .format(date_1=date_1, date_2=date_2),
+                         reply_markup=back_keyb())
 
     await state.set_state("hmd")
 

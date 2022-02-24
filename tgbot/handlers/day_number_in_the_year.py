@@ -6,6 +6,7 @@ from aiogram.dispatcher.filters import Command, Text
 from aiogram.utils.markdown import hitalic
 from dateparser import parse as dp_parse
 
+from tgbot.functions.gettext_func import get_region_date_format
 from tgbot.keyboards.reply import choose_dy_keyb
 from tgbot.middlewares.lang_middleware import _, __
 
@@ -32,7 +33,8 @@ async def entering_date_dy(message: types.Message, state: FSMContext, db_command
                                settings={'DATE_ORDER': user.preferred_date_order}).date()
         yearday = parsed_date.timetuple().tm_yday
         await message.answer(_("{date_only} - это {yearday} день года. 🙇‍♂").format(
-            date_only=hitalic(parsed_date), yearday=yearday))
+            date_only=hitalic(parsed_date.strftime(get_region_date_format(user.lang_code))),
+            yearday=yearday))
         await state.reset_state()
     except AttributeError:
         await message.answer(_("Вы некорректно ввели дату. Попробуйте еще раз"))
