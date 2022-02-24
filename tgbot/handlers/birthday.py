@@ -34,7 +34,7 @@ async def my_bd_command_state(message: types.Message, state: FSMContext, db_comm
     birthdate = message.text
     try:
         user = await db_commands.get_user(user_id=message.from_user.id)
-        parsed_date = dp_parse(birthdate, languages=[user.lang_code],
+        parsed_date = dp_parse(birthdate, date_formats=["%m%d", "%d.%m"], languages=[user.lang_code],
                                settings={'DATE_ORDER': user.preferred_date_order}).date()
         days_left, age = birthday_cmnd(parsed_date)
         await message.answer(await until_bd(days_left, age, "cmnd", message),
