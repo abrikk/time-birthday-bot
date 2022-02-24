@@ -24,17 +24,20 @@ async def help_bot_back(call: types.CallbackQuery):
 
 # BOT FEATURES
 
-async def help_bot_ability(call: types.CallbackQuery):
+async def help_bot_ability(call: types.CallbackQuery, db_commands):
     await call.answer()
-    help_text = get_help_text()
+    user = await db_commands.get_user(user_id=call.from_user.id)
+    help_text = get_help_text(user.lang_code)
     page_index = get_page(help_text)
 
     await call.message.edit_text(page_index, reply_markup=help_ability(max_pages=len(help_text)))
 
 
-async def help_bot_ability_show_chosen_page(call: types.CallbackQuery, callback_data: dict):
+async def help_bot_ability_show_chosen_page(call: types.CallbackQuery, db_commands,
+                                            callback_data: dict):
     await call.answer()
-    help_text = get_help_text()
+    user = await db_commands.get_user(user_id=call.from_user.id)
+    help_text = get_help_text(user.lang_code)
     current_page = int(callback_data.get("page"))
     if current_page > len(help_text):
         current_page = 1

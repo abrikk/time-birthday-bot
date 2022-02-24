@@ -15,7 +15,7 @@ from tgbot.middlewares.lang_middleware import _
 
 # START TEXT
 
-async def get_start_text(full_name, user_id = None, db_commands = None) -> str:
+async def get_start_text(full_name, user_id=None, db_commands=None) -> str:
     user = await db_commands.get_user(user_id=user_id)
     text = _("Привет, {full_name}!\n\n"
              "Этот бот считает количество прожитых дней с момента твоего "
@@ -84,7 +84,7 @@ def get_echo_text() -> str:
     return text
 
 
-def get_help_text() -> list:
+def get_help_text(lang_code=None) -> list:
     text = [
         _("🤖 Возможности бота:\n\n"
           "• {my_profile} 📝\n\n"
@@ -95,9 +95,10 @@ def get_help_text() -> list:
         _("🤖 Возможности бота:\n\n"
           "• {second_ability} 🚀\n\n"
           "- Отправь боту свою дату рождения и он пришлет Тебе время твоего существования "
-          "(например 22.07.2006).").format(
+          "(например {date}).").format(
             second_ability=hbold(_('Вычисление пройденного количества времени с момента '
-                                   'вашего дня рождения за считанные секунды'))),
+                                   'вашего дня рождения за считанные секунды')),
+            date=date(2006, 7, 22).strftime(get_region_date_format(lang_code))),
 
         _("🤖 Возможности бота:\n\n"
           "• {third_ability} ❓\n\n"
