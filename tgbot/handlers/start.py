@@ -37,7 +37,8 @@ async def bot_start(message: types.Message, state: FSMContext, session, db_comma
         await state.set_state("choosing_lang_start")
 
     else:
-        await message.answer(get_start_text(message.from_user.full_name))
+        await message.answer(await get_start_text(message.from_user.full_name,
+                                                  message.from_user.id, db_commands))
 
 
 async def choosing_language_start(call: types.CallbackQuery, state: FSMContext, callback_data: dict, db_commands,
@@ -46,7 +47,9 @@ async def choosing_language_start(call: types.CallbackQuery, state: FSMContext, 
     i18n.ctx_locale.set(lang)
     await call.answer(text=_("🇷🇺 Вы выбрали русский язык").format(lang=lang))
     await call.message.delete()
-    await call.message.answer(get_start_text(call.from_user.full_name), reply_markup=main_keyb())
+    await call.message.answer(await get_start_text(call.from_user.full_name,
+                                                   call.from_user.id, db_commands),
+                              reply_markup=main_keyb())
     await set_default_commands(call.bot)
 
     await db_commands.update_preferred_date_order(call.from_user.id, get_date_order(lang))

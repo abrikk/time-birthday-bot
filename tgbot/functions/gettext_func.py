@@ -15,12 +15,13 @@ from tgbot.middlewares.lang_middleware import _
 
 # START TEXT
 
-def get_start_text(full_name) -> str:
+async def get_start_text(full_name, user_id = None, db_commands = None) -> str:
+    user = await db_commands.get_user(user_id=user_id)
     text = _("Привет, {full_name}!\n\n"
              "Этот бот считает количество прожитых дней с момента твоего "
-             "дня рождения. Просто отправь дату рождения (например: 22.07.2006)\n\n"
+             "дня рождения. Просто отправь дату рождения (например: {date})\n\n"
              "За подробной информацией отправьте команду /help").format(
-        full_name=full_name)
+        full_name=full_name, date=date(2006, 7, 22).strftime(get_region_date_format(user.lang_code)))
     return text
 
 
@@ -52,7 +53,7 @@ def get_profile_text(user) -> str:
 
     text = profile_text.format(user_id=hcode(user.user_id),
                                name=hbold(quote_html(user.first_name)),
-                               user_date=user.user_bd,
+                               user_date=user.user_bd.strftime(get_region_date_format(user.lang_code)),
                                sex=sex,
                                age_text=age_text)
 
