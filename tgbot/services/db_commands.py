@@ -119,7 +119,8 @@ class DBCommands:
         sql = select(User.user_id).where(
             and_(
                 User.user_bd.is_not(None),
-                User.active == True
+                User.active == True,
+                User.lang_code.is_not(None)
             )
         ).select_from(User)
         result = await self.session.execute(sql)
