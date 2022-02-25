@@ -15,6 +15,7 @@ async def count_life(message: types.Message, db_commands):
         parsed_date = dp_parse(user_date, date_formats=get_locale_date_order(user.preferred_date_order),
                                languages=[user.lang_code],
                                settings={'DATE_ORDER': user.preferred_date_order}).date()
+        await message.answer(parsed_date)
         today = date.today()
         if today > parsed_date:
             days = today - parsed_date

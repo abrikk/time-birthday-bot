@@ -96,9 +96,8 @@ async def help_bot_formats(call: types.CallbackQuery, db_commands):
     await call.answer()
     date_order: str = await db_commands.get_preferred_date_order(call.from_user.id)
     date_order_index = avl_date_orders.index(date_order)
-    print(date_order_index)
     date_order_name = get_date_order_text(date_order)
-    await call.message.edit_text(get_available_formats_text(),
+    await call.message.edit_text(get_available_formats_text(date_order),
                                  reply_markup=help_back_manual(where="avl_formats",
                                  preferred_date_order=date_order_name, page=date_order_index+1))
 
@@ -116,7 +115,7 @@ async def change_date_order(call: types.CallbackQuery, db_commands, session, cal
     date_order_name = get_date_order_text(page_index)
     markup = help_back_manual(where="avl_formats", preferred_date_order=date_order_name,
                               page=page)
-    await call.message.edit_text(get_available_formats_text(),
+    await call.message.edit_text(get_available_formats_text(page_index),
                                  reply_markup=markup)
 
 
