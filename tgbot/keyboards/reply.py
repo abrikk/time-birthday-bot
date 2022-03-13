@@ -24,14 +24,24 @@ def main_keyb():
 
 def additional_keyb():
     markup = ReplyKeyboardMarkup(resize_keyboard=True)
-
-    buttons = [[_('🥳 Моё день рождение'), _('⛄️ Новый Год')],
+    buttons = [[_('🥳 Моё день рождение'), _('🎊 Праздники')],
                [_('🔢 Номер дня в году'), _('⏳ Сколько дней')]]
     for text_1, text_2 in buttons:
         markup.add(KeyboardButton(text_1),
                    KeyboardButton(text_2))
 
     markup.add(KeyboardButton(text=_("↪️ Назад в главное меню")))
+    return markup
+
+
+def holidays_keyb():
+    markup = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    buttons = [_('⛄️ Новый Год'), _('🌹 Международный женский день'), _('🌱 Навруз'),
+               ]
+    for text in buttons:
+        markup.insert(KeyboardButton(text))
+
+    markup.add(KeyboardButton(text=_("↪️ Назад")))
     return markup
 
 
