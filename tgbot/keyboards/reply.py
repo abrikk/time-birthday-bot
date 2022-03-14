@@ -34,14 +34,64 @@ def additional_keyb():
     return markup
 
 
-def holidays_keyb():
-    markup = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-    buttons = [_('⛄️ Новый Год'), _('🌹 Международный женский день'), _('🌱 Навруз'),
-               ]
-    for text in buttons:
-        markup.insert(KeyboardButton(text))
+hol_cb = CallbackData("holidays", "hol_name")
 
-    markup.add(KeyboardButton(text=_("↪️ Назад")))
+
+def holidays_keyb():
+    markup = InlineKeyboardMarkup(row_width=1)
+    buttons = {
+        _("Международные праздники"): "ih",
+        _("Праздник сегодня"): "todayh",
+        _("smth"): "ny",
+    }
+
+    for text, data in buttons.items():
+        markup.insert(
+            InlineKeyboardButton(
+                text=text,
+                callback_data=hol_cb.new(hol_name=data)
+            )
+        )
+    return markup
+
+
+def inter_holidays_keyb():
+    markup = InlineKeyboardMarkup(row_width=1)
+    buttons = {
+        _("🌹 Международный женский день"): "iwd",
+        _("Новый Год"): "ny",
+        _("Навруз"): "navruz",
+        _("Назад"): "back_holiday"
+    }
+
+    for text, data in buttons.items():
+        markup.insert(
+            InlineKeyboardButton(
+                text=text,
+                callback_data=hol_cb.new(hol_name=data)
+            )
+        )
+    return markup
+
+
+hol_pag_cb = CallbackData("hol_pg", "action")
+
+
+def change_hol_keyb(page: int = 1):
+    markup = InlineKeyboardMarkup()
+    buttons = {
+        "<<": page - 1,
+        "Назад": "back_inter",
+        ">>": page + 1
+    }
+    for text, data in buttons.items():
+        markup.insert(
+            InlineKeyboardButton(
+                text=text,
+                callback_data=hol_pag_cb.new(action=data)
+            )
+        )
+
     return markup
 
 
