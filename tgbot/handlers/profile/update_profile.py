@@ -6,7 +6,8 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command
 from dateparser import parse as dp_parse
 
-from tgbot.keyboards.reply import main_keyb, upd_profile, cancel_keyb, choosing_sex, sex_data
+from tgbot.handlers.profile.profile_keyb import choosing_sex, upd_profile, sex_data
+from tgbot.keyboards.reply import main_keyb, cancel_keyb
 from tgbot.middlewares.lang_middleware import _
 from tgbot.misc.all_errors import InvalidBirthDateError
 

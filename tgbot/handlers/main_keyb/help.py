@@ -3,7 +3,7 @@ from aiogram.dispatcher.filters import CommandHelp, Text
 
 from tgbot.functions.gettext_func import get_help_text, get_botinfo_text, get_echo_text, get_available_formats_text, \
     get_date_order_text
-from tgbot.handlers.whose_birthday_is_today import get_page
+from tgbot.handlers.main_keyb.whose_birthday_is_today import get_page
 from tgbot.keyboards.reply import help_manual, manual_data, help_ability, ability_data, \
     help_back_manual, help_rate, rate_data, update_bot_info, date_order_cb
 from tgbot.middlewares.lang_middleware import __, _
