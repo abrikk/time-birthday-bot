@@ -2,7 +2,7 @@ from aiogram import types, Dispatcher
 from aiogram.dispatcher.filters import Command
 
 from tgbot.functions.gettext_func import get_botinfo_text
-from tgbot.keyboards.reply import update_bot_info
+from tgbot.handlers.admin_handlers.update_botinfo.update_botinfo_keyb import update_bot_info
 
 
 async def bot_info(message: types.Message, db_commands, session):

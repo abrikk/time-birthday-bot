@@ -139,30 +139,6 @@ lang_keyb = InlineKeyboardMarkup(
 )
 
 
-def update_bot_info(where: str = "call_help"):
-    markup = InlineKeyboardMarkup()
-    if where == "call_help":
-        markup.add(
-            InlineKeyboardButton(
-                text=_("Назад"),
-                callback_data="back_manual"
-            ),
-            InlineKeyboardButton(
-                text=_("Обновить"),
-                callback_data="update_date_info"
-            )
-        )
-    elif where == "msg_cmnd":
-        markup.add(
-            InlineKeyboardButton(
-                text=_("Обновить"),
-                callback_data="update_date_info"
-            )
-        )
-
-    return markup
-
-
 def share_message(action: str):
     markup = InlineKeyboardMarkup()
 

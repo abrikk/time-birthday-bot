@@ -165,7 +165,7 @@ async def get_botinfo_text(call: Union[types.Message, types.CallbackQuery], db_c
     data = toml.load(Path("pyproject.toml").absolute())
     if bot_info is None:
         bot_version: str = data["tool"]["poetry"]["VERSION"]
-        num_dirs_lang = Path('C:\\Users\\abror\\PycharmProjects\\tbday-project\\locales')
+        num_dirs_lang = Path('/home/abror/Abrik/MyProjects/time-birthday-bot/locales')
         num_languages = [x for x in num_dirs_lang.iterdir() if x.is_dir()]
         await db_commands.add_bot(
             username=bot_user.username,
