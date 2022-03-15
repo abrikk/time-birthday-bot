@@ -11,14 +11,15 @@ from pytz_deprecation_shim import PytzUsageWarning
 
 from tgbot.config import load_config
 from tgbot.filters.admin import AdminFilter
-from tgbot.handlers.main_keyb.additional_keyboard import register_add_keyb
+from tgbot.handlers.admin_handlers.update_botinfo.update_botinfo import register_update_botinfo
+from tgbot.handlers.main_menu_keyb.additional_keyboard import register_add_keyb
 from tgbot.handlers.admin_handlers.admin_commands import register_admin_commands
 from tgbot.handlers.others.birthday import register_my_bd
 from tgbot.handlers.botinfo import register_bot_info
 from tgbot.handlers.cancel_handler import register_cancel_action
-from tgbot.handlers.main_keyb.change_language import register_change_language
+from tgbot.handlers.main_menu_keyb.change_language import register_change_language
 from tgbot.handlers.others.day_number_in_the_year import register_day_num_year
-from tgbot.handlers.main_keyb.help import register_help
+from tgbot.handlers.main_menu_keyb.help import register_help
 from tgbot.handlers.others.how_many_days import register_hmd
 from tgbot.handlers.is_active_user import register_is_active_user
 from tgbot.handlers.life_counter import register_count_life
@@ -29,9 +30,8 @@ from tgbot.handlers.profile.profile import register_profile
 from tgbot.handlers.start import register_start
 from tgbot.handlers.admin_handlers.statistics import register_stat
 from tgbot.handlers.admin_handlers.test import register_test_1
-from tgbot.handlers.admin_handlers.update_botinfo import register_update_botinfo
 from tgbot.handlers.profile.update_profile import register_update
-from tgbot.handlers.main_keyb.whose_birthday_is_today import register_bd_today
+from tgbot.handlers.main_menu_keyb.whose_birthday_is_today import register_bd_today
 from tgbot.keyboards.inline import register_inline_mode
 from tgbot.middlewares.db import DbSessionMiddleware
 from tgbot.middlewares.lang_middleware import i18n
