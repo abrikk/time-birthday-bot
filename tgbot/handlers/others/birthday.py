@@ -8,7 +8,7 @@ from dateparser import parse as dp_parse
 
 from tgbot.functions.birthday_func import birthday_btn, birthday_cmnd
 from tgbot.functions.gettext_func import until_bd
-from tgbot.handlers.profile import user_turned_day
+from tgbot.handlers.profile.profile import user_turned_day
 from tgbot.keyboards.reply import cancel_keyb, share_message, back_keyb
 from tgbot.middlewares.lang_middleware import _, __
 

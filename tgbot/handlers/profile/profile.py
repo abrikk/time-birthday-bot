@@ -7,8 +7,8 @@ from apscheduler.triggers.cron import CronTrigger
 from dateparser import parse
 
 from tgbot.functions.gettext_func import get_profile_text, get_profile_stat_text, get_user_turned_day_text
-from tgbot.keyboards.reply import cancel_keyb, update_profile, main_keyb, choosing_sex, sex_data, \
-    upd_profile, profile_back_manual
+from tgbot.handlers.profile.profile_keyb import update_profile, sex_data, upd_profile, choosing_sex
+from tgbot.keyboards.reply import cancel_keyb, main_keyb, profile_back_manual
 from tgbot.middlewares.lang_middleware import _, __
 from tgbot.misc.all_errors import InvalidBirthDateError
 
