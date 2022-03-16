@@ -7,7 +7,8 @@ from aiogram.utils.markdown import hbold
 from dateutil import relativedelta
 
 from tgbot.functions.case_conjugation_func import whom_conjuction
-from tgbot.keyboards.reply import bd_today_list, bd_data, switch_or_gratz_cb
+from tgbot.handlers.main_menu_keyb.whose_birthday_is_today.wbit_keyb import bd_today_list, bd_data
+from tgbot.keyboards.reply import switch_or_gratz_cb
 from tgbot.middlewares.lang_middleware import __, _
 
 

@@ -15,6 +15,7 @@ from tgbot.handlers.admin_handlers.update_botinfo.update_botinfo import register
 from tgbot.handlers.main_menu_keyb.additional_keyboard import register_add_keyb
 from tgbot.handlers.admin_handlers.admin_commands import register_admin_commands
 from tgbot.handlers.main_menu_keyb.help.help import register_help
+from tgbot.handlers.main_menu_keyb.whose_birthday_is_today.whose_birthday_is_today import register_bd_today
 from tgbot.handlers.others.birthday import register_my_bd
 from tgbot.handlers.botinfo import register_bot_info
 from tgbot.handlers.cancel_handler import register_cancel_action
@@ -31,7 +32,6 @@ from tgbot.handlers.start import register_start
 from tgbot.handlers.admin_handlers.statistics import register_stat
 from tgbot.handlers.admin_handlers.test import register_test_1
 from tgbot.handlers.profile.update_profile import register_update
-from tgbot.handlers.main_menu_keyb.whose_birthday_is_today import register_bd_today
 from tgbot.keyboards.inline import register_inline_mode
 from tgbot.middlewares.db import DbSessionMiddleware
 from tgbot.middlewares.lang_middleware import i18n
