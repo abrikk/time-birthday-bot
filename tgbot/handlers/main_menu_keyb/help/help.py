@@ -6,7 +6,7 @@ from tgbot.functions.gettext_func import get_help_text, get_botinfo_text, get_ec
 from tgbot.handlers.admin_handlers.update_botinfo.update_botinfo_keyb import update_bot_info
 from tgbot.handlers.main_menu_keyb.help.help_keyb import help_manual, help_ability, help_back_manual, help_rate, \
     manual_data, ability_data, date_order_cb, rate_data
-from tgbot.handlers.main_menu_keyb.whose_birthday_is_today import get_page
+from tgbot.handlers.main_menu_keyb.whose_birthday_is_today.whose_birthday_is_today import get_page
 from tgbot.middlewares.lang_middleware import __, _
 
 

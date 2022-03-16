@@ -3,12 +3,23 @@ from datetime import datetime
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command, Text
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from aiogram.utils.markdown import hitalic
 from dateparser import parse as dp_parse
 
 from tgbot.functions.gettext_func import get_region_date_format
-from tgbot.keyboards.reply import choose_dy_keyb
 from tgbot.middlewares.lang_middleware import _, __
+
+
+def choose_dy_keyb():
+    markup = ReplyKeyboardMarkup(resize_keyboard=True)
+
+    buttons = [[_('Текущая дата'), _('Конкретная дата')]]
+    for text_1, text_2 in buttons:
+        markup.add(KeyboardButton(text_1),
+                   KeyboardButton(text_2))
+    markup.add(KeyboardButton(text=_("↪️ Назад")))
+    return markup
 
 
 async def day_num_year(message: types.Message):
