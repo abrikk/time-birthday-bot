@@ -14,12 +14,12 @@ from tgbot.filters.admin import AdminFilter
 from tgbot.handlers.admin_handlers.update_botinfo.update_botinfo import register_update_botinfo
 from tgbot.handlers.main_menu_keyb.additional_keyboard import register_add_keyb
 from tgbot.handlers.admin_handlers.admin_commands import register_admin_commands
+from tgbot.handlers.main_menu_keyb.help.help import register_help
 from tgbot.handlers.others.birthday import register_my_bd
 from tgbot.handlers.botinfo import register_bot_info
 from tgbot.handlers.cancel_handler import register_cancel_action
 from tgbot.handlers.main_menu_keyb.change_language import register_change_language
 from tgbot.handlers.others.day_number_in_the_year import register_day_num_year
-from tgbot.handlers.main_menu_keyb.help import register_help
 from tgbot.handlers.others.how_many_days import register_hmd
 from tgbot.handlers.is_active_user import register_is_active_user
 from tgbot.handlers.life_counter import register_count_life
