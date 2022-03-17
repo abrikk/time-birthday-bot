@@ -4,6 +4,7 @@ from sqlalchemy import select, update, func, delete, and_, extract
 
 from tgbot.models.about_bot import AboutBot
 from tgbot.models.bd_statistics import BDStat
+from tgbot.models.holidays import Holidays
 from tgbot.models.users import User
 
 
@@ -139,8 +140,6 @@ class DBCommands:
     #     user = request.scalar()
     #     return user
 
-
-
     async def get_all_ratings(self):
         sql = select(User.rating).where(User.rating.is_not(None))
         result = await self.session.execute(sql)
@@ -242,3 +241,11 @@ class DBCommands:
         sql = delete(BDStat).where(BDStat.congo_id == user_id)
         result = await self.session.execute(sql)
         return result
+
+    # Holiday commands
+
+    async def get_all_holidays(self):
+        sql = select(Holidays.holiday_date, Holidays.holiday_name, Holidays.hide_link).select_from(Holidays)
+        result = await self.session.execute(sql)
+        scalars = result.all()
+        return scalars

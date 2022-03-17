@@ -194,13 +194,13 @@ async def get_botinfo_text(call: Union[types.Message, types.CallbackQuery], db_c
              "• Обновлено {updated} года\n"
              "• Выпущено 9 Января 2022 года\n"
              "• Создано 25 Декабря 2021 года\n\n"
-             "👨‍💻 Разработчик @JustAbrik").format(bot=hlink(_('боте'),
-                                                              url=f't.me/{bot_user.username}'),
-                                                    version=hcode(bot_version),
-                                                    rate=average_rate,
-                                                    num_reviews=len(ratings),
-                                                    lang=bot_info.languages - 1,
-                                                    updated=updated)
+             "👨‍💻 Разработчик @JustAbrik").format(
+        bot=hlink(_('боте'), url=f't.me/{bot_user.username}'),
+        version=hcode(bot_version),
+        rate=average_rate,
+        num_reviews=len(ratings),
+        lang=bot_info.languages - 1,
+        updated=updated)
 
     return text
 

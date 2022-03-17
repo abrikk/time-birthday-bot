@@ -52,14 +52,14 @@ def holidays_keyb():
     return markup
 
 
-def inter_holidays_keyb():
+def inter_holidays_keyb(buttons: dict):
     markup = InlineKeyboardMarkup(row_width=1)
-    buttons = {
-        _("🌹 Международный женский день"): "iwd",
-        _("Новый Год"): "ny",
-        _("Навруз"): "navruz",
-        _("Назад"): "back_holiday"
-    }
+    # buttons = {
+    #     _("🌹 Международный женский день"): "iwd",
+    #     _("Новый Год"): "ny",
+    #     _("Навруз"): "navruz",
+    #
+    # }
 
     for text, data in buttons.items():
         markup.insert(
@@ -68,6 +68,8 @@ def inter_holidays_keyb():
                 callback_data=hol_cb.new(hol_name=data)
             )
         )
+    markup.add(InlineKeyboardButton(text=_("Назад"),
+                                    callback_data=hol_cb.new(hol_name="back_holiday")))
     return markup
 
 

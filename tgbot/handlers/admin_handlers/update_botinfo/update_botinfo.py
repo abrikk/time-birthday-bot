@@ -4,7 +4,7 @@ from aiogram import types, Dispatcher
 from aiogram.dispatcher.filters import Text
 
 from tgbot.functions.gettext_func import get_botinfo_text
-from tgbot.handlers.admin_handlers.update_botinfo.update_botinfo_keyb import update_bot_info
+from .update_botinfo_keyb import update_bot_info
 from tgbot.handlers.main_menu_keyb.help.help_keyb import help_back_manual
 from tgbot.middlewares.lang_middleware import _
 
