@@ -2,6 +2,7 @@ import asyncio
 import logging
 import warnings
 
+import pymorphy2
 import tzlocal
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
@@ -35,6 +36,7 @@ from tgbot.handlers.profile.update_profile import register_update
 from tgbot.keyboards.inline import register_inline_mode
 from tgbot.middlewares.db import DbSessionMiddleware
 from tgbot.middlewares.lang_middleware import i18n
+from tgbot.middlewares.morpholyzer import MorphMiddleware
 from tgbot.middlewares.scheduler import SchedulerMiddleware
 from tgbot.misc.notify_admins import on_startup_notify
 from tgbot.misc.start_scheduling import add_all_jobs
@@ -44,8 +46,9 @@ from tgbot.services.db_commands import DBCommands
 logger = logging.getLogger(__name__)
 
 
-def register_all_middlewares(dp, scheduler, sessionmaker):
+def register_all_middlewares(dp, scheduler, morpholyzer, sessionmaker):
     dp.setup_middleware(SchedulerMiddleware(scheduler))
+    dp.setup_middleware(MorphMiddleware(morpholyzer))
     dp.setup_middleware(DbSessionMiddleware(sessionmaker))
     dp.setup_middleware(i18n)
 
@@ -99,6 +102,7 @@ async def main():
 
     warnings.filterwarnings(action="ignore", category=PytzUsageWarning)
     scheduler = AsyncIOScheduler(timezone=str(tzlocal.get_localzone()))
+    morph = pymorphy2.MorphAnalyzer()
 
     bot['config'] = config
 
@@ -110,7 +114,7 @@ async def main():
 
     await on_startup_notify(bot)
 
-    register_all_middlewares(dp, scheduler, sessionmaker)
+    register_all_middlewares(dp, scheduler, morph, sessionmaker)
     register_all_filters(dp)
     register_all_handlers(dp)
 

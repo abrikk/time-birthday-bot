@@ -33,12 +33,13 @@ async def show_inter_holidays(call: types.CallbackQuery, db_commands):
     await call.message.edit_text(text, reply_markup=inter_holidays_keyb(buttons))
 
 
-async def show_chosen_holiday(call: types.CallbackQuery, callback_data):
+async def show_chosen_holiday(call: types.CallbackQuery, db_commands, morph, callback_data):
     await call.answer()
     hol_name = callback_data.get("hol_name")
-    holiday_name, holiday_namec, holiday_date, days_left = holiday_days_left(hol_name)
-    text = _("До {hol_name} осталось {days_left} дней!").format(hol_name=holiday_namec,
-                                                                days_left=days_left)
+    holiday_name, holiday_date, time_left, hide_link = \
+        await holiday_days_left(hol_name, db_commands, morph)
+    text = _("{hide_link}До {hol_name} осталось {time_left} дней!").format(
+        hide_link=hide_link, hol_name=holiday_name, time_left=get_time_left(time_left))
     await call.message.edit_text(text, reply_markup=change_hol_keyb())
 
 

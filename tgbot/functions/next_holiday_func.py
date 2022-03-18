@@ -1,14 +1,14 @@
-from datetime import date
+from datetime import datetime
 
 from tgbot.middlewares.lang_middleware import _
 
-date_today: date = date.today()
+date_today: datetime = datetime.today()
 
 
-def get_proper_date(month: int, day: int) -> date:
-    proper_date = date(year=date.today().year, month=month, day=day)
+def get_proper_date(month: int, day: int) -> datetime:
+    proper_date = datetime(year=datetime.today().year, month=month, day=day)
     if date_today > proper_date:
-        proper_date = proper_date.replace(year=date.today().year + 1)
+        proper_date = proper_date.replace(year=datetime.today().year + 1)
     return proper_date
 
 
