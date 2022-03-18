@@ -8,3 +8,4 @@ toml~=0.10.2
 APScheduler~=3.8.1
 tzlocal~=4.1
 dateparser~=1.1.0
+pymorphy2~=0.9.1
