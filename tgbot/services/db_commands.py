@@ -255,5 +255,5 @@ class DBCommands:
             Holidays.holiday_code == holiday_code
         )
         result = await self.session.execute(sql)
-        scalars = result.all()
+        scalars = result.first()
         return scalars
