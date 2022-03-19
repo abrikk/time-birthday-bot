@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-03-13 13:57+0500\n"
+"POT-Creation-Date: 2022-03-19 21:05+0500\n"
 "PO-Revision-Date: 2022-02-12 21:19+0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -20,6 +20,7 @@ msgstr ""
 "Generated-By: Babel 2.9.1\n"
 
 #: tgbot/functions/case_conjugation_func.py:6
+#: tgbot/functions/holidays_days_left_func.py:38
 msgid "день"
 msgstr ""
 
@@ -40,10 +41,12 @@ msgid "года"
 msgstr ""
 
 #: tgbot/functions/case_conjugation_func.py:33
+#: tgbot/functions/holidays_days_left_func.py:36
 msgid "лет"
 msgstr ""
 
 #: tgbot/functions/case_conjugation_func.py:56
+#: tgbot/functions/holidays_days_left_func.py:37
 msgid "месяц"
 msgstr ""
 
@@ -303,7 +306,7 @@ msgid ""
 "👨‍💻 Разработчик @JustAbrik"
 msgstr ""
 
-#: tgbot/functions/gettext_func.py:197
+#: tgbot/functions/gettext_func.py:198
 msgid "боте"
 msgstr ""
 
@@ -449,42 +452,33 @@ msgstr ""
 msgid "МДГ"
 msgstr ""
 
-#: tgbot/handlers/additional_keyboard.py:9
-msgid "Что будем делать? 🙂"
+#: tgbot/functions/holidays_days_left_func.py:11
+#: tgbot/functions/holidays_days_left_func.py:21
+#: tgbot/functions/next_holiday_func.py:22
+msgid "Новый Год"
 msgstr ""
 
-#: tgbot/handlers/additional_keyboard.py:13 tgbot/keyboards/reply.py:13
-msgid "🌀 Прочее"
+#: tgbot/functions/holidays_days_left_func.py:12
+#: tgbot/functions/holidays_days_left_func.py:22
+#: tgbot/functions/next_holiday_func.py:24
+msgid "Международный женский день"
 msgstr ""
 
-#: tgbot/handlers/admin_commands.py:12
-msgid "Клавиатура была успешно удалена"
+#: tgbot/functions/holidays_days_left_func.py:13
+#: tgbot/functions/holidays_days_left_func.py:23
+msgid "Навруз"
 msgstr ""
 
-#: tgbot/handlers/birthday.py:28
-msgid "Введите день и месяц рождения, например \"22.07\":"
+#: tgbot/functions/holidays_days_left_func.py:39
+msgid "час"
 msgstr ""
 
-#: tgbot/handlers/birthday.py:45 tgbot/handlers/day_number_in_the_year.py:40
-msgid "Вы некорректно ввели дату. Попробуйте еще раз"
+#: tgbot/functions/holidays_days_left_func.py:40
+msgid "минута"
 msgstr ""
 
-#: tgbot/handlers/birthday.py:51 tgbot/handlers/profile.py:24
-#: tgbot/handlers/profile.py:43
-msgid ""
-"Хорошо. Теперь отправьте свою дату рождения.\n"
-"\n"
-"Важно! Отправьте Вашу настоящую дату, чтобы не вводить пользователей в "
-"заблуждение."
-msgstr ""
-
-#: tgbot/handlers/birthday.py:83 tgbot/handlers/profile.py:71
-#: tgbot/handlers/update_profile.py:57
-msgid "Введите корректно вашу дату рождения."
-msgstr ""
-
-#: tgbot/handlers/birthday.py:89 tgbot/keyboards/reply.py:28
-msgid "🥳 Моё день рождение"
+#: tgbot/functions/holidays_days_left_func.py:41
+msgid "секунда"
 msgstr ""
 
 #: tgbot/handlers/cancel_handler.py:12
@@ -499,99 +493,15 @@ msgstr ""
 msgid "• Прочее •"
 msgstr ""
 
-#: tgbot/handlers/cancel_handler.py:23 tgbot/keyboards/reply.py:34
-#: tgbot/keyboards/reply.py:57
+#: tgbot/handlers/cancel_handler.py:23 tgbot/keyboards/reply.py:30
+#: tgbot/keyboards/reply.py:115
 msgid "↪️ Назад в главное меню"
 msgstr ""
 
-#: tgbot/handlers/cancel_handler.py:25 tgbot/keyboards/reply.py:45
-#: tgbot/keyboards/reply.py:51
+#: tgbot/handlers/cancel_handler.py:25
+#: tgbot/handlers/others/day_number_in_the_year.py:21
+#: tgbot/keyboards/reply.py:109
 msgid "↪️ Назад"
-msgstr ""
-
-#: tgbot/handlers/change_language.py:10 tgbot/handlers/start.py:36
-#: tgbot/handlers/start.py:63
-msgid "🌐 Выберите язык:"
-msgstr ""
-
-#: tgbot/handlers/change_language.py:16
-msgid "🇷🇺 Вы поменяли язык на русский"
-msgstr ""
-
-#: tgbot/handlers/change_language.py:19
-msgid "Ваш язык был изменен успешно!"
-msgstr ""
-
-#: tgbot/handlers/change_language.py:26 tgbot/keyboards/reply.py:12
-msgid "🌐 Поменять язык"
-msgstr ""
-
-#: tgbot/handlers/day_number_in_the_year.py:15
-msgid "Выберите в какой день хотите узнать порядковый номер дня в году:"
-msgstr ""
-
-#: tgbot/handlers/day_number_in_the_year.py:20
-#: tgbot/handlers/day_number_in_the_year.py:45 tgbot/keyboards/reply.py:41
-msgid "Текущая дата"
-msgstr ""
-
-#: tgbot/handlers/day_number_in_the_year.py:22
-msgid "Сегодня {yearday} день года. 🙇‍♂"
-msgstr ""
-
-#: tgbot/handlers/day_number_in_the_year.py:24
-msgid "Введите дату."
-msgstr ""
-
-#: tgbot/handlers/day_number_in_the_year.py:35
-msgid "{date_only} - это {yearday} день года. 🙇‍♂"
-msgstr ""
-
-#: tgbot/handlers/day_number_in_the_year.py:44 tgbot/keyboards/reply.py:29
-msgid "🔢 Номер дня в году"
-msgstr ""
-
-#: tgbot/handlers/day_number_in_the_year.py:45 tgbot/keyboards/reply.py:41
-msgid "Конкретная дата"
-msgstr ""
-
-#: tgbot/handlers/help.py:15 tgbot/handlers/help.py:22
-#: tgbot/handlers/help.py:87
-msgid "🔰 <b>Руководство:</b> "
-msgstr ""
-
-#: tgbot/handlers/help.py:77
-msgid "Оцените бота по 5-бальной шкале 🌟"
-msgstr ""
-
-#: tgbot/handlers/help.py:88
-msgid "Спасибо за ваш отзыв!"
-msgstr ""
-
-#: tgbot/handlers/help.py:123 tgbot/keyboards/reply.py:13
-msgid "❔ Помощь"
-msgstr ""
-
-#: tgbot/handlers/how_many_days.py:17
-msgid ""
-"Отправьте дату, чтобы узнать разницу между текущей датой и датой "
-"отправленной вами (например {date_1} или {date_2}):"
-msgstr ""
-
-#: tgbot/handlers/how_many_days.py:36
-msgid "До {parsed_user_date} осталось {difference} дней"
-msgstr ""
-
-#: tgbot/handlers/how_many_days.py:42
-msgid "С {parsed_user_date} прошло {difference} дней"
-msgstr ""
-
-#: tgbot/handlers/how_many_days.py:51
-msgid "Введите корректно дату."
-msgstr ""
-
-#: tgbot/handlers/how_many_days.py:55 tgbot/keyboards/reply.py:29
-msgid "⏳ Сколько дней"
 msgstr ""
 
 #: tgbot/handlers/life_counter.py:23
@@ -600,64 +510,125 @@ msgid ""
 "День недели в который вы родились: {day_of_the_week}"
 msgstr ""
 
-#: tgbot/handlers/newyear.py:14 tgbot/keyboards/reply.py:28
+#: tgbot/handlers/newyear.py:14
 msgid "⛄️ Новый Год"
 msgstr ""
 
-#: tgbot/handlers/profile.py:20 tgbot/handlers/profile.py:22
-#: tgbot/handlers/update_profile.py:63
-msgid "Укажите ваш пол:"
-msgstr ""
-
-#: tgbot/handlers/profile.py:61 tgbot/handlers/profile.py:87
-msgid "Готово!"
-msgstr ""
-
-#: tgbot/handlers/profile.py:73 tgbot/handlers/update_profile.py:59
-msgid "Дата рождения должна быть меньше или равна текущей дате."
-msgstr ""
-
-#: tgbot/handlers/profile.py:98 tgbot/keyboards/reply.py:9
-msgid "👤 Мой профиль"
+#: tgbot/handlers/main_menu_keyb/change_language.py:10
+#: tgbot/handlers/start.py:36 tgbot/handlers/start.py:63
+msgid "🌐 Выберите язык:"
 msgstr ""
 
 #: tgbot/handlers/start.py:48
 msgid "🇷🇺 Вы выбрали русский язык"
 msgstr ""
 
-#: tgbot/handlers/statistics.py:12
+#: tgbot/handlers/admin_handlers/admin_commands.py:12
+msgid "Клавиатура была успешно удалена"
+msgstr ""
+
+#: tgbot/handlers/admin_handlers/statistics.py:12
 msgid "Всего пользователей: {count_users}"
 msgstr ""
 
-#: tgbot/handlers/update_botinfo.py:20
+#: tgbot/handlers/admin_handlers/update_botinfo/update_botinfo.py:21
 msgid "Дата была успешно обновлена!"
 msgstr ""
 
-#: tgbot/handlers/update_botinfo.py:27
+#: tgbot/handlers/admin_handlers/update_botinfo/update_botinfo.py:28
 msgid "Дата была уже обновлена!"
 msgstr ""
 
-#: tgbot/handlers/update_profile.py:15
-msgid "Отправьте новое имя"
+#: tgbot/handlers/admin_handlers/update_botinfo/update_botinfo_keyb.py:11
+#: tgbot/handlers/main_menu_keyb/help/help_keyb.py:65
+#: tgbot/handlers/main_menu_keyb/help/help_keyb.py:88
+#: tgbot/handlers/main_menu_keyb/help/help_keyb.py:119
+#: tgbot/keyboards/reply.py:68 tgbot/keyboards/reply.py:100
+#: tgbot/keyboards/reply.py:187
+msgid "Назад"
 msgstr ""
 
-#: tgbot/handlers/update_profile.py:29
-msgid "Успешно! Имя обновлено."
+#: tgbot/handlers/admin_handlers/update_botinfo/update_botinfo_keyb.py:15
+#: tgbot/handlers/admin_handlers/update_botinfo/update_botinfo_keyb.py:22
+msgid "Обновить"
 msgstr ""
 
-#: tgbot/handlers/update_profile.py:34
-msgid "Отправьте новую дату"
+#: tgbot/handlers/main_menu_keyb/additional_keyboard.py:9
+msgid "Что будем делать? 🙂"
 msgstr ""
 
-#: tgbot/handlers/update_profile.py:52
-msgid "Успешно! Дата обновлена."
+#: tgbot/handlers/main_menu_keyb/additional_keyboard.py:13
+#: tgbot/keyboards/reply.py:13
+msgid "🌀 Прочее"
 msgstr ""
 
-#: tgbot/handlers/update_profile.py:77
-msgid "Успешно! Пол обновлен."
+#: tgbot/handlers/main_menu_keyb/change_language.py:16
+msgid "🇷🇺 Вы поменяли язык на русский"
 msgstr ""
 
-#: tgbot/handlers/whose_birthday_is_today.py:19
+#: tgbot/handlers/main_menu_keyb/change_language.py:19
+msgid "Ваш язык был изменен успешно!"
+msgstr ""
+
+#: tgbot/handlers/main_menu_keyb/change_language.py:26
+#: tgbot/keyboards/reply.py:12
+msgid "🌐 Поменять язык"
+msgstr ""
+
+#: tgbot/handlers/main_menu_keyb/help/help.py:16
+#: tgbot/handlers/main_menu_keyb/help/help.py:23
+#: tgbot/handlers/main_menu_keyb/help/help.py:88
+msgid "🔰 <b>Руководство:</b> "
+msgstr ""
+
+#: tgbot/handlers/main_menu_keyb/help/help.py:78
+msgid "Оцените бота по 5-бальной шкале 🌟"
+msgstr ""
+
+#: tgbot/handlers/main_menu_keyb/help/help.py:89
+msgid "Спасибо за ваш отзыв!"
+msgstr ""
+
+#: tgbot/handlers/main_menu_keyb/help/help.py:124 tgbot/keyboards/reply.py:13
+msgid "❔ Помощь"
+msgstr ""
+
+#: tgbot/handlers/main_menu_keyb/help/help_keyb.py:12
+msgid "Возможности бота"
+msgstr ""
+
+#: tgbot/handlers/main_menu_keyb/help/help_keyb.py:13
+#: tgbot/misc/set_bot_commands.py:14 tgbot/misc/set_bot_commands.py:27
+msgid "Информация о боте"
+msgstr ""
+
+#: tgbot/handlers/main_menu_keyb/help/help_keyb.py:14
+msgid "Доступные форматы"
+msgstr ""
+
+#: tgbot/handlers/main_menu_keyb/help/help_keyb.py:15
+msgid "Список команд"
+msgstr ""
+
+#: tgbot/handlers/main_menu_keyb/help/help_keyb.py:16
+msgid "Оценить бота"
+msgstr ""
+
+#: tgbot/handlers/main_menu_keyb/help/help_keyb.py:38
+#: tgbot/handlers/main_menu_keyb/whose_birthday_is_today/wbit_keyb.py:15
+msgid "{page} из {max_pages}"
+msgstr ""
+
+#: tgbot/handlers/main_menu_keyb/help/help_keyb.py:82
+msgid "Предпочитаемый формат: {date_order}"
+msgstr ""
+
+#: tgbot/handlers/main_menu_keyb/whose_birthday_is_today/wbit_keyb.py:14
+#: tgbot/keyboards/reply.py:170
+msgid "Поздравить"
+msgstr ""
+
+#: tgbot/handlers/main_menu_keyb/whose_birthday_is_today/whose_birthday_is_today.py:20
 msgid ""
 "Сегодня день рождение у {user_name}.\n"
 "\n"
@@ -665,49 +636,216 @@ msgid ""
 "\n"
 msgstr ""
 
-#: tgbot/handlers/whose_birthday_is_today.py:27
+#: tgbot/handlers/main_menu_keyb/whose_birthday_is_today/whose_birthday_is_today.py:28
 msgid "Сегодня день рождение у {n} {p}!"
 msgstr ""
 
-#: tgbot/handlers/whose_birthday_is_today.py:28
+#: tgbot/handlers/main_menu_keyb/whose_birthday_is_today/whose_birthday_is_today.py:29
 msgid "человек"
 msgstr ""
 
-#: tgbot/handlers/whose_birthday_is_today.py:39
+#: tgbot/handlers/main_menu_keyb/whose_birthday_is_today/whose_birthday_is_today.py:40
 msgid "Сегодня, кроме Вас нету ни у кого нету дня рождения 😕"
 msgstr ""
 
-#: tgbot/handlers/whose_birthday_is_today.py:41
+#: tgbot/handlers/main_menu_keyb/whose_birthday_is_today/whose_birthday_is_today.py:42
 msgid "Увы, сегодня ни у кого нету дня рождения 😕"
 msgstr ""
 
-#: tgbot/handlers/whose_birthday_is_today.py:72
-#: tgbot/handlers/whose_birthday_is_today.py:103
+#: tgbot/handlers/main_menu_keyb/whose_birthday_is_today/whose_birthday_is_today.py:73
+#: tgbot/handlers/main_menu_keyb/whose_birthday_is_today/whose_birthday_is_today.py:104
 msgid "Вас поздравил пользователь {user_name} с днем рождения!"
 msgstr ""
 
-#: tgbot/handlers/whose_birthday_is_today.py:76
-#: tgbot/handlers/whose_birthday_is_today.py:108
+#: tgbot/handlers/main_menu_keyb/whose_birthday_is_today/whose_birthday_is_today.py:77
+#: tgbot/handlers/main_menu_keyb/whose_birthday_is_today/whose_birthday_is_today.py:109
 msgid "Поздравление пользователю {user_name} отправлено успешно!"
 msgstr ""
 
-#: tgbot/handlers/whose_birthday_is_today.py:84
-#: tgbot/handlers/whose_birthday_is_today.py:87
-#: tgbot/handlers/whose_birthday_is_today.py:116
-#: tgbot/handlers/whose_birthday_is_today.py:119
+#: tgbot/handlers/main_menu_keyb/whose_birthday_is_today/whose_birthday_is_today.py:85
+#: tgbot/handlers/main_menu_keyb/whose_birthday_is_today/whose_birthday_is_today.py:88
+#: tgbot/handlers/main_menu_keyb/whose_birthday_is_today/whose_birthday_is_today.py:117
+#: tgbot/handlers/main_menu_keyb/whose_birthday_is_today/whose_birthday_is_today.py:120
 msgid ""
 "Хм... Что-то пошло не так 🤔\n"
 "\n"
 "Ошибка: {err}"
 msgstr ""
 
-#: tgbot/handlers/whose_birthday_is_today.py:90
-#: tgbot/handlers/whose_birthday_is_today.py:122
+#: tgbot/handlers/main_menu_keyb/whose_birthday_is_today/whose_birthday_is_today.py:91
+#: tgbot/handlers/main_menu_keyb/whose_birthday_is_today/whose_birthday_is_today.py:123
 msgid "Вы уже поздравили этого пользователя."
 msgstr ""
 
-#: tgbot/handlers/whose_birthday_is_today.py:131 tgbot/keyboards/reply.py:12
+#: tgbot/handlers/main_menu_keyb/whose_birthday_is_today/whose_birthday_is_today.py:132
+#: tgbot/keyboards/reply.py:12
 msgid "🎊 У кого сегодня день рождение"
+msgstr ""
+
+#: tgbot/handlers/others/birthday.py:28
+msgid "Введите день и месяц рождения, например \"22.07\":"
+msgstr ""
+
+#: tgbot/handlers/others/birthday.py:45
+#: tgbot/handlers/others/day_number_in_the_year.py:51
+msgid "Вы некорректно ввели дату. Попробуйте еще раз"
+msgstr ""
+
+#: tgbot/handlers/others/birthday.py:51 tgbot/handlers/profile/profile.py:24
+#: tgbot/handlers/profile/profile.py:43
+msgid ""
+"Хорошо. Теперь отправьте свою дату рождения.\n"
+"\n"
+"Важно! Отправьте Вашу настоящую дату, чтобы не вводить пользователей в "
+"заблуждение."
+msgstr ""
+
+#: tgbot/handlers/others/birthday.py:83 tgbot/handlers/profile/profile.py:71
+#: tgbot/handlers/profile/update_profile.py:58
+msgid "Введите корректно вашу дату рождения."
+msgstr ""
+
+#: tgbot/handlers/others/birthday.py:89 tgbot/keyboards/reply.py:24
+msgid "🥳 Моё день рождение"
+msgstr ""
+
+#: tgbot/handlers/others/day_number_in_the_year.py:17
+#: tgbot/handlers/others/day_number_in_the_year.py:31
+#: tgbot/handlers/others/day_number_in_the_year.py:56
+msgid "Текущая дата"
+msgstr ""
+
+#: tgbot/handlers/others/day_number_in_the_year.py:17
+#: tgbot/handlers/others/day_number_in_the_year.py:56
+msgid "Конкретная дата"
+msgstr ""
+
+#: tgbot/handlers/others/day_number_in_the_year.py:26
+msgid "Выберите в какой день хотите узнать порядковый номер дня в году:"
+msgstr ""
+
+#: tgbot/handlers/others/day_number_in_the_year.py:33
+msgid "Сегодня {yearday} день года. 🙇‍♂"
+msgstr ""
+
+#: tgbot/handlers/others/day_number_in_the_year.py:35
+msgid "Введите дату."
+msgstr ""
+
+#: tgbot/handlers/others/day_number_in_the_year.py:46
+msgid "{date_only} - это {yearday} день года. 🙇‍♂"
+msgstr ""
+
+#: tgbot/handlers/others/day_number_in_the_year.py:55
+#: tgbot/keyboards/reply.py:25
+msgid "🔢 Номер дня в году"
+msgstr ""
+
+#: tgbot/handlers/others/how_many_days.py:17
+msgid ""
+"Отправьте дату, чтобы узнать разницу между текущей датой и датой "
+"отправленной вами (например {date_1} или {date_2}):"
+msgstr ""
+
+#: tgbot/handlers/others/how_many_days.py:36
+msgid "До {parsed_user_date} осталось {difference} дней"
+msgstr ""
+
+#: tgbot/handlers/others/how_many_days.py:42
+msgid "С {parsed_user_date} прошло {difference} дней"
+msgstr ""
+
+#: tgbot/handlers/others/how_many_days.py:51
+msgid "Введите корректно дату."
+msgstr ""
+
+#: tgbot/handlers/others/how_many_days.py:55 tgbot/keyboards/reply.py:25
+msgid "⏳ Сколько дней"
+msgstr ""
+
+#: tgbot/handlers/others/show_holidays.py:14
+#: tgbot/handlers/others/show_holidays.py:22
+msgid ""
+"Нажми на кнопку, чтобы узнать сколько дней осталось до праздника.\n"
+"\n"
+"P.S. Скоро {hol_name} 😃"
+msgstr ""
+
+#: tgbot/handlers/others/show_holidays.py:33
+msgid ""
+"Популярные праздники в мире. Нажми на кнопку, чтобы узнать сколько дней "
+"осталосьдо праздника."
+msgstr ""
+
+#: tgbot/handlers/others/show_holidays.py:45
+#: tgbot/handlers/others/show_holidays.py:61
+msgid "До {hol_name} осталось {time_left}!"
+msgstr ""
+
+#: tgbot/handlers/others/show_holidays.py:76 tgbot/keyboards/reply.py:24
+msgid "🎊 Праздники"
+msgstr ""
+
+#: tgbot/handlers/profile/profile.py:20 tgbot/handlers/profile/profile.py:22
+#: tgbot/handlers/profile/update_profile.py:64
+msgid "Укажите ваш пол:"
+msgstr ""
+
+#: tgbot/handlers/profile/profile.py:61 tgbot/handlers/profile/profile.py:87
+msgid "Готово!"
+msgstr ""
+
+#: tgbot/handlers/profile/profile.py:73
+#: tgbot/handlers/profile/update_profile.py:60
+msgid "Дата рождения должна быть меньше или равна текущей дате."
+msgstr ""
+
+#: tgbot/handlers/profile/profile.py:98 tgbot/keyboards/reply.py:9
+msgid "👤 Мой профиль"
+msgstr ""
+
+#: tgbot/handlers/profile/profile_keyb.py:14
+msgid "Мужской 👨"
+msgstr ""
+
+#: tgbot/handlers/profile/profile_keyb.py:18
+msgid "Женский 👩"
+msgstr ""
+
+#: tgbot/handlers/profile/profile_keyb.py:32
+msgid "Изменить Имя"
+msgstr ""
+
+#: tgbot/handlers/profile/profile_keyb.py:33
+msgid "Изменить дату"
+msgstr ""
+
+#: tgbot/handlers/profile/profile_keyb.py:34
+msgid "Изменить Пол"
+msgstr ""
+
+#: tgbot/handlers/profile/profile_keyb.py:35 tgbot/misc/set_bot_commands.py:26
+msgid "Статистика"
+msgstr ""
+
+#: tgbot/handlers/profile/update_profile.py:16
+msgid "Отправьте новое имя"
+msgstr ""
+
+#: tgbot/handlers/profile/update_profile.py:30
+msgid "Успешно! Имя обновлено."
+msgstr ""
+
+#: tgbot/handlers/profile/update_profile.py:35
+msgid "Отправьте новую дату"
+msgstr ""
+
+#: tgbot/handlers/profile/update_profile.py:53
+msgid "Успешно! Дата обновлена."
+msgstr ""
+
+#: tgbot/handlers/profile/update_profile.py:78
+msgid "Успешно! Пол обновлен."
 msgstr ""
 
 #: tgbot/keyboards/inline.py:19 tgbot/keyboards/inline.py:46
@@ -734,79 +872,28 @@ msgstr ""
 msgid "new year"
 msgstr ""
 
+#: tgbot/keyboards/reply.py:40
+msgid "Международные праздники"
+msgstr ""
+
+#: tgbot/keyboards/reply.py:41
+msgid "Праздник сегодня"
+msgstr ""
+
+#: tgbot/keyboards/reply.py:42
+msgid "smth"
+msgstr ""
+
 #: tgbot/keyboards/reply.py:87
-msgid "Изменить Имя"
+msgid "Поделиться"
 msgstr ""
 
-#: tgbot/keyboards/reply.py:88
-msgid "Изменить дату"
-msgstr ""
-
-#: tgbot/keyboards/reply.py:89
-msgid "Изменить Пол"
-msgstr ""
-
-#: tgbot/keyboards/reply.py:90 tgbot/misc/set_bot_commands.py:26
-msgid "Статистика"
-msgstr ""
-
-#: tgbot/keyboards/reply.py:130 tgbot/keyboards/reply.py:315
-#: tgbot/keyboards/reply.py:338 tgbot/keyboards/reply.py:351
-#: tgbot/keyboards/reply.py:382
-msgid "Назад"
-msgstr ""
-
-#: tgbot/keyboards/reply.py:134 tgbot/keyboards/reply.py:141
-msgid "Обновить"
-msgstr ""
-
-#: tgbot/keyboards/reply.py:153
+#: tgbot/keyboards/reply.py:144
 msgid "Поделиться сообщением"
 msgstr ""
 
-#: tgbot/keyboards/reply.py:164 tgbot/keyboards/reply.py:183
+#: tgbot/keyboards/reply.py:155 tgbot/keyboards/reply.py:174
 msgid "Перейти к боту"
-msgstr ""
-
-#: tgbot/keyboards/reply.py:179 tgbot/keyboards/reply.py:199
-msgid "Поздравить"
-msgstr ""
-
-#: tgbot/keyboards/reply.py:200 tgbot/keyboards/reply.py:288
-msgid "{page} из {max_pages}"
-msgstr ""
-
-#: tgbot/keyboards/reply.py:244
-msgid "Мужской 👨"
-msgstr ""
-
-#: tgbot/keyboards/reply.py:248
-msgid "Женский 👩"
-msgstr ""
-
-#: tgbot/keyboards/reply.py:262
-msgid "Возможности бота"
-msgstr ""
-
-#: tgbot/keyboards/reply.py:263 tgbot/misc/set_bot_commands.py:14
-#: tgbot/misc/set_bot_commands.py:27
-msgid "Информация о боте"
-msgstr ""
-
-#: tgbot/keyboards/reply.py:264
-msgid "Доступные форматы"
-msgstr ""
-
-#: tgbot/keyboards/reply.py:265
-msgid "Список команд"
-msgstr ""
-
-#: tgbot/keyboards/reply.py:266
-msgid "Оценить бота"
-msgstr ""
-
-#: tgbot/keyboards/reply.py:332
-msgid "Предпочитаемый формат: {date_order}"
 msgstr ""
 
 #: tgbot/misc/set_bot_commands.py:9 tgbot/misc/set_bot_commands.py:20
@@ -914,5 +1001,11 @@ msgstr ""
 #~ "Отправьте дату, чтобы узнать разницу "
 #~ "между текущей датой и датой отправленной"
 #~ " вами (например 10.12.2077 или 28.06.1971):"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Нажми на кнопку, чтобы узнать сколько дней осталось до праздника.\n"
+#~ "\n"
+#~ "P.S. Скоро праздник - {hol_name} 😃"
 #~ msgstr ""
 

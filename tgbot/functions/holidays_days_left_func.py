@@ -22,6 +22,8 @@ async def holiday_days_left(holiday_id: str, db_commands, morph) -> tuple:
         "iwd": _("Международный женский день"),  # International Women's Day, March 8
         "nvrz": _("Навруз")  # Navruz, March 21
     }
+    for conjucted_word in holidays[holiday_id].split():
+        print(morph.parse(conjucted_word)[0].inflect({"gent"}))
     today = datetime.today()
     holiday_date = get_proper_date(holiday[0].month, holiday[0].day)
     holiday_name = " ".join([morph.parse(conjucted_word)[0].inflect({"gent"}).word.capitalize()
@@ -33,12 +35,12 @@ async def holiday_days_left(holiday_id: str, db_commands, morph) -> tuple:
 
 def get_time_left(obj: relativedelta, morph) -> str:
     time_dict = {
-        "y": morph.parse("лет")[0],
-        "m": morph.parse("месяц")[0],
-        "d": morph.parse("день")[0],
-        "h": morph.parse("час")[0],
-        "min": morph.parse("минута")[0],
-        "s": morph.parse("секунда")[0],
+        "y": morph.parse(_("лет"))[0],
+        "m": morph.parse(_("месяц"))[0],
+        "d": morph.parse(_("день"))[0],
+        "h": morph.parse(_("час"))[0],
+        "min": morph.parse(_("минута"))[0],
+        "s": morph.parse(_("секунда"))[0],
     }
     text = []
     if obj.years != 0:

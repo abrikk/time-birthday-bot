@@ -20,7 +20,7 @@ async def back_holidays(call: types.CallbackQuery):
     await call.answer()
     next_holiday: dict = get_next_holiday()
     text = _("Нажми на кнопку, чтобы узнать сколько дней осталось до праздника.\n\n"
-             "P.S. Скоро праздник - {hol_name} 😃").format(hol_name=next_holiday["name"])
+             "P.S. Скоро {hol_name} 😃").format(hol_name=next_holiday["name"])
     await call.message.edit_text(text, reply_markup=holidays_keyb())
 
 
