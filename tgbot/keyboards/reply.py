@@ -84,7 +84,7 @@ def change_hol_keyb(page: int = 1):
 
     markup.insert(
         InlineKeyboardButton(
-            text="Поделиться",
+            text=_("Поделиться"),
             callback_data=hol_pag_cb.new(page=page, action="share_message")
         )
     )
@@ -97,7 +97,7 @@ def change_hol_keyb(page: int = 1):
     )
     markup.add(
         InlineKeyboardButton(
-            text="Назад",
+            text=_("Назад"),
             callback_data=hol_pag_cb.new(page=page, action="back_inter")
         )
     )
