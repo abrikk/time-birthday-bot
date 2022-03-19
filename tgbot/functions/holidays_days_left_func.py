@@ -1,6 +1,5 @@
-from datetime import date
+from datetime import datetime
 
-from aiogram.utils.markdown import hide_link
 from dateutil.relativedelta import relativedelta
 
 from tgbot.functions.next_holiday_func import get_proper_date
@@ -18,14 +17,12 @@ def get_holiday_name(hol_abbr: str) -> str:
 
 async def holiday_days_left(holiday_id: str, db_commands, morph) -> tuple:
     holiday = await db_commands.get_scpecific_holiday(holiday_id)
-    print(holiday)
-    print(holiday[0])
     holidays = {
         "ny": _("Новый Год"),  # New Year, January 1
         "iwd": _("Международный женский день"),  # International Women's Day, March 8
         "nvrz": _("Навруз")  # Navruz, March 21
     }
-    today = date.today()
+    today = datetime.today()
     holiday_date = get_proper_date(holiday[0].month, holiday[0].day)
     holiday_name = " ".join([morph.parse(conjucted_word)[0].inflect({"gent"}).word.capitalize()
                              for conjucted_word in holidays[holiday_id].split()])
@@ -55,4 +52,4 @@ def get_time_left(obj: relativedelta, morph) -> str:
     if obj.minutes != 0:
         text.append(f"{obj.minutes} {time_dict['min'].make_agree_with_number(obj.minutes).word}")
 
-    return " ".join(text)
+    return ", ".join(text)
