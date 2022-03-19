@@ -1,7 +1,8 @@
 from aiogram import types, Dispatcher
 from aiogram.dispatcher.filters import Command, Text
+from aiogram.utils.markdown import hide_link
 
-from tgbot.functions.holidays_days_left_func import holiday_days_left, get_holiday_name
+from tgbot.functions.holidays_days_left_func import holiday_days_left, get_holiday_name, get_time_left
 from tgbot.functions.next_holiday_func import get_next_holiday
 from tgbot.keyboards.reply import holidays_keyb, hol_cb, inter_holidays_keyb, change_hol_keyb, hol_pag_cb
 from tgbot.middlewares.lang_middleware import _, __
@@ -36,10 +37,11 @@ async def show_inter_holidays(call: types.CallbackQuery, db_commands):
 async def show_chosen_holiday(call: types.CallbackQuery, db_commands, morph, callback_data):
     await call.answer()
     hol_name = callback_data.get("hol_name")
-    holiday_name, holiday_date, time_left, hide_link = \
+    holiday_name, holiday_date, time_left, hide_photo = \
         await holiday_days_left(hol_name, db_commands, morph)
-    text = _("{hide_link}До {hol_name} осталось {time_left} дней!").format(
-        hide_link=hide_link, hol_name=holiday_name, time_left=get_time_left(time_left))
+    print(hide_photo)
+    text = _("{hide_photo}До {hol_name} осталось {time_left} дней!").format(
+        hide_photo=hide_link(hide_photo), hol_name=holiday_name, time_left=get_time_left(time_left, morph))
     await call.message.edit_text(text, reply_markup=change_hol_keyb())
 
 
