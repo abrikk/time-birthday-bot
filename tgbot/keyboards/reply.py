@@ -52,45 +52,55 @@ def holidays_keyb():
     return markup
 
 
+inter_hol_cb = CallbackData("inter_holidays", "hol_name")
+
+
 def inter_holidays_keyb(buttons: dict):
     markup = InlineKeyboardMarkup(row_width=1)
-    # buttons = {
-    #     _("🌹 Международный женский день"): "iwd",
-    #     _("Новый Год"): "ny",
-    #     _("Навруз"): "navruz",
-    #
-    # }
 
     for text, data in buttons.items():
         markup.insert(
             InlineKeyboardButton(
                 text=text,
-                callback_data=hol_cb.new(hol_name=data)
+                callback_data=inter_hol_cb.new(hol_name=data)
             )
         )
     markup.add(InlineKeyboardButton(text=_("Назад"),
-                                    callback_data=hol_cb.new(hol_name="back_holiday")))
+                                    callback_data=inter_hol_cb.new(hol_name="back_holiday")))
     return markup
 
 
-hol_pag_cb = CallbackData("hol_pg", "action")
+hol_pag_cb = CallbackData("hol_pg", "page", "action")
 
 
 def change_hol_keyb(page: int = 1):
     markup = InlineKeyboardMarkup()
-    buttons = {
-        "<<": page - 1,
-        "Назад": "back_inter",
-        ">>": page + 1
-    }
-    for text, data in buttons.items():
-        markup.insert(
-            InlineKeyboardButton(
-                text=text,
-                callback_data=hol_pag_cb.new(action=data)
-            )
+    markup.insert(
+        InlineKeyboardButton(
+            text="<<",
+            callback_data=hol_pag_cb.new(page=page - 1, action="left")
         )
+    )
 
+    markup.insert(
+        InlineKeyboardButton(
+            text="Поделиться",
+            callback_data=hol_pag_cb.new(page=page, action="share_message")
+        )
+    )
+
+    markup.insert(
+        InlineKeyboardButton(
+            text=">>",
+            callback_data=hol_pag_cb.new(page=page + 1, action="right")
+        )
+    )
+    markup.add(
+        InlineKeyboardButton(
+            text="Назад",
+            callback_data=hol_pag_cb.new(page=page, action="back_inter")
+        )
+    )
     return markup
 
 

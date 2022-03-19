@@ -245,9 +245,16 @@ class DBCommands:
     # Holiday commands
 
     async def get_all_holidays(self):
-        sql = select(Holidays.holiday_date, Holidays.holiday_code, Holidays.hide_link).select_from(Holidays)
+        sql = select(Holidays.holiday_date, Holidays.holiday_code, Holidays.hide_link)\
+            .select_from(Holidays).order_by(Holidays.id.asc())
         result = await self.session.execute(sql)
         scalars = result.all()
+        return scalars
+
+    async def get_all_holidays_code(self):
+        sql = select(Holidays.holiday_code).order_by(Holidays.id.asc())
+        result = await self.session.execute(sql)
+        scalars = result.scalars().all()
         return scalars
 
     async def get_scpecific_holiday(self, holiday_code: str):
