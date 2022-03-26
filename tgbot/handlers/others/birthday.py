@@ -22,6 +22,7 @@ from tgbot.middlewares.lang_middleware import _, __
 #                              reply_markup=share_message("my birthday"))
 #     except ValueError:
 #         await message.answer(get_echo_text())
+from tgbot.misc.all_errors import InvalidBirthDateError
 
 
 async def my_bd_command(message: types.Message, state: FSMContext):
@@ -68,19 +69,24 @@ async def my_bd_date(message: types.Message, state: FSMContext, db_commands, ses
         user = await db_commands.get_user(user_id=message.from_user.id)
         parsed_date = dp_parse(user_date, languages=[user.lang_code],
                                settings={'DATE_ORDER': user.preferred_date_order}).date()
-        await db_commands.update_user_date(message.from_user.id, parsed_date)
-        await session.commit()
-        trigger = CronTrigger(hour=13, minute=30, jitter=10800)
-        scheduler.add_job(user_turned_day, trigger,
-                          id=str(message.from_user.id), replace_existing=False,
-                          args=(message, db_commands))
-        days_left, age = await birthday_btn(user)
-        await message.answer(await until_bd(days_left, age, "btn", message),
-                             reply_markup=share_message("my birthday"))
+        if parsed_date <= date.today():
+            await db_commands.update_user_date(message.from_user.id, parsed_date)
+            await session.commit()
+            trigger = CronTrigger(hour=13, minute=30, jitter=10800)
+            scheduler.add_job(user_turned_day, trigger,
+                              id=str(message.from_user.id), replace_existing=False,
+                              args=(message, db_commands))
+            days_left, age = await birthday_btn(user)
+            await message.answer(await until_bd(days_left, age, "btn", message),
+                                 reply_markup=share_message("my birthday"))
 
-        await state.reset_state()
+            await state.reset_state()
+        else:
+            raise InvalidBirthDateError
     except AttributeError:
         await message.answer(_("Введите корректно вашу дату рождения."))
+    except InvalidBirthDateError:
+        await message.answer(_("Дата рождения должна быть меньше или равна текущей дате."))
 
 
 def register_my_bd(dp: Dispatcher):

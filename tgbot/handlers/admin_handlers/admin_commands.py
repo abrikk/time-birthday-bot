@@ -14,12 +14,13 @@ async def delete_keyboard(message: types.Message, db_commands):
         await message.answer(get_echo_text())
 
 
-async def delete_me_from_db(message: types.Message, db_commands, session):
+async def delete_me_from_db(message: types.Message, db_commands, session, scheduler):
     user = await db_commands.get_user(user_id=message.from_user.id)
     if user.role == 'admin':
         await db_commands.delete_me_from_db(message.from_user.id)
         await db_commands.delete_me_from_bd_stat_r(message.from_user.id)
         await db_commands.delete_me_from_bd_stat_g(message.from_user.id)
+        scheduler.remove_job(str(message.from_user.id))
 
         await session.commit()
     else:
