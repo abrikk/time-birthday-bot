@@ -21,7 +21,7 @@ def main_keyb():
 
 def additional_keyb():
     markup = ReplyKeyboardMarkup(resize_keyboard=True)
-    buttons = [[_('🥳 Моё день рождение'), _('🎊 Праздники')],
+    buttons = [[_('🥳 Моё день рождение'), _('🎊 Праздники [beta]')],
                [_('🔢 Номер дня в году'), _('⏳ Сколько дней')]]
     for text_1, text_2 in buttons:
         markup.add(KeyboardButton(text_1),
