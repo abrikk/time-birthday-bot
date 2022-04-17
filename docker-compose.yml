@@ -1,0 +1,40 @@
+version: "3.7"
+
+services:
+    db:
+        container_name: database
+        image: postgres:13-alpine
+        restart: "unless-stopped"
+        environment:
+            POSTGRES_USER: ${DB_USER}
+            POSTGRES_PASSWORD: ${DB_PASS}
+            POSTGRES_DB: ${DB_NAME}
+            VOLUMES_DIR: ${VOLUMES_DIR}
+        volumes:
+            - "~/${VOLUMES_DIR}/pg-data:/var/lib/postgresql/data"
+        ports:
+            - "5555:5432"
+    db_migration:
+        container_name: database_migration
+        build: .
+        restart: "on-failure"
+        depends_on:
+            -   db
+        environment:
+            -   DB_HOST
+            -   DB_PORT
+            -   DB_NAME
+            -   DB_USER
+            -   DB_PASS
+        command: sh -c "python -m alembic upgrade head"
+    bot:
+        container_name: tgbot
+        build: .
+        stop_signal: SIGINT
+        restart: "unless-stopped"
+        env_file: .env
+        depends_on:
+            - db
+            - db_migration
+        logging:
+            driver: journald
