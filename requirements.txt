@@ -1,5 +1,6 @@
 aiogram~=2.18
 aioredis
+asyncpg~=0.25.0
 environs~=9.4.0
 SQLAlchemy~=1.4.18
 tgbot~=0.31
