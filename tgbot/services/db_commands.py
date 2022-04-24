@@ -245,21 +245,33 @@ class DBCommands:
     # Holiday commands
 
     async def get_all_holidays(self):
-        sql = select(Holidays.holiday_date, Holidays.holiday_code, Holidays.hide_link)\
-            .select_from(Holidays).order_by(Holidays.id.asc())
+        sql = select(Holidays.holiday_name, Holidays.holiday_date, Holidays.uid, Holidays.hide_link) \
+            .select_from(Holidays).order_by(Holidays.holiday_name)
         result = await self.session.execute(sql)
         scalars = result.all()
         return scalars
 
-    async def get_all_holidays_code(self):
-        sql = select(Holidays.holiday_code).order_by(Holidays.id.asc())
+    async def count_all_holidays(self):
+        sql = select(func.count("*")).select_from(Holidays)
+        result = await self.session.execute(sql)
+        return result.scalar()
+
+    async def get_10_holidays(self, offset: int = 0):
+        sql = select(Holidays.holiday_name, Holidays.holiday_date, Holidays.uid, Holidays.hide_link) \
+            .select_from(Holidays).order_by(Holidays.holiday_name).limit(10).offset(offset)
+        result = await self.session.execute(sql)
+        scalars = result.all()
+        return scalars
+
+    async def get_all_holidays_uid(self):
+        sql = select(Holidays.uid).order_by(Holidays.holiday_name)
         result = await self.session.execute(sql)
         scalars = result.scalars().all()
         return scalars
 
-    async def get_scpecific_holiday(self, holiday_code: str):
-        sql = select(Holidays.holiday_date, Holidays.hide_link).where(
-            Holidays.holiday_code == holiday_code
+    async def get_scpecific_holiday(self, uid: str):
+        sql = select(Holidays.holiday_name, Holidays.holiday_date, Holidays.hide_link).where(
+            Holidays.uid == uid
         )
         result = await self.session.execute(sql)
         scalars = result.first()
