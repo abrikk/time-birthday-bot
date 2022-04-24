@@ -251,6 +251,13 @@ class DBCommands:
         scalars = result.all()
         return scalars
 
+    async def get_holidays_name(self):
+        sql = select(Holidays.holiday_name, Holidays.uid).select_from(Holidays)\
+            .order_by(Holidays.holiday_name)
+        result = await self.session.execute(sql)
+        scalars = result.all()
+        return scalars
+
     async def count_all_holidays(self):
         sql = select(func.count("*")).select_from(Holidays)
         result = await self.session.execute(sql)
@@ -276,3 +283,14 @@ class DBCommands:
         result = await self.session.execute(sql)
         scalars = result.first()
         return scalars
+
+    async def update_hol_name(self, uid, hn_ru, hn_uz, hn_ua, hn_es, hn_fr):
+        sql = update(Holidays).where(Holidays.uid == uid).values(
+            hn_ru=hn_ru,
+            hn_uz=hn_uz,
+            hn_ua=hn_ua,
+            hn_es=hn_es,
+            hn_fr=hn_fr
+        )
+        result = await self.session.execute(sql)
+        return result
