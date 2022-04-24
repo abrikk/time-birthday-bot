@@ -11,10 +11,10 @@ class Holidays(Base):
     hide_link = Column(String, nullable=True)
     where = Column(String, nullable=True)
     hn_ru = Column(String, nullable=True)
-    uz_ru = Column(String, nullable=True)
-    ua_ru = Column(String, nullable=True)
-    es_ru = Column(String, nullable=True)
-    fr_ru = Column(String, nullable=True)
+    hn_uz = Column(String, nullable=True)
+    hn_ua = Column(String, nullable=True)
+    hn_es = Column(String, nullable=True)
+    hn_fr = Column(String, nullable=True)
     PrimaryKeyConstraint(uid, name="holidays_pk")
 
     def __repr__(self):
