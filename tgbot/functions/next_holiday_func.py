@@ -12,7 +12,7 @@ def get_proper_date(month: int, day: int) -> datetime:
     return proper_date
 
 
-def get_next_holiday() -> dict:
+def get_next_holiday(all_holidays) -> dict:
     """
     This function will return the next holiday
     """

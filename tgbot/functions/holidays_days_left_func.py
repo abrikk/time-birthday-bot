@@ -15,22 +15,16 @@ def get_holiday_name(hol_abbr: str) -> str:
     return holidays[hol_abbr]
 
 
-async def holiday_days_left(holiday_id: str, db_commands, morph) -> tuple:
-    holiday = await db_commands.get_scpecific_holiday(holiday_id)
-    holidays = {
-        "ny": _("Новый Год"),  # New Year, January 1
-        "iwd": _("Международный женский день"),  # International Women's Day, March 8
-        "nvrz": _("Навруз")  # Navruz, March 21
-    }
-    for conjucted_word in holidays[holiday_id].split():
-        print(morph.parse(conjucted_word)[0].inflect({"gent"}))
+async def holiday_days_left(holiday_uid: str, db_commands, morph) -> tuple:
+    holiday = await db_commands.get_scpecific_holiday(holiday_uid)
     today = datetime.today()
-    holiday_date = get_proper_date(holiday[0].month, holiday[0].day)
-    holiday_name = " ".join([morph.parse(conjucted_word)[0].inflect({"gent"}).word.capitalize()
-                             for conjucted_word in holidays[holiday_id].split()])
+    holiday_date = get_proper_date(holiday[1].month, holiday[1].day)
+    holiday_name = holiday[0]
+    # holiday_name = " ".join([morph.parse(conjucted_word)[0].inflect({"gent"}).word.capitalize()
+    #                          for conjucted_word in holidays[holiday_id].split()])
 
     time_left = relativedelta(holiday_date, today)
-    return holiday_name, holiday_date, time_left, holiday[1]
+    return holiday_name, holiday_date, time_left, holiday[2]
 
 
 def get_time_left(obj: relativedelta, morph) -> str:
