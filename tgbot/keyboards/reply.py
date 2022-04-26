@@ -142,7 +142,7 @@ lang_keyb = InlineKeyboardMarkup(
         ],
         [
             InlineKeyboardButton(text="🇺🇿 O'zbek", callback_data=lang_cb.new(name="uz")),
-            InlineKeyboardButton(text="🇺🇦 Український", callback_data=lang_cb.new(name="uk"))
+            InlineKeyboardButton(text="🇺🇦 Український", callback_data=lang_cb.new(name="ua"))
         ],
         [
             InlineKeyboardButton(text="🇪🇸 Español", callback_data=lang_cb.new(name="es")),

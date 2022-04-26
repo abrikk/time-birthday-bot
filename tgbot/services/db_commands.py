@@ -244,6 +244,14 @@ class DBCommands:
 
     # Holiday commands
 
+    async def add_hol(self, uid, holiday, date):
+        holiday = Holidays(uid=uid,
+                           holiday_name=holiday,
+                           holiday_date=date,
+                           )
+        self.session.add(holiday)
+        return holiday
+
     async def get_all_holidays(self):
         sql = select(Holidays.holiday_name, Holidays.holiday_date, Holidays.uid, Holidays.hide_link) \
             .select_from(Holidays).order_by(Holidays.holiday_name)
@@ -252,8 +260,15 @@ class DBCommands:
         return scalars
 
     async def get_holidays_name(self):
-        sql = select(Holidays.holiday_name, Holidays.uid).select_from(Holidays)\
-            .order_by(Holidays.holiday_name)
+        sql = select(Holidays.holiday_name, Holidays.uid).select_from(Holidays).where(
+            and_(
+                Holidays.hn_en.is_(None),
+                Holidays.hn_uz.is_(None),
+                Holidays.hn_ua.is_(None),
+                Holidays.hn_es.is_(None),
+                Holidays.hn_fr.is_(None)
+            )
+        ).order_by(Holidays.hn_en)
         result = await self.session.execute(sql)
         scalars = result.all()
         return scalars
@@ -263,15 +278,23 @@ class DBCommands:
         result = await self.session.execute(sql)
         return result.scalar()
 
-    async def get_10_holidays(self, offset: int = 0):
-        sql = select(Holidays.holiday_name, Holidays.holiday_date, Holidays.uid, Holidays.hide_link) \
-            .select_from(Holidays).order_by(Holidays.holiday_name).limit(10).offset(offset)
+    async def get_10_holidays(self, lang: str, offset: int = 0):
+        holiday_lang = {
+            'en': Holidays.hn_en,
+            'ua': Holidays.hn_ua,
+            'uz': Holidays.hn_uz,
+            'es': Holidays.hn_es,
+            'fr': Holidays.hn_fr,
+            'ru': Holidays.holiday_name
+        }
+        sql = select(holiday_lang.get(lang), Holidays.holiday_date, Holidays.uid, Holidays.hide_link) \
+            .select_from(Holidays).order_by(holiday_lang.get(lang)).limit(10).offset(offset)
         result = await self.session.execute(sql)
         scalars = result.all()
         return scalars
 
     async def get_all_holidays_uid(self):
-        sql = select(Holidays.uid).order_by(Holidays.holiday_name)
+        sql = select(Holidays.uid).order_by(Holidays.hn_en)
         result = await self.session.execute(sql)
         scalars = result.scalars().all()
         return scalars
@@ -284,9 +307,9 @@ class DBCommands:
         scalars = result.first()
         return scalars
 
-    async def update_hol_name(self, uid, hn_ru, hn_uz, hn_ua, hn_es, hn_fr):
+    async def update_hol_name(self, uid, hn_en, hn_uz, hn_ua, hn_es, hn_fr):
         sql = update(Holidays).where(Holidays.uid == uid).values(
-            hn_ru=hn_ru,
+            hn_en=hn_en,
             hn_uz=hn_uz,
             hn_ua=hn_ua,
             hn_es=hn_es,
@@ -294,3 +317,4 @@ class DBCommands:
         )
         result = await self.session.execute(sql)
         return result
+
