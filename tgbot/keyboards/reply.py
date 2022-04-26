@@ -88,7 +88,7 @@ def inter_holidays_keyb(buttons: dict, page: int = 1):
 hol_pag_cb = CallbackData("hol_pg", "page", "action")
 
 
-def change_hol_keyb(page: int = 1):
+def change_hol_keyb(page: int = 1, admin: bool = False):
     markup = InlineKeyboardMarkup()
     markup.insert(
         InlineKeyboardButton(
@@ -116,6 +116,13 @@ def change_hol_keyb(page: int = 1):
             callback_data=hol_pag_cb.new(page=page, action="back_inter")
         )
     )
+    if admin:
+        markup.add(
+            InlineKeyboardButton(
+                text=_("Настройки"),
+                callback_data=hol_pag_cb.new(page=page, action="settings")
+            )
+        )
     return markup
 
 
