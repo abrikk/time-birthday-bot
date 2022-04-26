@@ -42,11 +42,11 @@ async def switch_inter_hol(call: types.CallbackQuery, db_commands, callback_data
     await call.answer()
     number_of_hols = await db_commands.count_all_holidays()
     current_hol_page = int(callback_data.get("page"))
-    if current_hol_page > math.ceil(number_of_hols/10):
+    if current_hol_page > math.ceil(number_of_hols / 10):
         current_hol_page = 1
     elif current_hol_page < 1:
-        current_hol_page = math.ceil(number_of_hols/10)
-    offset = (current_hol_page-1)*10
+        current_hol_page = math.ceil(number_of_hols / 10)
+    offset = (current_hol_page - 1) * 10
     all_holidays = await db_commands.get_10_holidays(lang=await db_commands.get_user_language(call.from_user.id),
                                                      offset=offset)
     holidays_name = [hn for hn, dt, cb, hl in all_holidays]
@@ -59,6 +59,7 @@ async def switch_inter_hol(call: types.CallbackQuery, db_commands, callback_data
 
 async def show_chosen_holiday(call: types.CallbackQuery, db_commands, morph, callback_data):
     await call.answer()
+    user = await db_commands.get_user(user_id=call.from_user.id)
     hol_uid = callback_data.get("hol_uid")
     all_hol_codes = await db_commands.get_all_holidays_uid()
     current_hol_page = all_hol_codes.index(hol_uid)
@@ -66,7 +67,8 @@ async def show_chosen_holiday(call: types.CallbackQuery, db_commands, morph, cal
         await holiday_days_left(hol_uid, db_commands, morph)
     text = _("До {hol_name} осталось {time_left}!").format(
         hol_name=holiday_name, time_left=get_time_left(time_left, morph))
-    await call.message.edit_text(hide_link(hide_photo) + text, reply_markup=change_hol_keyb(current_hol_page+1))
+    await call.message.edit_text(hide_link(hide_photo) + text, reply_markup=change_hol_keyb(
+        page=current_hol_page + 1, admin=user.role == 'admin'))
 
 
 async def change_hol_page(call: types.CallbackQuery, callback_data: dict, db_commands, morph):
@@ -104,5 +106,3 @@ def register_all_holidays(dp: Dispatcher):
     dp.register_callback_query_handler(show_chosen_holiday, inter_hol_cb.filter())
     dp.register_callback_query_handler(share_holiday, hol_pag_cb.filter(action="share_message"))
     dp.register_callback_query_handler(change_hol_page, hol_pag_cb.filter())
-
-

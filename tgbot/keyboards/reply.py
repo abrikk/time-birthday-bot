@@ -117,7 +117,7 @@ def change_hol_keyb(page: int = 1, admin: bool = False):
         )
     )
     if admin:
-        markup.add(
+        markup.insert(
             InlineKeyboardButton(
                 text=_("Настройки"),
                 callback_data=hol_pag_cb.new(page=page, action="settings")
