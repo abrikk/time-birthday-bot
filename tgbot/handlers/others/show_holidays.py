@@ -29,7 +29,7 @@ async def back_holidays(call: types.CallbackQuery):
 
 async def show_inter_holidays(call: types.CallbackQuery, db_commands):
     await call.answer()
-    all_holidays = await db_commands.get_10_holidays()
+    all_holidays = await db_commands.get_10_holidays(lang=await db_commands.get_user_language(call.from_user.id))
     holidays_name = [hn for hn, dt, cb, hl in all_holidays]
     holidays_cb = [cb for hn, dt, cb, hl in all_holidays]
     buttons = {name: cb for name, cb in zip(holidays_name, holidays_cb)}
@@ -47,7 +47,8 @@ async def switch_inter_hol(call: types.CallbackQuery, db_commands, callback_data
     elif current_hol_page < 1:
         current_hol_page = math.ceil(number_of_hols/10)
     offset = (current_hol_page-1)*10
-    all_holidays = await db_commands.get_10_holidays(offset=offset)
+    all_holidays = await db_commands.get_10_holidays(lang=await db_commands.get_user_language(call.from_user.id),
+                                                     offset=offset)
     holidays_name = [hn for hn, dt, cb, hl in all_holidays]
     holidays_cb = [cb for hn, dt, cb, hl in all_holidays]
     buttons = {name: cb for name, cb in zip(holidays_name, holidays_cb)}
