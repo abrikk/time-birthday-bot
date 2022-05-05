@@ -55,8 +55,8 @@ def holidays_keyb():
 inter_hol_cb = CallbackData("inter_holidays", "action", "hol_uid", "page")
 
 
-def inter_holidays_keyb(buttons: dict, page: int = 1):
-    markup = InlineKeyboardMarkup(row_width=3)
+def inter_holidays_keyb(buttons: dict, max_pages: int, page: int = 1):
+    markup = InlineKeyboardMarkup(row_width=5)
 
     for text, data in buttons.items():
         markup.add(
@@ -68,12 +68,15 @@ def inter_holidays_keyb(buttons: dict, page: int = 1):
     markup.add(
         InlineKeyboardButton(
             text="<<",
-            callback_data=inter_hol_cb.new(hol_uid="left", action="switch_page", page=page - 1)
+            callback_data=inter_hol_cb.new(hol_uid="tleft", action="switch_page", page=page - 9)
         )
     )
     another_data = {
-        _("Назад"): ("back_holiday", "back_inter", "back_hol_page"),
-        ">>": ("right", "switch_page", page + 1)
+        "<": ("oleft", "switch_page", page - 1),
+        _("{page} из {max_pages}").format(page=page, max_pages=max_pages):
+            ("none", "none", "current_page"),
+        ">": ("oright", "switch_page", page + 1),
+        ">>": ("tright", "switch_page", page + 9)
     }
     for text, data in another_data.items():
         markup.insert(
@@ -82,6 +85,13 @@ def inter_holidays_keyb(buttons: dict, page: int = 1):
                 callback_data=inter_hol_cb.new(hol_uid=data[0], action=data[1], page=data[2])
             )
         )
+    markup.add(
+        InlineKeyboardButton(
+            text=_("Назад"),
+            callback_data=inter_hol_cb.new(hol_uid="back_holiday", action="back_inter",
+                                           page="back_hol_page")
+        )
+    )
     return markup
 
 

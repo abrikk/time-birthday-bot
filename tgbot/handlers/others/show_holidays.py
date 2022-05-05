@@ -4,7 +4,7 @@ from aiogram import types, Dispatcher
 from aiogram.dispatcher.filters import Command, Text
 from aiogram.utils.markdown import hide_link
 
-from tgbot.functions.holidays_days_left_func import holiday_days_left, get_holiday_name, get_time_left
+from tgbot.functions.holidays_days_left_func import holiday_days_left, get_time_left
 from tgbot.functions.next_holiday_func import get_next_holiday
 from tgbot.handlers.main_menu_keyb.whose_birthday_is_today.whose_birthday_is_today import get_page
 from tgbot.keyboards.reply import holidays_keyb, hol_cb, inter_holidays_keyb, change_hol_keyb, hol_pag_cb, inter_hol_cb
@@ -30,23 +30,27 @@ async def back_holidays(call: types.CallbackQuery):
 async def show_inter_holidays(call: types.CallbackQuery, db_commands):
     await call.answer()
     all_holidays = await db_commands.get_10_holidays(lang=await db_commands.get_user_language(call.from_user.id))
+    number_of_hols = await db_commands.count_all_holidays()
     holidays_name = [hn for hn, dt, cb, hl in all_holidays]
     holidays_cb = [cb for hn, dt, cb, hl in all_holidays]
     buttons = {name: cb for name, cb in zip(holidays_name, holidays_cb)}
     text = _("Популярные праздники в мире. Нажми на кнопку, чтобы узнать сколько дней осталось"
              "до праздника.")
-    await call.message.edit_text(text, reply_markup=inter_holidays_keyb(buttons))
+    await call.message.edit_text(text, reply_markup=inter_holidays_keyb(
+        buttons=buttons,
+        max_pages=math.ceil(number_of_hols / 9)
+    ))
 
 
 async def switch_inter_hol(call: types.CallbackQuery, db_commands, callback_data):
     await call.answer()
     number_of_hols = await db_commands.count_all_holidays()
     current_hol_page = int(callback_data.get("page"))
-    if current_hol_page > math.ceil(number_of_hols / 10):
+    if current_hol_page > math.ceil(number_of_hols / 9):
         current_hol_page = 1
     elif current_hol_page < 1:
-        current_hol_page = math.ceil(number_of_hols / 10)
-    offset = (current_hol_page - 1) * 10
+        current_hol_page = math.ceil(number_of_hols / 9)
+    offset = (current_hol_page - 1) * 9
     all_holidays = await db_commands.get_10_holidays(lang=await db_commands.get_user_language(call.from_user.id),
                                                      offset=offset)
     holidays_name = [hn for hn, dt, cb, hl in all_holidays]
@@ -54,14 +58,18 @@ async def switch_inter_hol(call: types.CallbackQuery, db_commands, callback_data
     buttons = {name: cb for name, cb in zip(holidays_name, holidays_cb)}
     text = _("Популярные праздники в мире. Нажми на кнопку, чтобы узнать сколько дней осталось"
              "до праздника.")
-    await call.message.edit_text(text, reply_markup=inter_holidays_keyb(buttons, current_hol_page))
+    await call.message.edit_text(text, reply_markup=inter_holidays_keyb(
+        buttons=buttons,
+        max_pages=math.ceil(number_of_hols / 9),
+        page=current_hol_page)
+    )
 
 
 async def show_chosen_holiday(call: types.CallbackQuery, db_commands, morph, callback_data):
     await call.answer()
     user = await db_commands.get_user(user_id=call.from_user.id)
     hol_uid = callback_data.get("hol_uid")
-    all_hol_codes = await db_commands.get_all_holidays_uid()
+    all_hol_codes = await db_commands.get_all_holidays_uid(user.lang_code)
     current_hol_page = all_hol_codes.index(hol_uid)
     holiday_name, holiday_date, time_left, hide_photo = \
         await holiday_days_left(hol_uid, db_commands, morph)
@@ -73,7 +81,8 @@ async def show_chosen_holiday(call: types.CallbackQuery, db_commands, morph, cal
 
 async def change_hol_page(call: types.CallbackQuery, callback_data: dict, db_commands, morph):
     await call.answer()
-    all_hol_codes = await db_commands.get_all_holidays_uid()
+    user = await db_commands.get_user(user_id=call.from_user.id)
+    all_hol_codes = await db_commands.get_all_holidays_uid(user.lang_code)
     current_hol_page = int(callback_data.get("page"))
     if current_hol_page > len(all_hol_codes):
         current_hol_page = 1

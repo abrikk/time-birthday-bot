@@ -288,13 +288,21 @@ class DBCommands:
             'ru': Holidays.holiday_name
         }
         sql = select(holiday_lang.get(lang), Holidays.holiday_date, Holidays.uid, Holidays.hide_link) \
-            .select_from(Holidays).order_by(holiday_lang.get(lang)).limit(10).offset(offset)
+            .select_from(Holidays).order_by(holiday_lang.get(lang)).limit(9).offset(offset)
         result = await self.session.execute(sql)
         scalars = result.all()
         return scalars
 
-    async def get_all_holidays_uid(self):
-        sql = select(Holidays.uid).order_by(Holidays.hn_en)
+    async def get_all_holidays_uid(self, lang: str):
+        holiday_lang = {
+            'en': Holidays.hn_en,
+            'ua': Holidays.hn_ua,
+            'uz': Holidays.hn_uz,
+            'es': Holidays.hn_es,
+            'fr': Holidays.hn_fr,
+            'ru': Holidays.holiday_name
+        }
+        sql = select(Holidays.uid).order_by(holiday_lang.get(lang))
         result = await self.session.execute(sql)
         scalars = result.scalars().all()
         return scalars
