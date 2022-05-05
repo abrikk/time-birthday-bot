@@ -68,15 +68,15 @@ def inter_holidays_keyb(buttons: dict, max_pages: int, page: int = 1):
     markup.add(
         InlineKeyboardButton(
             text="<<",
-            callback_data=inter_hol_cb.new(hol_uid="tleft", action="switch_page", page=page - 9)
+            callback_data=inter_hol_cb.new(hol_uid="nleft", action="switch_page", page=page - 9)
         )
     )
     another_data = {
         "<": ("oleft", "switch_page", page - 1),
-        _("{page} из {max_pages}").format(page=page, max_pages=max_pages):
+        _("{page}/{max_pages}").format(page=page, max_pages=max_pages):
             ("none", "none", "current_page"),
         ">": ("oright", "switch_page", page + 1),
-        ">>": ("tright", "switch_page", page + 9)
+        ">>": ("nright", "switch_page", page + 9)
     }
     for text, data in another_data.items():
         markup.insert(
@@ -95,35 +95,30 @@ def inter_holidays_keyb(buttons: dict, max_pages: int, page: int = 1):
     return markup
 
 
-hol_pag_cb = CallbackData("hol_pg", "page", "action")
+hol_pag_cb = CallbackData("hol_pg", "action", "page")
 
 
-def change_hol_keyb(page: int = 1, admin: bool = False):
-    markup = InlineKeyboardMarkup()
-    markup.insert(
-        InlineKeyboardButton(
-            text="<<",
-            callback_data=hol_pag_cb.new(page=page - 1, action="left")
+def change_hol_keyb(max_pages: int, page: int = 1, admin: bool = False):
+    markup = InlineKeyboardMarkup(row_width=5)
+    buttons = {
+        "<<": ("nleft", page - 9),
+        "<": ("oleft", page - 1),
+        _("{page}/{max_pages}").format(page=page, max_pages=max_pages):
+            ("none",  "current_page"),
+        ">": ("oright", page + 1),
+        ">>": ("nright", page + 9)
+    }
+    for text, data in buttons.items():
+        markup.insert(
+            InlineKeyboardButton(
+                text=text,
+                callback_data=hol_pag_cb.new(action=data[0], page=data[1])
+            )
         )
-    )
-
-    markup.insert(
+    markup.add(
         InlineKeyboardButton(
             text=_("Поделиться"),
             callback_data=hol_pag_cb.new(page=page, action="share_message")
-        )
-    )
-
-    markup.insert(
-        InlineKeyboardButton(
-            text=">>",
-            callback_data=hol_pag_cb.new(page=page + 1, action="right")
-        )
-    )
-    markup.add(
-        InlineKeyboardButton(
-            text=_("Назад"),
-            callback_data=hol_pag_cb.new(page=page, action="back_inter")
         )
     )
     if admin:
@@ -133,6 +128,13 @@ def change_hol_keyb(page: int = 1, admin: bool = False):
                 callback_data=hol_pag_cb.new(page=page, action="settings")
             )
         )
+    markup.insert(
+        InlineKeyboardButton(
+            text=_("Назад"),
+            callback_data=hol_pag_cb.new(page=page, action="back_inter")
+        )
+    )
+
     return markup
 
 

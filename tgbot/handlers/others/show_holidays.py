@@ -5,7 +5,6 @@ from aiogram.dispatcher.filters import Command, Text
 from aiogram.utils.markdown import hide_link
 
 from tgbot.functions.holidays_days_left_func import holiday_days_left, get_time_left
-from tgbot.functions.next_holiday_func import get_next_holiday
 from tgbot.handlers.main_menu_keyb.whose_birthday_is_today.whose_birthday_is_today import get_page
 from tgbot.keyboards.reply import holidays_keyb, hol_cb, inter_holidays_keyb, change_hol_keyb, hol_pag_cb, inter_hol_cb
 from tgbot.middlewares.lang_middleware import _, __
@@ -70,13 +69,14 @@ async def show_chosen_holiday(call: types.CallbackQuery, db_commands, morph, cal
     user = await db_commands.get_user(user_id=call.from_user.id)
     hol_uid = callback_data.get("hol_uid")
     all_hol_codes = await db_commands.get_all_holidays_uid(user.lang_code)
-    current_hol_page = all_hol_codes.index(hol_uid)
+    current_hol_page = all_hol_codes.index(hol_uid) + 1
     holiday_name, holiday_date, time_left, hide_photo = \
         await holiday_days_left(hol_uid, db_commands, morph)
     text = _("До {hol_name} осталось {time_left}!").format(
         hol_name=holiday_name, time_left=get_time_left(time_left, morph))
     await call.message.edit_text(hide_link(hide_photo) + text, reply_markup=change_hol_keyb(
-        page=current_hol_page + 1, admin=user.role == 'admin'))
+        max_pages=len(all_hol_codes), page=current_hol_page, admin=user.role == 'admin'
+    ))
 
 
 async def change_hol_page(call: types.CallbackQuery, callback_data: dict, db_commands, morph):
@@ -85,15 +85,18 @@ async def change_hol_page(call: types.CallbackQuery, callback_data: dict, db_com
     all_hol_codes = await db_commands.get_all_holidays_uid(user.lang_code)
     current_hol_page = int(callback_data.get("page"))
     if current_hol_page > len(all_hol_codes):
-        current_hol_page = 1
+        current_hol_page = abs(len(all_hol_codes) - current_hol_page)
+        print(current_hol_page)
     elif current_hol_page < 1:
-        current_hol_page = len(all_hol_codes)
+        current_hol_page = len(all_hol_codes) - abs(current_hol_page)
     current_hol_code = get_page(all_hol_codes, page=current_hol_page)
     holiday_name, holiday_date, time_left, hide_photo = \
         await holiday_days_left(current_hol_code, db_commands, morph)
     text = _("До {hol_name} осталось {time_left}!").format(
         hol_name=holiday_name, time_left=get_time_left(time_left, morph))
-    await call.message.edit_text(hide_link(hide_photo) + text, reply_markup=change_hol_keyb(current_hol_page))
+    await call.message.edit_text(hide_link(hide_photo) + text, reply_markup=change_hol_keyb(
+        max_pages=len(all_hol_codes), page=current_hol_page, admin=user.role == 'admin'
+    ))
 
 
 async def share_holiday(call: types.CallbackQuery):
