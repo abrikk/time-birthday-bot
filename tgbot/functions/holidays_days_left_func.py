@@ -6,15 +6,6 @@ from tgbot.functions.next_holiday_func import get_proper_date
 from tgbot.middlewares.lang_middleware import _
 
 
-def get_holiday_name(hol_abbr: str) -> str:
-    holidays = {
-        "ny": _("Новый Год"),
-        "iwd": _("Международный женский день"),
-        "nvrz": _("Навруз")
-    }
-    return holidays[hol_abbr]
-
-
 async def holiday_days_left(holiday_uid: str, db_commands, morph) -> tuple:
     holiday = await db_commands.get_scpecific_holiday(holiday_uid)
     today = datetime.today()
