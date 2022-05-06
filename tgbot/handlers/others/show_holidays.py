@@ -102,14 +102,6 @@ async def change_hol_page(call: types.CallbackQuery, callback_data: dict, db_com
     ))
 
 
-async def share_holiday(call: types.CallbackQuery):
-    await call.answer(cache_time=255)
-
-
-async def back_inter_holidays(call: types.CallbackQuery):
-    await call.answer(cache_time=255)
-
-
 def register_all_holidays(dp: Dispatcher):
     dp.register_message_handler(show_all_holidays, Command("holidays") |
                                 Text(contains=__("🎊 Праздники")))
