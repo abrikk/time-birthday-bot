@@ -27,7 +27,7 @@ def bd_today_list(max_pages: int, page: int = 1):
     markup.insert(
         InlineKeyboardButton(
             text=current_page_text,
-            callback_data=bd_data.new(page=page, action="current_page")
+            callback_data=bd_data.new(page=page, action="just_answer")
         )
     )
 

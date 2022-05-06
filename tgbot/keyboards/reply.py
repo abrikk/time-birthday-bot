@@ -31,6 +31,7 @@ def additional_keyb():
     return markup
 
 
+# HOLIDAYS KEYBOARD
 hol_cb = CallbackData("holidays", "hol_type_name")
 
 
@@ -104,7 +105,7 @@ def change_hol_keyb(max_pages: int, page: int = 1, admin: bool = False):
         "<<": ("nleft", page - 9),
         "<": ("oleft", page - 1),
         _("{page}/{max_pages}").format(page=page, max_pages=max_pages):
-            ("none",  "current_page"),
+            ("just_answer",  "current_page"),
         ">": ("oright", page + 1),
         ">>": ("nright", page + 9)
     }
@@ -136,6 +137,7 @@ def change_hol_keyb(max_pages: int, page: int = 1, admin: bool = False):
     )
 
     return markup
+# END OF HOLIDAYS
 
 
 def back_keyb():
