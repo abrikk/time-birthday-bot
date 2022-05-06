@@ -123,14 +123,9 @@ async def gratzing_user(call: types.CallbackQuery, callback_data: dict, db_comma
             await call.answer(_("Вы уже поздравили этого пользователя."))
 
 
-async def bd_current_page_btn(call: types.CallbackQuery):
-    await call.answer(cache_time=86400)
-
-
 def register_bd_today(dp: Dispatcher):
     dp.register_message_handler(whose_bd_is_today, Command("bday_today") |
                                 Text(contains=__("🎊 У кого сегодня день рождение")))
     dp.register_callback_query_handler(congratz_user, bd_data.filter(action="gratz"))
     dp.register_callback_query_handler(gratzing_user, switch_or_gratz_cb.filter())
-    dp.register_callback_query_handler(bd_current_page_btn, bd_data.filter(action="current_page"))
     dp.register_callback_query_handler(show_chosen_page, bd_data.filter())
