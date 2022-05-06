@@ -74,7 +74,7 @@ def inter_holidays_keyb(buttons: dict, max_pages: int, page: int = 1):
     another_data = {
         "<": ("oleft", "switch_page", page - 1),
         _("{page}/{max_pages}").format(page=page, max_pages=max_pages):
-            ("none", "none", "current_page"),
+            ("none", "just_answer", "current_page"),
         ">": ("oright", "switch_page", page + 1),
         ">>": ("nright", "switch_page", page + 9)
     }

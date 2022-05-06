@@ -10,6 +10,7 @@ from tgbot.keyboards.reply import holidays_keyb, hol_cb, inter_holidays_keyb, ch
 from tgbot.middlewares.lang_middleware import _, __
 
 
+# 1 LEVEL SECTION
 async def show_all_holidays(message: types.Message, db_commands):
     all_holidays = await db_commands.get_all_holidays()
     # next_holiday: dict = get_next_holiday()
@@ -26,6 +27,7 @@ async def back_holidays(call: types.CallbackQuery):
     await call.message.edit_text(text, reply_markup=holidays_keyb())
 
 
+# 1.1 LEVEL SECTION
 async def show_inter_holidays(call: types.CallbackQuery, db_commands):
     await call.answer()
     all_holidays = await db_commands.get_10_holidays(lang=await db_commands.get_user_language(call.from_user.id))
@@ -64,6 +66,7 @@ async def switch_inter_hol(call: types.CallbackQuery, db_commands, callback_data
     )
 
 
+# 1.1.1 LEVEL SECTION
 async def show_chosen_holiday(call: types.CallbackQuery, db_commands, morph, callback_data):
     await call.answer()
     user = await db_commands.get_user(user_id=call.from_user.id)

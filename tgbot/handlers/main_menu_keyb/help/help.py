@@ -49,10 +49,6 @@ async def help_bot_ability_show_chosen_page(call: types.CallbackQuery, db_comman
     await call.message.edit_text(text=page_index, reply_markup=markup)
 
 
-async def help_current_page_ability_btn(call: types.CallbackQuery):
-    await call.answer(cache_time=86400)
-
-
 # BOT INFORMATION
 
 async def help_bot_information(call: types.CallbackQuery, db_commands, session):
@@ -129,7 +125,6 @@ def register_help(dp: Dispatcher):
     dp.register_callback_query_handler(help_bot_commands, manual_data.filter(button="commands"))
     dp.register_callback_query_handler(help_bot_formats, manual_data.filter(button="formats"))
     dp.register_callback_query_handler(help_bot_back, Text(contains="back_manual"))
-    dp.register_callback_query_handler(help_current_page_ability_btn, ability_data.filter(action="current_page"))
     dp.register_callback_query_handler(help_bot_ability_show_chosen_page, ability_data.filter())
     dp.register_callback_query_handler(help_bot_user_rating, rate_data.filter())
     dp.register_callback_query_handler(change_date_order, date_order_cb.filter())

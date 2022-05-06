@@ -15,6 +15,7 @@ from tgbot.filters.admin import AdminFilter
 from tgbot.handlers.admin_handlers.add_holidays import register_add_holidays
 from tgbot.handlers.admin_handlers.update_botinfo.update_botinfo import register_update_botinfo
 from tgbot.handlers.admin_handlers.update_holidays_names import register_update_hols
+from tgbot.handlers.answer_callback import register_just_answer
 from tgbot.handlers.main_menu_keyb.additional_keyboard import register_add_keyb
 from tgbot.handlers.admin_handlers.admin_commands import register_admin_commands
 from tgbot.handlers.main_menu_keyb.help.help import register_help
@@ -63,6 +64,7 @@ def register_all_handlers(dp):
     register_inline_mode(dp)
     register_cancel_action(dp)
     register_update(dp)
+    register_just_answer(dp)
     register_test_1(dp)
     register_update_hols(dp)
     register_show_all_tasks(dp)
