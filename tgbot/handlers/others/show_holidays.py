@@ -111,5 +111,4 @@ def register_all_holidays(dp: Dispatcher):
                                        inter_hol_cb.filter(hol_uid="back_holiday"))
     dp.register_callback_query_handler(switch_inter_hol, inter_hol_cb.filter(action="switch_page"))
     dp.register_callback_query_handler(show_chosen_holiday, inter_hol_cb.filter())
-    dp.register_callback_query_handler(share_holiday, hol_pag_cb.filter(action="share_message"))
     dp.register_callback_query_handler(change_hol_page, hol_pag_cb.filter())
