@@ -259,6 +259,12 @@ class DBCommands:
         scalars = result.all()
         return scalars
 
+    async def get_test_names(self):
+        sql = select(Holidays.hn_en).select_from(Holidays).order_by(Holidays.hn_en)
+        result = await self.session.execute(sql)
+        scalars = result.scalars().all()
+        return scalars
+
     async def get_holidays_name(self):
         sql = select(Holidays.holiday_name, Holidays.uid).select_from(Holidays).where(
             and_(

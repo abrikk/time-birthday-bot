@@ -16,6 +16,7 @@ class DbConfig:
 class TgBot:
     token: str
     admin_ids: int
+    channel_id: int
     chat_id: int
     use_redis: bool
 
@@ -40,6 +41,7 @@ def load_config(path: str = None):
         tg_bot=TgBot(
             token=env.str("BOT_TOKEN"),
             admin_ids=env.list("ADMINS"),
+            channel_id=env.str("CHANNEL_ID"),
             chat_id=env.str("CHAT_ID"),
             use_redis=env.bool("USE_REDIS"),
         ),
