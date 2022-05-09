@@ -14,6 +14,7 @@ from tgbot.config import load_config
 from tgbot.filters.admin import AdminFilter
 from tgbot.handlers.admin_handlers.add_holidays import register_add_holidays
 from tgbot.handlers.admin_handlers.update_botinfo.update_botinfo import register_update_botinfo
+from tgbot.handlers.admin_handlers.update_hide_links import register_upd_hide_links
 from tgbot.handlers.admin_handlers.update_holidays_names import register_update_hols
 from tgbot.handlers.answer_callback import register_just_answer
 from tgbot.handlers.main_menu_keyb.additional_keyboard import register_add_keyb
@@ -68,6 +69,7 @@ def register_all_handlers(dp):
     register_test_1(dp)
     register_update_hols(dp)
     register_show_all_tasks(dp)
+    register_upd_hide_links(dp)
     register_my_bd(dp)
     register_add_holidays(dp)
     register_all_holidays(dp)
