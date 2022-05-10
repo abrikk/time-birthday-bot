@@ -253,7 +253,7 @@ class DBCommands:
         return holiday
 
     async def get_all_holidays(self):
-        sql = select(Holidays.holiday_name, Holidays.holiday_date, Holidays.uid, Holidays.hide_link) \
+        sql = select(Holidays.holiday_name, Holidays.holiday_date, Holidays.uid, Holidays.photo_id) \
             .select_from(Holidays).order_by(Holidays.holiday_name)
         result = await self.session.execute(sql)
         scalars = result.all()
@@ -279,7 +279,7 @@ class DBCommands:
             'fr': Holidays.hn_fr,
             'ru': Holidays.holiday_name
         }
-        sql = select(holiday_lang.get(lang), Holidays.holiday_date, Holidays.uid, Holidays.hide_link) \
+        sql = select(holiday_lang.get(lang), Holidays.holiday_date, Holidays.uid, Holidays.photo_id) \
             .select_from(Holidays).order_by(holiday_lang.get(lang)).limit(9).offset(offset)
         result = await self.session.execute(sql)
         scalars = result.all()
@@ -300,7 +300,7 @@ class DBCommands:
         return scalars
 
     async def get_scpecific_holiday(self, uid: str):
-        sql = select(Holidays.holiday_name, Holidays.holiday_date, Holidays.hide_link).where(
+        sql = select(Holidays.holiday_name, Holidays.holiday_date, Holidays.photo_id).where(
             Holidays.uid == uid
         )
         result = await self.session.execute(sql)
@@ -318,17 +318,25 @@ class DBCommands:
         result = await self.session.execute(sql)
         return result
 
-    async def update_hol_hide_link(self, uid, hide_link):
-        sql = update(Holidays).where(Holidays.uid == uid).values(hide_link=hide_link)
+    async def update_hol_hide_link(self, uid, photo_id):
+        sql = update(Holidays).where(Holidays.uid == uid).values(photo_id=photo_id)
         result = await self.session.execute(sql)
         return result
 
     async def get_holidays_en_name(self):
         sql = select(Holidays.hn_en, Holidays.uid).select_from(Holidays).where(
-            Holidays.hide_link.is_(None)
+            Holidays.photo_id.is_(None)
         ).order_by(
             Holidays.hn_en
         )
         result = await self.session.execute(sql)
         scalars = result.all()
         return scalars
+
+    async def update_holiday_pic_and_msg_id(self, uid, photo_id, message_id):
+        sql = update(Holidays).where(Holidays.uid == uid).values(
+            photo_id=photo_id,
+            message_id=message_id
+        )
+        result = await self.session.execute(sql)
+        return result
