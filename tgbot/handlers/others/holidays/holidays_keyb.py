@@ -98,19 +98,20 @@ def change_hol_keyb(max_pages: int, page: int = 1, admin: bool = False):
             callback_data=hol_pag_cb.new(page=page, action="share_message")
         )
     )
-    if admin:
-        markup.insert(
-            InlineKeyboardButton(
-                text=_("Настройки"),
-                callback_data=hol_pag_cb.new(page=page, action="settings")
-            )
-        )
+
     markup.insert(
         InlineKeyboardButton(
             text=_("Назад"),
             callback_data=hol_pag_cb.new(page=page, action="back_inter")
         )
     )
+    if admin:
+        markup.add(
+            InlineKeyboardButton(
+                text=_("Настройки"),
+                callback_data=hol_pag_cb.new(page=page, action="settings")
+            )
+        )
 
     return markup
 

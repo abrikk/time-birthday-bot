@@ -6,7 +6,7 @@ from tgbot.functions.next_holiday_func import get_proper_date
 from tgbot.middlewares.lang_middleware import _
 
 
-async def holiday_days_left(holiday_uid: str, db_commands, morph) -> tuple:
+async def holiday_days_left(holiday_uid: str, db_commands) -> tuple:
     holiday = await db_commands.get_scpecific_holiday(holiday_uid)
     today = datetime.today()
     holiday_date = get_proper_date(holiday[1].month, holiday[1].day)
@@ -15,7 +15,8 @@ async def holiday_days_left(holiday_uid: str, db_commands, morph) -> tuple:
     #                          for conjucted_word in holidays[holiday_id].split()])
 
     time_left = relativedelta(holiday_date, today)
-    return holiday_name, holiday_date, time_left, holiday[2]
+    photo = holiday[2] if holiday[2] else 'https://pharem-project.eu/wp-content/themes/consultix/images/no-image-found-360x250.png'
+    return holiday_name, holiday_date, time_left, photo
 
 
 def get_time_left(obj: relativedelta, morph) -> str:
