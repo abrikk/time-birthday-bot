@@ -11,25 +11,6 @@ from tgbot.middlewares.lang_middleware import _
 
 
 # 1.1 LEVEL SECTION
-async def show_inter_holidays(call: types.CallbackQuery, db_commands):
-    await call.answer()
-    all_holidays = await db_commands.get_10_holidays(lang=await db_commands.get_user_language(call.from_user.id))
-    number_of_hols = await db_commands.count_all_holidays()
-
-    holidays_name = [hn for hn, dt, cb, hl in all_holidays]
-    holidays_cb = [cb for hn, dt, cb, hl in all_holidays]
-    buttons = {name: cb for name, cb in zip(holidays_name, holidays_cb)}
-
-    text = _("Популярные праздники в мире. Нажми на кнопку, чтобы узнать сколько дней осталось"
-             "до праздника.")
-    await call.message.delete()
-    await call.message.answer(text, reply_markup=inter_holidays_keyb(
-        buttons=buttons,
-        max_pages=math.ceil(number_of_hols / 9)
-    )
-                              )
-
-
 async def switch_inter_hol(call: types.CallbackQuery, db_commands, callback_data):
     await call.answer()
     number_of_hols = await db_commands.count_all_holidays()
@@ -114,8 +95,6 @@ async def holiday_settings(call: types.CallbackQuery, db_commands, state: FSMCon
 
 
 def register_inter_holidays(dp: Dispatcher):
-    dp.register_callback_query_handler(show_inter_holidays, hol_cb.filter(hol_type_name="ih") |
-                                       hol_pag_cb.filter(action="back_inter"))
     dp.register_callback_query_handler(switch_inter_hol, inter_hol_cb.filter(action="switch_page"))
     dp.register_callback_query_handler(show_chosen_holiday, inter_hol_cb.filter())
     dp.register_callback_query_handler(holiday_settings, hol_pag_cb.filter(action="settings"))
