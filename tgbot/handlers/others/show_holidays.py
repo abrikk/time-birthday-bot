@@ -77,7 +77,8 @@ async def show_chosen_holiday(call: types.CallbackQuery, db_commands, morph, cal
         await holiday_days_left(hol_uid, db_commands, morph)
     text = _("До {hol_name} осталось {time_left}!").format(
         hol_name=holiday_name, time_left=get_time_left(time_left, morph))
-    await call.message.edit_text(hide_link(hide_photo) + text, reply_markup=change_hol_keyb(
+    await call.message.delete()
+    await call.message.answer_photo(photo=hide_photo, caption=text, reply_markup=change_hol_keyb(
         max_pages=len(all_hol_codes), page=current_hol_page, admin=user.role == 'admin'
     ))
 
@@ -97,7 +98,8 @@ async def change_hol_page(call: types.CallbackQuery, callback_data: dict, db_com
         await holiday_days_left(current_hol_code, db_commands, morph)
     text = _("До {hol_name} осталось {time_left}!").format(
         hol_name=holiday_name, time_left=get_time_left(time_left, morph))
-    await call.message.edit_text(hide_link(hide_photo) + text, reply_markup=change_hol_keyb(
+    await call.message.delete()
+    await call.message.answer_photo(photo=hide_photo, caption=text, reply_markup=change_hol_keyb(
         max_pages=len(all_hol_codes), page=current_hol_page, admin=user.role == 'admin'
     ))
 

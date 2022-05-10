@@ -265,20 +265,6 @@ class DBCommands:
         scalars = result.scalars().all()
         return scalars
 
-    async def get_holidays_name(self):
-        sql = select(Holidays.holiday_name, Holidays.uid).select_from(Holidays).where(
-            and_(
-                Holidays.hn_en.is_(None),
-                Holidays.hn_uz.is_(None),
-                Holidays.hn_ua.is_(None),
-                Holidays.hn_es.is_(None),
-                Holidays.hn_fr.is_(None)
-            )
-        ).order_by(Holidays.hn_en)
-        result = await self.session.execute(sql)
-        scalars = result.all()
-        return scalars
-
     async def count_all_holidays(self):
         sql = select(func.count("*")).select_from(Holidays)
         result = await self.session.execute(sql)
@@ -332,3 +318,17 @@ class DBCommands:
         result = await self.session.execute(sql)
         return result
 
+    async def update_hol_hide_link(self, uid, hide_link):
+        sql = update(Holidays).where(Holidays.uid == uid).values(hide_link=hide_link)
+        result = await self.session.execute(sql)
+        return result
+
+    async def get_holidays_en_name(self):
+        sql = select(Holidays.hn_en, Holidays.uid).select_from(Holidays).where(
+            Holidays.hide_link.is_(None)
+        ).order_by(
+            Holidays.hn_en
+        )
+        result = await self.session.execute(sql)
+        scalars = result.all()
+        return scalars
