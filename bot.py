@@ -31,7 +31,7 @@ from tgbot.handlers.is_active_user import register_is_active_user
 from tgbot.handlers.life_counter import register_count_life
 from tgbot.handlers.newyear import register_newyear
 from tgbot.handlers.admin_handlers.show_all_jobs import register_show_all_tasks
-from tgbot.handlers.others.show_holidays import register_all_holidays
+from tgbot.handlers.others.holidays.holidays import register_all_holidays
 from tgbot.handlers.profile.profile import register_profile
 from tgbot.handlers.start import register_start
 from tgbot.handlers.admin_handlers.statistics import register_stat
