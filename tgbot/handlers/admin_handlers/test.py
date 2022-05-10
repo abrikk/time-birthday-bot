@@ -5,17 +5,15 @@ from aiogram.utils.markdown import hide_link
 
 
 async def test_1(message: types.Message, db_commands):
-    names = await db_commands.get_test_names()
-    print(names)
-    print(len(names) == len(set(names)))
-    repeated = []
-    list_t = []
-    for i in names:
-        if i not in list_t:
-            list_t.append(i)
-        else:
-            repeated.append(i)
-    print(repeated)
+    bot = message.bot
+    config = bot.get('config')
+    await bot.send_message(message.chat.id, "ВОТЬ")
+    await bot.copy_message(chat_id=message.chat.id, from_chat_id=config.tg_bot.channel_id,
+                           message_id=243)
+    # await message.bot.edit_message_media(media=types.InputMedia(
+    #     type='photo', media='https://i.insider.com/592f4169b74af41b008b5977?width=700'),
+    #     chat_id=config.tg_bot.channel_id,
+    #     message_id=243)
 
 
 def register_test_1(dp: Dispatcher):

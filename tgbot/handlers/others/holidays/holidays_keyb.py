@@ -80,7 +80,7 @@ def change_hol_keyb(max_pages: int, page: int = 1, admin: bool = False):
         "<": ("oleft", page - 1),
 
         _("{page}/{max_pages}").format(page=page, max_pages=max_pages):
-            ("just_answer",  "current_page"),
+            ("just_answer", "current_page"),
 
         ">": ("oright", page + 1),
         ">>": ("nright", page + 9)
@@ -117,21 +117,38 @@ def change_hol_keyb(max_pages: int, page: int = 1, admin: bool = False):
 
 
 # SETTINGS BUTTON
-sett_cb = CallbackData("hol_sett", "action")
+sett_cb = CallbackData("hol_sett", "action", "page")
 
 
-def hol_settings_keyboard():
+def hol_settings_keyboard(page: int):
     markup = InlineKeyboardMarkup()
     markup.add(
         InlineKeyboardButton(
             text=_("Изменить изображение"),
-            callback_data=sett_cb.new(action="img")
+            callback_data=sett_cb.new(action="img", page=page)
         )
     )
     markup.add(
         InlineKeyboardButton(
             text=_("Назад"),
-            callback_data=sett_cb.new(action="back")
+            callback_data=sett_cb.new(action="back", page=page)
+        )
+    )
+    return markup
+
+
+def confirm_chane():
+    markup = InlineKeyboardMarkup()
+    markup.insert(
+        InlineKeyboardButton(
+            text="❌",
+            callback_data="cancel_pic_change"
+        )
+    )
+    markup.insert(
+        InlineKeyboardButton(
+            text="✅",
+            callback_data="confirm_pic_change"
         )
     )
     return markup

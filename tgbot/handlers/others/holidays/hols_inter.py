@@ -6,7 +6,7 @@ from aiogram.dispatcher import FSMContext
 from tgbot.functions.holidays_days_left_func import holiday_days_left, get_time_left
 from tgbot.handlers.main_menu_keyb.whose_birthday_is_today.whose_birthday_is_today import get_page
 from tgbot.handlers.others.holidays.holidays_keyb import change_hol_keyb, inter_holidays_keyb, hol_settings_keyboard, \
-    inter_hol_cb, hol_pag_cb, hol_cb
+    inter_hol_cb, hol_pag_cb, hol_cb, sett_cb, confirm_chane
 from tgbot.middlewares.lang_middleware import _
 
 
@@ -86,16 +86,62 @@ async def change_hol_page(call: types.CallbackQuery, callback_data: dict, db_com
                                     ))
 
 
-async def holiday_settings(call: types.CallbackQuery, db_commands, state: FSMContext):
+async def holiday_settings(call: types.CallbackQuery, callback_data: dict):
     await call.answer()
-    print("OK")
-    await call.message.edit_reply_markup(hol_settings_keyboard())
+    print("HOL SETTINGS")
+    hol_page = int(callback_data.get("page"))
+    await call.message.edit_caption(caption=f"Доброго времени суток, {call.from_user.first_name}!\n"
+                                            f"Что будем делать с праздником?")
+    await call.message.edit_reply_markup(hol_settings_keyboard(hol_page))
 
+
+# WAITING FOR AN IMAGE
+async def change_hol_photo(call: types.CallbackQuery, callback_data: dict, db_commands, state: FSMContext):
+    print("CHANGE HOL PHOTO")
+    await call.answer()
+    await call.message.answer("Хорошо. Теперь отправьте новую картинку праздника.")
     await state.set_state("edit_hol_photo")
+
+
+async def confirming_hol_photo(message: types.Message, state: FSMContext):
+    photo = message.photo[-1].file_id
+    print(photo)
+    await state.update_data(photo=photo)
+    await message.answer("Подтвердите ваше действие.", reply_markup=confirm_chane())
+    await state.set_state("confirm_hol_photo")
+
+
+async def confirm_photo(call: types.CallbackQuery, state: FSMContext, db_commands, session):
+    await call.answer()
+    bot = call.bot
+    config = bot.get('config')
+    if call.data == "confirm_pic_change":
+        data = await state.get_data()
+        photo = data.get("photo")
+        new_pic = await bot.send_photo(chat_id=config.tg_bot.channel_id,
+                                       photo=photo)
+        print(new_pic.message_id)
+        await call.message.delete()
+        await bot.send_message(chat_id=call.from_user.id,
+                               text="Картинка праздника изменена!",
+                               reply_to_message_id=call.message.message_id-1)
+        await state.reset_state()
+    else:
+        await call.message.answer("Хорошо. Жду другую фотографию.")
+        await state.set_state('edit_hol_photo')
+
+
+async def sent_wrong_message(message: types.Message):
+    await message.answer("Вы отправили не картинку. Попробуйте еще раз.")
 
 
 def register_inter_holidays(dp: Dispatcher):
     dp.register_callback_query_handler(switch_inter_hol, inter_hol_cb.filter(action="switch_page"))
     dp.register_callback_query_handler(show_chosen_holiday, inter_hol_cb.filter())
     dp.register_callback_query_handler(holiday_settings, hol_pag_cb.filter(action="settings"))
-    dp.register_callback_query_handler(change_hol_page, hol_pag_cb.filter())
+    dp.register_callback_query_handler(change_hol_page, hol_pag_cb.filter() |
+                                       sett_cb.filter(action="back"))
+    dp.register_callback_query_handler(change_hol_photo, sett_cb.filter(action="img"))
+    dp.register_message_handler(confirming_hol_photo, content_types=types.ContentType.PHOTO, state='edit_hol_photo')
+    dp.register_message_handler(sent_wrong_message, content_types=types.ContentType.ANY, state='edit_hol_photo')
+    dp.register_callback_query_handler(confirm_photo, state='confirm_hol_photo')
