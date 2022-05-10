@@ -26,6 +26,7 @@ from tgbot.handlers.botinfo import register_bot_info
 from tgbot.handlers.cancel_handler import register_cancel_action
 from tgbot.handlers.main_menu_keyb.change_language import register_change_language
 from tgbot.handlers.others.day_number_in_the_year import register_day_num_year
+from tgbot.handlers.others.holidays.hols_inter import register_inter_holidays
 from tgbot.handlers.others.how_many_days import register_hmd
 from tgbot.handlers.is_active_user import register_is_active_user
 from tgbot.handlers.life_counter import register_count_life
@@ -71,8 +72,11 @@ def register_all_handlers(dp):
     register_show_all_tasks(dp)
     register_upd_hide_links(dp)
     register_my_bd(dp)
+
     register_add_holidays(dp)
     register_all_holidays(dp)
+    register_inter_holidays(dp)
+
     register_profile(dp)
     register_add_keyb(dp)
     register_stat(dp)
