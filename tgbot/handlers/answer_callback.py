@@ -2,7 +2,7 @@ from aiogram import types, Dispatcher
 
 from tgbot.handlers.main_menu_keyb.help.help_keyb import ability_data
 from tgbot.handlers.main_menu_keyb.whose_birthday_is_today.wbit_keyb import bd_data
-from tgbot.keyboards.reply import inter_hol_cb, hol_pag_cb
+from tgbot.handlers.others.holidays.holidays_keyb import inter_hol_cb, hol_pag_cb
 
 
 async def just_answer(call: types.CallbackQuery):
