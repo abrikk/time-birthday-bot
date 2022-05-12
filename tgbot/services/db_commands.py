@@ -307,6 +307,14 @@ class DBCommands:
         scalars = result.first()
         return scalars
 
+    async def get_scpecific_hol_msg_id(self, uid: str):
+        sql = select(Holidays.message_id).where(
+            Holidays.uid == uid
+        )
+        result = await self.session.execute(sql)
+        scalars = result.scalar()
+        return scalars
+
     async def update_hol_name(self, uid, hn_en, hn_uz, hn_ua, hn_es, hn_fr):
         sql = update(Holidays).where(Holidays.uid == uid).values(
             hn_en=hn_en,

@@ -76,14 +76,12 @@ hol_pag_cb = CallbackData("hol_pg", "action", "page")
 def change_hol_keyb(max_pages: int, page: int = 1, admin: bool = False):
     markup = InlineKeyboardMarkup(row_width=5)
     buttons = {
-        "<<": ("nleft", page - 9),
         "<": ("oleft", page - 1),
 
         _("{page}/{max_pages}").format(page=page, max_pages=max_pages):
             ("just_answer", "current_page"),
 
-        ">": ("oright", page + 1),
-        ">>": ("nright", page + 9)
+        ">": ("oright", page + 1)
     }
     for text, data in buttons.items():
         markup.insert(
@@ -92,6 +90,16 @@ def change_hol_keyb(max_pages: int, page: int = 1, admin: bool = False):
                 callback_data=hol_pag_cb.new(action=data[0], page=data[1])
             )
         )
+    markup.add(
+        InlineKeyboardButton(
+            text="<<",
+            callback_data=hol_pag_cb.new(page=page - 9, action="nleft")
+        ),
+        InlineKeyboardButton(
+            text=">>",
+            callback_data=hol_pag_cb.new(page=page + 9, action="nright")
+        )
+    )
     markup.add(
         InlineKeyboardButton(
             text=_("Поделиться"),

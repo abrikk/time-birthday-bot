@@ -43,7 +43,7 @@ async def show_inter_holidays(call: types.CallbackQuery, db_commands):
 
 
 async def holiday_answer(call: types.CallbackQuery):
-    await call.answer(text="ЕЩЁ НЕ ГОТОВО", show_alert=True)
+    await call.answer(text="ФУНКЦИЯ ЕЩЁ НЕ ГОТОВА", show_alert=True)
 
 
 def register_all_holidays(dp: Dispatcher):
