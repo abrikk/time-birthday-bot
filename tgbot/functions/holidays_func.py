@@ -6,6 +6,15 @@ from tgbot.functions.next_holiday_func import get_proper_date
 from tgbot.middlewares.lang_middleware import _
 
 
+def get_current_page(current_page: int, total_pages: int) -> int:
+    if current_page > total_pages:
+        current_page = abs(total_pages - current_page)
+    elif current_page < 1:
+        current_page = total_pages - abs(current_page)
+    return current_page
+
+
+
 async def holiday_days_left(holiday_uid: str, db_commands) -> tuple:
     holiday = await db_commands.get_scpecific_holiday(holiday_uid)
     today = datetime.today()

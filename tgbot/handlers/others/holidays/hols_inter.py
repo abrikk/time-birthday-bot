@@ -4,7 +4,7 @@ from datetime import datetime
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 
-from tgbot.functions.holidays_days_left_func import holiday_days_left, get_time_left
+from tgbot.functions.holidays_func import holiday_days_left, get_time_left, get_current_page
 from tgbot.handlers.main_menu_keyb.whose_birthday_is_today.whose_birthday_is_today import get_page
 from tgbot.handlers.others.holidays.holidays_keyb import change_hol_keyb, inter_holidays_keyb, hol_settings_keyboard, \
     inter_hol_cb, hol_pag_cb, hol_cb, sett_cb, confirm_chane
@@ -70,13 +70,9 @@ async def change_hol_page(call: types.CallbackQuery, callback_data: dict, db_com
     user = await db_commands.get_user(user_id=call.from_user.id)
     all_hol_codes = await db_commands.get_all_holidays_uid(user.lang_code)
     current_hol_page = int(callback_data.get("page"))
+    current_page = get_current_page(current_hol_page, len(all_hol_codes))
 
-    if current_hol_page > len(all_hol_codes):
-        current_hol_page = abs(len(all_hol_codes) - current_hol_page)
-    elif current_hol_page < 1:
-        current_hol_page = len(all_hol_codes) - abs(current_hol_page)
-
-    current_hol_code = get_page(all_hol_codes, page=current_hol_page)
+    current_hol_code = get_page(all_hol_codes, page=current_page)
     holiday_name, holiday_date, time_left, hide_photo = \
         await holiday_days_left(current_hol_code, db_commands)
 
@@ -91,7 +87,7 @@ async def change_hol_page(call: types.CallbackQuery, callback_data: dict, db_com
     await call.message.answer_photo(photo=hide_photo, caption=text,
                                     reply_markup=change_hol_keyb(
                                         max_pages=len(all_hol_codes),
-                                        page=current_hol_page,
+                                        page=current_page,
                                         admin=user.role == 'admin'
                                     ))
 
@@ -182,14 +178,59 @@ async def share_with_holiday(call: types.CallbackQuery):
     await call.answer(text="ФУНКЦИЯ ЕЩЁ НЕ ГОТОВА", show_alert=True)
 
 
+# SWITCH TO GIVEN PAGE
+async def switch_to_page(call: types.CallbackQuery, state: FSMContext, ):
+    await call.answer()
+    await call.message.answer(_("Введите номер страницы для быстрого перехода."))
+    await state.set_state('switch_to_page')
+
+
+async def switching_to_page(message: types.Message, state: FSMContext, db_commands, morph):
+    if message.text.isdigit():
+        user = await db_commands.get_user(user_id=message.from_user.id)
+        all_hol_codes = await db_commands.get_all_holidays_uid(user.lang_code)
+        current_hol_page = int(message.text)
+        current_page = get_current_page(current_hol_page, len(all_hol_codes))
+
+        current_hol_code = get_page(all_hol_codes, page=current_page)
+        holiday_name, holiday_date, time_left, hide_photo = \
+            await holiday_days_left(current_hol_code, db_commands)
+
+        if user.role == "admin":
+            sett_data = {"uid": current_hol_code, "holiday_name": holiday_name,
+                         "holiday_date": holiday_date}
+            await state.update_data(sett_data=sett_data)
+        text = _("До {hol_name} осталось {time_left}!").format(
+            hol_name=holiday_name, time_left=get_time_left(time_left, morph))
+
+        await message.delete()
+        await message.bot.delete_message(chat_id=message.from_user.id,
+                                         message_id=message.message_id-1)
+        await message.bot.delete_message(chat_id=message.from_user.id,
+                                         message_id=message.message_id-2)
+        await message.answer_photo(photo=hide_photo, caption=text,
+                                        reply_markup=change_hol_keyb(
+                                            max_pages=len(all_hol_codes),
+                                            page=current_page,
+                                            admin=user.role == 'admin'
+                                        ))
+        await state.reset_state()
+    else:
+        await message.bot.delete_message(chat_id=message.from_user.id,
+                                         message_id=message.message_id-1)
+        await state.reset_state()
+
+
 def register_inter_holidays(dp: Dispatcher):
     dp.register_callback_query_handler(switch_inter_hol, inter_hol_cb.filter(action="switch_page"))
     dp.register_callback_query_handler(show_chosen_holiday, inter_hol_cb.filter())
     dp.register_callback_query_handler(holiday_settings, hol_pag_cb.filter(action="settings"))
     dp.register_callback_query_handler(share_with_holiday, hol_pag_cb.filter(action="share_message"))
+    dp.register_callback_query_handler(switch_to_page, hol_pag_cb.filter(action="switch_page"))
     dp.register_callback_query_handler(change_hol_page, hol_pag_cb.filter() |
                                        sett_cb.filter(action="back"))
     dp.register_callback_query_handler(change_hol_photo, sett_cb.filter(action="img"))
     dp.register_message_handler(confirming_hol_photo, content_types=types.ContentType.PHOTO, state='edit_hol_photo')
     dp.register_message_handler(sent_wrong_message, content_types=types.ContentType.ANY, state='edit_hol_photo')
     dp.register_callback_query_handler(confirm_photo, state='confirm_hol_photo')
+    dp.register_message_handler(switching_to_page, state='switch_to_page')
