@@ -82,7 +82,7 @@ def change_hol_keyb(max_pages: int, page: int = 1, admin: bool = False):
         ),
         InlineKeyboardButton(
             text=_("{page} из {max_pages}").format(page=page, max_pages=max_pages),
-            callback_data=hol_pag_cb.new(page="current_page", action="just_answer")
+            callback_data=hol_pag_cb.new(page="current_page", action="switch_page")
         ),
         InlineKeyboardButton(
             text="👎",

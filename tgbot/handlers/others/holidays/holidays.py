@@ -5,7 +5,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command, Text
 from aiogram.utils.markdown import hide_link
 
-from tgbot.functions.holidays_days_left_func import holiday_days_left, get_time_left
+from tgbot.functions.holidays_func import holiday_days_left, get_time_left
 from tgbot.handlers.main_menu_keyb.whose_birthday_is_today.whose_birthday_is_today import get_page
 from tgbot.handlers.others.holidays.holidays_keyb import hol_settings_keyboard, holidays_keyb, inter_holidays_keyb, \
     change_hol_keyb, hol_pag_cb, inter_hol_cb, hol_cb
