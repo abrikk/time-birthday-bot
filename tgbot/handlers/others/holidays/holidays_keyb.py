@@ -75,13 +75,31 @@ hol_pag_cb = CallbackData("hol_pg", "action", "page")
 
 def change_hol_keyb(max_pages: int, page: int = 1, admin: bool = False):
     markup = InlineKeyboardMarkup(row_width=5)
+    markup.add(
+        InlineKeyboardButton(
+            text="👍",
+            callback_data=hol_pag_cb.new(page="none", action="like")
+        ),
+        InlineKeyboardButton(
+            text=_("{page} из {max_pages}").format(page=page, max_pages=max_pages),
+            callback_data=hol_pag_cb.new(page="current_page", action="just_answer")
+        ),
+        InlineKeyboardButton(
+            text="👎",
+            callback_data=hol_pag_cb.new(page="current_page", action="dislike")
+        )
+    )
+    markup.add(
+        InlineKeyboardButton(
+            text="<<",
+            callback_data=hol_pag_cb.new(action="nleft", page=page - 9)
+        )
+    )
     buttons = {
         "<": ("oleft", page - 1),
 
-        _("{page}/{max_pages}").format(page=page, max_pages=max_pages):
-            ("just_answer", "current_page"),
-
-        ">": ("oright", page + 1)
+        ">": ("oright", page + 1),
+        ">>": ("nright", page + 9),
     }
     for text, data in buttons.items():
         markup.insert(
@@ -92,32 +110,22 @@ def change_hol_keyb(max_pages: int, page: int = 1, admin: bool = False):
         )
     markup.add(
         InlineKeyboardButton(
-            text="<<",
-            callback_data=hol_pag_cb.new(page=page - 9, action="nleft")
-        ),
-        InlineKeyboardButton(
-            text=">>",
-            callback_data=hol_pag_cb.new(page=page + 9, action="nright")
-        )
-    )
-    markup.add(
-        InlineKeyboardButton(
             text=_("Поделиться"),
-            callback_data=hol_pag_cb.new(page=page, action="share_message")
+            callback_data=hol_pag_cb.new(action="share_message", page=page)
         )
     )
 
     markup.insert(
         InlineKeyboardButton(
             text=_("Назад"),
-            callback_data=hol_pag_cb.new(page=page, action="back_inter")
+            callback_data=hol_pag_cb.new(action="back_inter", page=page)
         )
     )
     if admin:
         markup.add(
             InlineKeyboardButton(
                 text=_("Настройки"),
-                callback_data=hol_pag_cb.new(page=page, action="settings")
+                callback_data=hol_pag_cb.new(action="settings", page=page)
             )
         )
 

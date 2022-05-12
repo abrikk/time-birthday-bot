@@ -98,7 +98,6 @@ async def change_hol_page(call: types.CallbackQuery, callback_data: dict, db_com
 
 async def holiday_settings(call: types.CallbackQuery, callback_data: dict):
     await call.answer()
-    print("HOL SETTINGS")
     hol_page = int(callback_data.get("page"))
     await call.message.edit_caption(caption=f"Доброго времени суток, {call.from_user.first_name}!\n"
                                             f"Что будем делать с праздником?")
@@ -107,7 +106,6 @@ async def holiday_settings(call: types.CallbackQuery, callback_data: dict):
 
 # WAITING FOR AN IMAGE
 async def change_hol_photo(call: types.CallbackQuery, state: FSMContext):
-    print("CHANGE HOL PHOTO")
     await call.answer()
     await call.message.answer("Хорошо. Теперь отправьте новую картинку праздника.")
     await state.set_state("edit_hol_photo")
