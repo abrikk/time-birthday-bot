@@ -121,6 +121,7 @@ async def confirm_photo(call: types.CallbackQuery, state: FSMContext, db_command
     if call.data == "confirm_pic_change":
         data = await state.get_data()
         sett_data = data.get("sett_data")
+        print(sett_data)
         photo = data.get("photo")
         hol_msg_id = await db_commands.get_scpecific_hol_msg_id(sett_data.get("uid"))
 
