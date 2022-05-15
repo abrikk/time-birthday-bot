@@ -181,7 +181,7 @@ async def share_with_holiday(call: types.CallbackQuery):
 # SWITCH TO GIVEN PAGE
 async def switch_to_page(call: types.CallbackQuery, state: FSMContext, ):
     await call.answer()
-    await call.message.answer(_("Введите номер страницы для быстрого перехода."))
+    await call.message.answer(_("Введите номер страницы на которую вы хотите перейти."))
     await state.set_state('switch_to_page')
 
 

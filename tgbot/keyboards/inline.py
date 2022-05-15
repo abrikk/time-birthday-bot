@@ -9,41 +9,44 @@ from tgbot.keyboards.reply import switch_to_bot, switch_or_gratz
 from tgbot.middlewares.lang_middleware import _, __
 
 
+def get_fake_results(start_num: int, size: int = 50):
+    overall_items = 195
+    # Если результатов больше нет, отправляем пустой список
+    if start_num >= overall_items:
+        return []
+    # Отправка неполной пачки (последней)
+    elif start_num + size >= overall_items:
+        return list(range(start_num, overall_items + 1))
+    else:
+        return list(range(start_num, start_num + size))
+
+
 async def all_queries(query: types.InlineQuery, db_commands):
     user = await db_commands.get_user(user_id=query.from_user.id)
     if user.role == 'admin':
-        query_offset = int(query.offset) if query.offset else 1
-        print(query.offset)
-        holidays = await db_commands.get_all_holidays(lang=user.lang_code)
+        query_offset = int(query.offset) if query.offset else 0
+        print(query.query)
+        holidays = await db_commands.get_holidays(lang=user.lang_code, like=query.query,
+                                                  offset=query_offset)
+        # await query.answer(results=[], switch_pm_text="Press me",
+        #                    switch_pm_parameter="press_me", cache_time=3, is_personal=True, next_offset="")
         results = [
             types.InlineQueryResultArticle(
                 id=data[2],
                 title=data[0],
                 description=_("Дата празднования: {hol_date}").format(hol_date=data[1].strftime("%d.%m.%Y")),
                 input_message_content=types.InputTextMessageContent(
-                    message_text=_("Найди праздник: ") + data[0]
+                    message_text=_("Праздник {hol}: {uid}").format(hol=data[0], uid=data[2])
                 )
             )
             for data in holidays
         ]
-        # for hol_name, hol_date, hol_uid, hol_photo in holidays:
-        #     description = _("Дата празднования: {hol_date}").format(hol_date=hol_date.strftime("%d.%m.%Y"))
-        #     result.append(types.InlineQueryResultArticle(
-        #         id=hol_uid,
-        #         title=hol_name,
-        #         description=description,
-        #         input_message_content=types.InputTextMessageContent(
-        #             message_text=_("Найди праздник: ") + hol_name
-        #         )))
-        if query_offset < 50:
-            await query.answer(results[:50], is_personal=True, next_offset="")
+        if len(holidays) < 50:
+            print("LESS")
+            await query.answer(results=results, cache_time=3, is_personal=True, next_offset="")
         else:
-            await query.answer(results, is_personal=True, next_offset=str(query_offset + 50))
-        # await query.answer(
-        #     results=results,
-        #     cache_time=5,
-        #     is_personal=True
-        # )
+            print("MORE")
+            await query.answer(results, cache_time=3, is_personal=True, next_offset=str(query_offset + 50))
     else:
         days_left, age = await birthday_btn(user)
         await query.answer(
@@ -60,7 +63,8 @@ async def all_queries(query: types.InlineQuery, db_commands):
                 types.InlineQueryResultArticle(
                     id="share",
                     title=await until_bd(days_left, age, where="title", user_bd=user.user_bd),
-                    description=_("Нажмите чтобы отправить сколько дней осталось до вашего дня рождения в текущий чат."),
+                    description=_(
+                        "Нажмите чтобы отправить сколько дней осталось до вашего дня рождения в текущий чат."),
                     input_message_content=types.InputTextMessageContent(
                         message_text=await until_bd(days_left, age, "inline_text", user_bd=user.user_bd)
                     ),
