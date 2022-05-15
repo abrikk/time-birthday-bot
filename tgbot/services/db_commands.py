@@ -252,7 +252,7 @@ class DBCommands:
         self.session.add(holiday)
         return holiday
 
-    async def get_all_holidays(self, lang: str):
+    async def get_holidays(self, lang: str, like: str = None, limit: int = 50, offset: int = 0):
         holiday_lang = {
             'en': Holidays.hn_en,
             'ua': Holidays.hn_ua,
@@ -261,8 +261,15 @@ class DBCommands:
             'fr': Holidays.hn_fr,
             'ru': Holidays.holiday_name
         }
-        sql = select(holiday_lang.get(lang), Holidays.holiday_date, Holidays.uid, Holidays.photo_id) \
-            .select_from(Holidays).order_by(holiday_lang.get(lang))
+        if like:
+            sql = select(holiday_lang.get(lang), Holidays.holiday_date, Holidays.uid,
+                         Holidays.photo_id).select_from(Holidays).where(
+                holiday_lang.get(lang).ilike(f"%{like}%")
+            ).order_by(holiday_lang.get(lang)).limit(limit).offset(offset)
+        else:
+            sql = select(holiday_lang.get(lang), Holidays.holiday_date, Holidays.uid,
+                         Holidays.photo_id).select_from(Holidays).\
+                order_by(holiday_lang.get(lang)).limit(limit).offset(offset)
         result = await self.session.execute(sql)
         scalars = result.all()
         return scalars
