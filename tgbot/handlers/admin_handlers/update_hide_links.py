@@ -56,17 +56,12 @@ async def update_hide_link(message: types.Message, db_commands, session):
                     break
                 except Exception as e:
                     logging.info(e)
-                    print("GO AGAIN")
-                    print("1")
                     time.sleep(5)
                     driver.close()
-                    print("2")
                     time.sleep(5)
                     driver.implicitly_wait(5)
-                    print("3")
                     time.sleep(5)
                     driver.switch_to.window(driver.window_handles[0])
-                    print("4")
                     time.sleep(5)
                     driver.back()
                     driver.implicitly_wait(5)
