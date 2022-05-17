@@ -3,6 +3,7 @@ from datetime import date
 from aiogram import types, Dispatcher
 from aiogram.dispatcher.filters import Text
 
+from tgbot.filters.admin_bot import BotAdmin
 from tgbot.functions.birthday_func import birthday_btn
 from tgbot.functions.gettext_func import get_newyear_time, until_bd
 from tgbot.keyboards.reply import switch_to_bot, switch_or_gratz
@@ -117,4 +118,4 @@ async def bd_query(query: types.InlineQuery, db_commands):
 def register_inline_mode(dp: Dispatcher):
     dp.register_inline_handler(bd_query, Text(contains=__("my birthday"), ignore_case=True))
     dp.register_inline_handler(newyear_query, Text(contains=__("new year"), ignore_case=True))
-    dp.register_inline_handler(all_queries)
+    dp.register_inline_handler(all_queries, BotAdmin())
