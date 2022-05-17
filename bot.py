@@ -11,9 +11,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from pytz_deprecation_shim import PytzUsageWarning
 
 from tgbot.config import load_config
-from tgbot.filters.admin import AdminFilter
-from tgbot.filters.admin_bot import BotAdmin
-from tgbot.filters.test_filter import OnlyPrivate
+from tgbot.filters.admin_bot import AdminOfBot
 from tgbot.handlers.admin_handlers.add_holidays import register_add_holidays
 from tgbot.handlers.admin_handlers.update_botinfo.update_botinfo import register_update_botinfo
 from tgbot.handlers.admin_handlers.update_hide_links import register_upd_hide_links
@@ -63,9 +61,7 @@ def register_all_middlewares(dp, scheduler, morpholyzer, sessionmaker):
 
 
 def register_all_filters(dp):
-    dp.filters_factory.bind(AdminFilter)
-    dp.filters_factory.bind(BotAdmin)
-    dp.filters_factory.bind(OnlyPrivate)
+    dp.filters_factory.bind(AdminOfBot)
 
 
 def register_all_handlers(dp):
