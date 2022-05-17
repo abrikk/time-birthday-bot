@@ -3,8 +3,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command
 from aiogram.utils.markdown import hide_link
 
-from tgbot.filters.admin_bot import BotAdmin
-from tgbot.filters.test_filter import OnlyPrivate
+from tgbot.filters.admin_bot import AdminOfBot
 
 
 async def test_1(message: types.Message, db_commands, state: FSMContext):
@@ -25,4 +24,4 @@ async def test_1(message: types.Message, db_commands, state: FSMContext):
 
 
 def register_test_1(dp: Dispatcher):
-    dp.register_message_handler(test_1, Command("test_1"), BotAdmin())
+    dp.register_message_handler(test_1, Command("test_1"), AdminOfBot())

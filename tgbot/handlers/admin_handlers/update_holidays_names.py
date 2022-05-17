@@ -2,6 +2,8 @@ from aiogram import types, Dispatcher
 from aiogram.dispatcher.filters import Command
 from googletrans import Translator
 
+from tgbot.filters.admin_bot import AdminOfBot
+
 
 async def update_hols_trans(message: types.Message, db_commands, session):
     all_holidays = await db_commands.get_holidays_name()
@@ -21,4 +23,4 @@ async def update_hols_trans(message: types.Message, db_commands, session):
 
 
 def register_update_hols(dp: Dispatcher):
-    dp.register_message_handler(update_hols_trans, Command("upd_hols_trans"))
+    dp.register_message_handler(update_hols_trans, Command("upd_hols_trans"), AdminOfBot())

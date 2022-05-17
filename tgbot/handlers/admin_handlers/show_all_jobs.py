@@ -1,6 +1,8 @@
 from aiogram import types, Dispatcher
 from aiogram.dispatcher.filters import Command
 
+from tgbot.filters.admin_bot import AdminOfBot
+
 
 async def show_all_tasks(message: types.Message, scheduler):
     list_of_jobs = scheduler.get_jobs()
@@ -18,4 +20,4 @@ async def show_all_tasks(message: types.Message, scheduler):
 
 
 def register_show_all_tasks(dp: Dispatcher):
-    dp.register_message_handler(show_all_tasks, Command("show_tasks"))
+    dp.register_message_handler(show_all_tasks, Command("show_tasks"), AdminOfBot())

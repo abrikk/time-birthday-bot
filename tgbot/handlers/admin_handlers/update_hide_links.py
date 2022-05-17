@@ -12,6 +12,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 
+from tgbot.filters.admin_bot import AdminOfBot
+
 
 async def update_hide_link(message: types.Message, db_commands, session):
     bot = message.bot
@@ -82,19 +84,5 @@ async def update_hide_link(message: types.Message, db_commands, session):
         print("CLOSED")
 
 
-
-    # link = 'https://i.dailymail.co.uk/1s/2019/12/06/10/21866488-7760367-People_buy_television_sets_at_a_supermarket_during_a_discount_ca-a-59_1575629125894.jpg'
-    # await bot.send_photo(chat_id=config.tg_bot.channel_id, photo=link)
-    # print(type(pic))
-    # print(pic)
-    # print(pic.photo[-1])
-    # print(pic.photo[-1].file_id)
-
-
-async def edited_hide_link(message: types.Message):
-    await message.answer("EDITED MESSAGE")
-
-
 def register_upd_hide_links(dp: Dispatcher):
-    dp.register_message_handler(update_hide_link, Command("upd_hide_link"))
-    dp.register_edited_message_handler(edited_hide_link)
+    dp.register_message_handler(update_hide_link, Command("upd_hide_link"), AdminOfBot())
