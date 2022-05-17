@@ -12,6 +12,8 @@ from pytz_deprecation_shim import PytzUsageWarning
 
 from tgbot.config import load_config
 from tgbot.filters.admin import AdminFilter
+from tgbot.filters.admin_bot import BotAdmin
+from tgbot.filters.test_filter import OnlyPrivate
 from tgbot.handlers.admin_handlers.add_holidays import register_add_holidays
 from tgbot.handlers.admin_handlers.update_botinfo.update_botinfo import register_update_botinfo
 from tgbot.handlers.admin_handlers.update_hide_links import register_upd_hide_links
@@ -42,6 +44,7 @@ from tgbot.keyboards.inline import register_inline_mode
 from tgbot.middlewares.db import DbSessionMiddleware
 from tgbot.middlewares.lang_middleware import i18n
 from tgbot.middlewares.morpholyzer import MorphMiddleware
+from tgbot.middlewares.role import RoleMiddleware
 from tgbot.middlewares.scheduler import SchedulerMiddleware
 from tgbot.misc.notify_admins import on_startup_notify
 from tgbot.misc.start_scheduling import add_all_jobs
@@ -55,11 +58,14 @@ def register_all_middlewares(dp, scheduler, morpholyzer, sessionmaker):
     dp.setup_middleware(SchedulerMiddleware(scheduler))
     dp.setup_middleware(MorphMiddleware(morpholyzer))
     dp.setup_middleware(DbSessionMiddleware(sessionmaker))
+    dp.setup_middleware(RoleMiddleware())
     dp.setup_middleware(i18n)
 
 
 def register_all_filters(dp):
     dp.filters_factory.bind(AdminFilter)
+    dp.filters_factory.bind(BotAdmin)
+    dp.filters_factory.bind(OnlyPrivate)
 
 
 def register_all_handlers(dp):

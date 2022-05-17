@@ -3,10 +3,15 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command
 from aiogram.utils.markdown import hide_link
 
+from tgbot.filters.admin_bot import BotAdmin
+from tgbot.filters.test_filter import OnlyPrivate
+
 
 async def test_1(message: types.Message, db_commands, state: FSMContext):
     bot = message.bot
     config = bot.get('config')
+    print(message.chat.type)
+    await message.answer("БОТ ТОЛЬКО ДЛЯ РАБОТЫ В ЛИЧНЫХ ЧАТАХ!")
     # data = await state.get_data()
     # uid = data.get("uid")
     # await bot.send_message(message.chat.id, "ВОТЬ")
@@ -20,4 +25,4 @@ async def test_1(message: types.Message, db_commands, state: FSMContext):
 
 
 def register_test_1(dp: Dispatcher):
-    dp.register_message_handler(test_1, Command("test_1"))
+    dp.register_message_handler(test_1, Command("test_1"), BotAdmin())
