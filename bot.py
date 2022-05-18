@@ -17,6 +17,7 @@ from tgbot.handlers.admin_handlers.update_botinfo.update_botinfo import register
 from tgbot.handlers.admin_handlers.update_hide_links import register_upd_hide_links
 from tgbot.handlers.admin_handlers.update_holidays_names import register_update_hols
 from tgbot.handlers.answer_callback import register_just_answer
+from tgbot.handlers.inline_hol_answer import register_inline_hol_answer
 from tgbot.handlers.main_menu_keyb.additional_keyboard import register_add_keyb
 from tgbot.handlers.admin_handlers.admin_commands import register_admin_commands
 from tgbot.handlers.main_menu_keyb.help.help import register_help
@@ -92,6 +93,7 @@ def register_all_handlers(dp):
     register_admin_commands(dp)
     register_help(dp)
     register_start(dp)
+    register_inline_hol_answer(dp)
     register_count_life(dp)
     register_is_active_user(dp)
 
