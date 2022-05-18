@@ -4,7 +4,7 @@ from aiogram import types, Dispatcher
 from aiogram.dispatcher.filters import Text
 from aiogram.types import ChatType
 
-from tgbot.filters.private_chat import ChatTypeFilter
+from tgbot.filters.chat_type_filter import ChatTypeFilter
 from tgbot.functions.birthday_func import birthday_btn
 from tgbot.functions.gettext_func import get_newyear_time, until_bd
 from tgbot.keyboards.reply import switch_to_bot, switch_or_gratz
@@ -12,7 +12,6 @@ from tgbot.middlewares.lang_middleware import _, __
 
 
 async def all_queries(query: types.InlineQuery, db_commands):
-    print(query.chat_type)
     user = await db_commands.get_user(user_id=query.from_user.id)
     query_offset = int(query.offset) if query.offset else 0
     holidays = await db_commands.get_holidays(lang=user.lang_code, like=query.query,
@@ -75,4 +74,4 @@ async def bd_query(query: types.InlineQuery, db_commands):
 def register_inline_mode(dp: Dispatcher):
     dp.register_inline_handler(bd_query, Text(contains=__("my birthday"), ignore_case=True))
     dp.register_inline_handler(newyear_query, Text(contains=__("new year"), ignore_case=True))
-    dp.register_inline_handler(all_queries, ChatTypeFilter(ChatType.SENDER))
+    dp.register_inline_handler(all_queries, ChatTypeFilter('sender'))
