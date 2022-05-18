@@ -9,7 +9,7 @@ from aiogram.types import Message, CallbackQuery, InlineQuery, ChatType, ChatMem
 class ChatTypeFilter(BoundFilter):
     key = 'chat_type'
 
-    def __init__(self, chat_type: typing.Container[ChatType]):
+    def __init__(self, chat_type: typing.Container[Union[ChatType, str]]):
         if isinstance(chat_type, str):
             chat_type = {chat_type}
 
