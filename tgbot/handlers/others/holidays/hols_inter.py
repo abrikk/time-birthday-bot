@@ -48,13 +48,16 @@ async def show_chosen_holiday(call: types.CallbackQuery, db_commands, morph, cal
     all_hol_codes = await db_commands.get_all_holidays_uid(user.lang_code)
     current_hol_page = all_hol_codes.index(hol_uid) + 1
     holiday_name, holiday_date, time_left, photo_id = \
-        await holiday_days_left(hol_uid, db_commands)
+        await holiday_days_left(holiday_uid=hol_uid,
+                                db_commands=db_commands,
+                                morph=morph,
+                                lang=user.lang_code)
     if user.role == "admin":
         sett_data = {"uid": hol_uid, "holiday_name": holiday_name,
                      "holiday_date": holiday_date}
         await state.update_data(sett_data=sett_data)
     text = _("До {hol_name} осталось {time_left}!").format(
-        hol_name=holiday_name, time_left=get_time_left(time_left, morph))
+        hol_name=holiday_name, time_left=get_time_left(time_left, morph, user.lang_code))
     await call.message.delete()
     await call.message.answer_photo(photo=photo_id, caption=text,
                                     reply_markup=change_hol_keyb(
@@ -74,14 +77,17 @@ async def change_hol_page(call: types.CallbackQuery, callback_data: dict, db_com
 
     current_hol_code = get_page(all_hol_codes, page=current_page)
     holiday_name, holiday_date, time_left, hide_photo = \
-        await holiday_days_left(current_hol_code, db_commands)
+        await holiday_days_left(holiday_uid=current_hol_code,
+                                db_commands=db_commands,
+                                morph=morph,
+                                lang=user.lang_code)
 
     if user.role == "admin":
         sett_data = {"uid": current_hol_code, "holiday_name": holiday_name,
                      "holiday_date": holiday_date}
         await state.update_data(sett_data=sett_data)
     text = _("До {hol_name} осталось {time_left}!").format(
-        hol_name=holiday_name, time_left=get_time_left(time_left, morph))
+        hol_name=holiday_name, time_left=get_time_left(time_left, morph, user.lang_code))
 
     await call.message.delete()
     await call.message.answer_photo(photo=hide_photo, caption=text,
@@ -194,14 +200,17 @@ async def switching_to_page(message: types.Message, state: FSMContext, db_comman
 
         current_hol_code = get_page(all_hol_codes, page=current_page)
         holiday_name, holiday_date, time_left, hide_photo = \
-            await holiday_days_left(current_hol_code, db_commands)
+            await holiday_days_left(holiday_uid=current_hol_code,
+                                    db_commands=db_commands,
+                                    morph=morph,
+                                    lang=user.lang_code)
 
         if user.role == "admin":
             sett_data = {"uid": current_hol_code, "holiday_name": holiday_name,
                          "holiday_date": holiday_date}
             await state.update_data(sett_data=sett_data)
         text = _("До {hol_name} осталось {time_left}!").format(
-            hol_name=holiday_name, time_left=get_time_left(time_left, morph))
+            hol_name=holiday_name, time_left=get_time_left(time_left, morph, user.lang_code))
 
         await message.delete()
         await message.bot.delete_message(chat_id=message.from_user.id,

@@ -1,4 +1,4 @@
-aiogram~=2.18
+aiogram~=2.20
 aioredis
 environs~=9.4.0
 SQLAlchemy~=1.4.18
