@@ -2,8 +2,10 @@ from datetime import date
 
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
+from aiogram.types import ChatType
 from dateparser import parse as dp_parse
 
+from tgbot.filters.chat_type_filter import ChatTypeFilter
 from tgbot.functions.gettext_func import get_echo_text, get_weekday_name
 from tgbot.functions.holidays_func import holiday_days_left, get_time_left
 from tgbot.functions.minor_functions import get_locale_date_order
@@ -35,4 +37,4 @@ async def count_life(message: types.Message, db_commands):
 
 
 def register_count_life(dp: Dispatcher):
-    dp.register_message_handler(count_life)
+    dp.register_message_handler(count_life, ChatTypeFilter(ChatType.PRIVATE))
