@@ -3,11 +3,12 @@ from sqlalchemy.orm import sessionmaker
 
 from tgbot.config import Config
 from tgbot.services.db_base import Base
+from tgbot.services.utils import make_connection_string
 
 
 async def create_db_session(config: Config):
     engine = create_async_engine(
-        f"postgresql+asyncpg://{config.db.user}:{config.db.password}@{config.db.host}/{config.db.database}",
+        make_connection_string(config),
         future=True
     )
     async with engine.begin() as conn:
