@@ -14,8 +14,9 @@ async def show_chosen_holiday(message: types.Message, db_commands, state: FSMCon
         all_uids = await db_commands.get_all_holidays_uid(user.lang_code)
         hol_uid = message.text.rsplit(' ', 1)[-1]
         current_hol_page = all_uids.index(hol_uid) + 1
+        holiday = await db_commands.get_scpecific_holiday(hol_uid)
         holiday_name, holiday_date, time_left, photo_id = \
-            await holiday_days_left(hol_uid, db_commands, morph, user.lang_code)
+            await holiday_days_left(holiday, morph, user.lang_code)
         if user.role == "admin":
             sett_data = {"uid": hol_uid, "holiday_name": holiday_name,
                          "holiday_date": holiday_date}

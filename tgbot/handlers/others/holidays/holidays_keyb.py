@@ -86,7 +86,7 @@ def change_hol_keyb(max_pages: int, page: int = 1, admin: bool = False):
         ),
         InlineKeyboardButton(
             text="👎",
-            callback_data=hol_pag_cb.new(page="current_page", action="dislike")
+            callback_data=hol_pag_cb.new(page="none", action="dislike")
         )
     )
     markup.add(
