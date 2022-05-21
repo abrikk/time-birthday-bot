@@ -2,7 +2,7 @@ from datetime import date
 
 from aiogram import types, Dispatcher
 from aiogram.dispatcher.filters import Text
-from aiogram.types import ChatType
+from aiogram.types import ChatType, InputFile
 
 from tgbot.filters.chat_type_filter import ChatTypeFilter
 from tgbot.functions.birthday_func import birthday_btn
@@ -14,8 +14,8 @@ from tgbot.middlewares.lang_middleware import _, __
 async def all_queries(query: types.InlineQuery, db_commands):
     user = await db_commands.get_user(user_id=query.from_user.id)
     query_offset = int(query.offset) if query.offset else 0
-    holidays = await db_commands.get_holidays(lang=user.lang_code, like=query.query,
-                                              offset=query_offset)
+    holidays = (await db_commands.get_holidays(lang=user.lang_code, like=query.query,
+                                               offset=query_offset))
     results = [
         types.InlineQueryResultArticle(
             id=data[2],

@@ -14,8 +14,7 @@ def get_current_page(current_page: int, total_pages: int) -> int:
     return current_page
 
 
-async def holiday_days_left(holiday_uid: str, db_commands, morph, lang: str = None) -> tuple:
-    holiday = await db_commands.get_scpecific_holiday(holiday_uid)
+async def holiday_days_left(holiday, morph, lang: str = None) -> tuple:
     today = datetime.today()
     holiday_date = get_proper_date(holiday[1].month, holiday[1].day)
     if lang == 'ru':

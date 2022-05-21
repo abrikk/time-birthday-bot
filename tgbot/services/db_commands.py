@@ -354,14 +354,10 @@ class DBCommands:
         result = await self.session.execute(sql)
         return result
 
-    async def get_holidays_en_name(self):
-        sql = select(Holidays.hn_en, Holidays.uid).select_from(Holidays).where(
-            Holidays.photo_id.is_(None)
-        ).order_by(
-            Holidays.hn_en
-        )
+    async def get_holidays_en_name(self, uid):
+        sql = select(Holidays.hn_en).select_from(Holidays).where(Holidays.uid==uid)
         result = await self.session.execute(sql)
-        scalars = result.all()
+        scalars = result.scalar()
         return scalars
 
     async def update_holiday_pic_and_msg_id(self, uid, photo_id, message_id):
