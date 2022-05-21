@@ -253,14 +253,6 @@ class DBCommands:
         return holiday
 
     async def get_holidays(self, lang: str, like: str = None, limit: int = 50, offset: int = 0):
-        holiday_lang = {
-            'en': Holidays.hn_en,
-            'ua': Holidays.hn_ua,
-            'uz': Holidays.hn_uz,
-            'es': Holidays.hn_es,
-            'fr': Holidays.hn_fr,
-            'ru': Holidays.holiday_name
-        }
         if like:
             sql = select(holiday_lang.get(lang), Holidays.holiday_date, Holidays.uid,
                          Holidays.photo_id).select_from(Holidays).where(
@@ -268,7 +260,7 @@ class DBCommands:
             ).order_by(holiday_lang.get(lang)).limit(limit).offset(offset)
         else:
             sql = select(holiday_lang.get(lang), Holidays.holiday_date, Holidays.uid,
-                         Holidays.photo_id).select_from(Holidays).\
+                         Holidays.photo_id).select_from(Holidays). \
                 order_by(holiday_lang.get(lang)).limit(limit).offset(offset)
         result = await self.session.execute(sql)
         scalars = result.all()
@@ -286,14 +278,6 @@ class DBCommands:
         return result.scalar()
 
     async def get_10_holidays(self, lang: str, offset: int = 0):
-        holiday_lang = {
-            'en': Holidays.hn_en,
-            'ua': Holidays.hn_ua,
-            'uz': Holidays.hn_uz,
-            'es': Holidays.hn_es,
-            'fr': Holidays.hn_fr,
-            'ru': Holidays.holiday_name
-        }
         sql = select(holiday_lang.get(lang), Holidays.holiday_date, Holidays.uid, Holidays.photo_id) \
             .select_from(Holidays).order_by(holiday_lang.get(lang)).limit(9).offset(offset)
         result = await self.session.execute(sql)
@@ -301,28 +285,13 @@ class DBCommands:
         return scalars
 
     async def get_all_holidays_uid(self, lang: str):
-        holiday_lang = {
-            'en': Holidays.hn_en,
-            'ua': Holidays.hn_ua,
-            'uz': Holidays.hn_uz,
-            'es': Holidays.hn_es,
-            'fr': Holidays.hn_fr,
-            'ru': Holidays.holiday_name
-        }
         sql = select(Holidays.uid).order_by(holiday_lang.get(lang))
         result = await self.session.execute(sql)
         scalars = result.scalars().all()
         return scalars
 
     async def get_scpecific_holiday(self, uid: str, lang: str = 'ru'):
-        holiday_lang = {
-            'en': Holidays.hn_en,
-            'ua': Holidays.hn_ua,
-            'uz': Holidays.hn_uz,
-            'es': Holidays.hn_es,
-            'fr': Holidays.hn_fr,
-            'ru': Holidays.holiday_name
-        }
+
         sql = select(holiday_lang.get(lang), Holidays.holiday_date, Holidays.photo_id).where(
             Holidays.uid == uid
         )
@@ -355,7 +324,7 @@ class DBCommands:
         return result
 
     async def get_holidays_en_name(self, uid):
-        sql = select(Holidays.hn_en).select_from(Holidays).where(Holidays.uid==uid)
+        sql = select(Holidays.hn_en).select_from(Holidays).where(Holidays.uid == uid)
         result = await self.session.execute(sql)
         scalars = result.scalar()
         return scalars
@@ -367,3 +336,13 @@ class DBCommands:
         )
         result = await self.session.execute(sql)
         return result
+
+
+holiday_lang = {
+    'en': Holidays.hn_en,
+    'ua': Holidays.hn_ua,
+    'uz': Holidays.hn_uz,
+    'es': Holidays.hn_es,
+    'fr': Holidays.hn_fr,
+    'ru': Holidays.holiday_name
+}
