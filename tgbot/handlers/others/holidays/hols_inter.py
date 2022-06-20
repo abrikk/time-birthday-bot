@@ -117,9 +117,11 @@ async def change_hol_page(call: types.CallbackQuery, callback_data: dict, db_com
 
 
 async def holiday_settings(call: types.CallbackQuery, callback_data: dict, db_commands):
+    print(call.data)
     await call.answer()
     user = await db_commands.get_user(user_id=call.from_user.id)
     hol_page = int(callback_data.get("page"))
+    print(hol_page)
     all_hol_codes = await db_commands.get_all_holidays_uid(user.lang_code)
     current_hol_code = get_page(all_hol_codes, page=hol_page)
     holiday = await db_commands.get_scpecific_holiday(current_hol_code)
@@ -134,6 +136,7 @@ async def holiday_settings(call: types.CallbackQuery, callback_data: dict, db_co
 
 # WAITING FOR AN IMAGE
 async def change_hol_photo(call: types.CallbackQuery, state: FSMContext):
+    print(call.data)
     await call.answer()
     msg = await call.message.answer("Хорошо. Теперь отправьте новую картинку праздника.")
     await state.update_data(msg_to_delete=msg.message_id)
@@ -142,6 +145,7 @@ async def change_hol_photo(call: types.CallbackQuery, state: FSMContext):
 
 async def confirming_hol_photo(message: types.Message, state: FSMContext):
     photo = message.photo[-1].file_id
+    print(photo)
     await state.update_data(photo=photo)
     await message.answer("Подтвердите ваше действие.", reply_markup=confirm_chane())
     await state.set_state("confirm_hol_photo")
@@ -153,6 +157,7 @@ async def confirm_photo(call: types.CallbackQuery, state: FSMContext, db_command
     config = bot.get('config')
     if call.data == "confirm_pic_change":
         data = await state.get_data()
+        print(data)
         sett_data = data.get("sett_data")
         photo = data.get("photo")
         hol_msg_id = await db_commands.get_scpecific_hol_msg_id(sett_data.get("uid"))
@@ -236,8 +241,13 @@ async def switching_to_page(message: types.Message, state: FSMContext, db_comman
             sett_data = {"uid": current_hol_code, "holiday_name": holiday_name,
                          "holiday_date": holiday_date}
             await state.update_data(sett_data=sett_data)
-        text = _("До {hol_name} осталось {time_left}!").format(
-            hol_name=holiday_name, time_left=get_time_left(time_left, morph, user.lang_code))
+        text = _("До {hol_name} осталось {time_left}!\n\n"
+                 "🎊 Праздник: {hol_inf_name}\n"
+                 "🗓 Дата: {hol_date}\n"
+                 "⏳ Осталось времени: {time_left}").format(
+            hol_name=holiday_name, time_left=get_time_left(time_left, morph, user.lang_code),
+            hol_inf_name=holiday[0],
+            hol_date=holiday_date.strftime(get_region_date_format(user.lang_code)))
 
         await message.delete()
         await message.bot.delete_message(chat_id=message.from_user.id,
@@ -250,7 +260,7 @@ async def switching_to_page(message: types.Message, state: FSMContext, db_comman
                                        page=current_page,
                                        admin=user.role == 'admin'
                                    ))
-        await state.reset_state()
+        await state.reset_state(with_data=False)
     else:
         await message.bot.delete_message(chat_id=message.from_user.id,
                                          message_id=message.message_id - 1)
